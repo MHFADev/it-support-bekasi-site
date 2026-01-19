@@ -40,20 +40,34 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
+      isScrolled 
+        ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg' 
+        : 'bg-transparent'
     }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3 group">
             <img 
               src="https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/Logo.png" 
               alt="Logo" 
-              className="w-10 h-10 object-contain"
+              className="w-10 h-10 object-contain transition-transform group-hover:scale-110"
             />
             <div>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">LaptopBekas</h1>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Bekasi</p>
+              <h1 className={`text-xl font-bold transition-colors duration-300 ${
+                isScrolled 
+                  ? 'text-gray-900 dark:text-white' 
+                  : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]'
+              }`}>
+                IT SUPPORT BEKASI
+              </h1>
+              <p className={`text-xs transition-colors duration-300 ${
+                isScrolled 
+                  ? 'text-gray-500 dark:text-gray-400' 
+                  : 'text-gray-100 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]'
+              }`}>
+                Premium Solutions
+              </p>
             </div>
           </Link>
 
@@ -64,7 +78,11 @@ const Navbar: React.FC = () => {
                 key={link.name}
                 to={link.path + link.hash}
                 onClick={(e) => handleNavClick(e, link.hash)}
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
+                className={`font-medium transition-all duration-300 hover:scale-105 ${
+                  isScrolled 
+                    ? 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400' 
+                    : 'text-white hover:text-white/80 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]'
+                }`}
               >
                 {link.name}
               </Link>
@@ -103,7 +121,11 @@ const Navbar: React.FC = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+            className={`lg:hidden p-2 rounded-lg transition-colors duration-300 ${
+              isScrolled 
+                ? 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800' 
+                : 'text-white hover:bg-white/10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]'
+            }`}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

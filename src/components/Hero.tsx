@@ -1,16 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Laptop, ShoppingBag, BadgeCheck, Wrench } from 'lucide-react';
+import { Laptop, ShoppingBag, BadgeCheck, TrendingUp, Shield, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SITE_INFO } from '@/constants';
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-      {/* Animated Background */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.3),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(16,185,129,0.2),transparent_50%)]"></div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-pink-400/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-400/20 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -26,38 +27,52 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 rounded-full border border-blue-500/30 mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6"
             >
-              <BadgeCheck className="w-5 h-5 text-blue-400" />
-              <span className="text-blue-300 text-sm font-medium">Garansi 100% Original</span>
+              <Sparkles className="w-5 h-5 text-yellow-300" />
+              <span className="text-white text-sm font-semibold">Laptop Berkualitas #1 di Bekasi</span>
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
+              className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight"
             >
-              {SITE_INFO.name}
+              Toko Laptop
+              <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
+                Terpercaya
+              </span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-xl md:text-2xl text-gray-300 mb-8"
+              className="text-xl md:text-2xl text-white/90 mb-8 font-medium"
             >
-              {SITE_INFO.tagline}
+              Laptop bekas berkualitas premium dengan harga terjangkau
             </motion.p>
 
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="text-gray-400 mb-10 text-lg max-w-xl mx-auto lg:mx-0"
+              className="flex flex-wrap gap-4 justify-center lg:justify-start mb-10"
             >
-              {SITE_INFO.description}
-            </motion.p>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                <BadgeCheck className="w-5 h-5 text-green-300" />
+                <span className="text-white text-sm font-medium">100% Original</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                <Shield className="w-5 h-5 text-blue-300" />
+                <span className="text-white text-sm font-medium">Garansi Resmi</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                <TrendingUp className="w-5 h-5 text-yellow-300" />
+                <span className="text-white text-sm font-medium">Harga Terbaik</span>
+              </div>
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -67,21 +82,20 @@ const Hero: React.FC = () => {
             >
               <Link
                 to="/shop"
-                className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/50 hover:scale-105"
+                className="group relative px-8 py-4 bg-white text-purple-600 font-bold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-white/50 hover:scale-105"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <ShoppingBag className="w-5 h-5" />
-                  Lihat Katalog
+                  Belanja Sekarang
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Link>
 
               <a
-                href="#services"
-                className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border-2 border-white/20 transition-all duration-300 hover:bg-white/20 hover:border-white/40 hover:scale-105 flex items-center justify-center gap-2"
+                href="#products"
+                className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold rounded-xl border-2 border-white/30 transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:scale-105 flex items-center justify-center gap-2"
               >
-                <Wrench className="w-5 h-5" />
-                Layanan Jasa
+                <Laptop className="w-5 h-5" />
+                Lihat Produk
               </a>
             </motion.div>
 
@@ -92,17 +106,17 @@ const Hero: React.FC = () => {
               transition={{ delay: 0.7 }}
               className="grid grid-cols-3 gap-6 mt-12 max-w-xl mx-auto lg:mx-0"
             >
-              <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-blue-400 mb-1">500+</div>
-                <div className="text-sm text-gray-400">Laptop Terjual</div>
+              <div className="text-center lg:text-left bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <div className="text-3xl font-black text-yellow-300 mb-1">500+</div>
+                <div className="text-sm text-white/80">Laptop Terjual</div>
               </div>
-              <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-blue-400 mb-1">100%</div>
-                <div className="text-sm text-gray-400">Garansi Original</div>
+              <div className="text-center lg:text-left bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <div className="text-3xl font-black text-green-300 mb-1">100%</div>
+                <div className="text-sm text-white/80">Garansi Original</div>
               </div>
-              <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-blue-400 mb-1">24/7</div>
-                <div className="text-sm text-gray-400">Support</div>
+              <div className="text-center lg:text-left bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <div className="text-3xl font-black text-blue-300 mb-1">4.9★</div>
+                <div className="text-sm text-white/80">Rating</div>
               </div>
             </motion.div>
           </motion.div>
@@ -126,19 +140,19 @@ const Hero: React.FC = () => {
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl"
+                className="relative bg-white/20 backdrop-blur-xl rounded-3xl p-8 border border-white/30 shadow-2xl"
               >
-                <div className="aspect-video bg-gradient-to-br from-blue-900/50 to-slate-900/50 rounded-xl flex items-center justify-center">
-                  <Laptop className="w-32 h-32 text-blue-400" />
+                <div className="aspect-video bg-gradient-to-br from-white/10 to-white/5 rounded-xl flex items-center justify-center">
+                  <Laptop className="w-32 h-32 text-white" />
                 </div>
                 
-                <div className="mt-6 space-y-2">
+                <div className="mt-6 space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-300 font-medium">Premium Quality</span>
-                    <BadgeCheck className="w-5 h-5 text-green-400" />
+                    <span className="text-white font-bold">Premium Quality</span>
+                    <BadgeCheck className="w-6 h-6 text-green-300" />
                   </div>
-                  <div className="text-2xl font-bold text-white">Mulai dari 3 Jutaan</div>
-                  <div className="text-gray-400">Garansi resmi tersedia</div>
+                  <div className="text-3xl font-black text-white">Mulai dari 3 Jutaan</div>
+                  <div className="text-white/80 font-medium">Garansi resmi tersedia</div>
                 </div>
               </motion.div>
 
@@ -153,9 +167,9 @@ const Hero: React.FC = () => {
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="absolute -top-6 -left-6 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 shadow-xl"
+                className="absolute -top-6 -left-6 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl p-5 shadow-2xl"
               >
-                <ShoppingBag className="w-8 h-8 text-white" />
+                <ShoppingBag className="w-10 h-10 text-white" />
               </motion.div>
 
               <motion.div
@@ -169,9 +183,9 @@ const Hero: React.FC = () => {
                   ease: "easeInOut",
                   delay: 0.5
                 }}
-                className="absolute -bottom-6 -right-6 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-4 shadow-xl"
+                className="absolute -bottom-6 -right-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl p-5 shadow-2xl"
               >
-                <Wrench className="w-8 h-8 text-white" />
+                <BadgeCheck className="w-10 h-10 text-white" />
               </motion.div>
             </div>
           </motion.div>

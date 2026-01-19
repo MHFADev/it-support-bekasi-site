@@ -12,10 +12,13 @@ import {
   Laptop,
   Cpu,
   HardDrive,
-  Monitor
+  Monitor,
+  Check
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { CONTACT_INFO } from '@/constants';
+import { useCart } from '../context/CartContext';
+import { toast } from 'sonner';
 
 interface Product {
   id: string;

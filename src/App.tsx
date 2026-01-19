@@ -4,21 +4,19 @@ import { motion } from 'framer-motion';
 import { MessageSquare } from 'lucide-react';
 import { AppProvider } from './context/AppContext';
 import { AdminAuthProvider } from './context/AdminAuthContext';
+import { CartProvider } from './context/CartContext';
 
 // Components from root directory (using @ alias)
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import TechPartners from '@/components/TechPartners';
-import Services from '@/components/Services';
 import Products from '@/components/Products';
-import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import FAQ from '@/components/FAQ';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import Shop from '@/components/ShopPremium';
 import ProductDetail from '@/components/ProductDetail';
-import WorkGallery from '@/components/WorkGallery';
 import { SEO } from '@/components/SEO';
 import { CONTACT_INFO } from '@/constants';
 
@@ -34,11 +32,8 @@ const HomePage = () => (
   <>
     <Hero />
     <TechPartners />
-    <Services />
-    <WorkGallery />
-    <WhyChooseUs />
     <Products />
-    <About />
+    <WhyChooseUs />
     <FAQ />
     <Contact />
   </>
@@ -48,10 +43,11 @@ const App: React.FC = () => {
   return (
     <AppProvider>
       <AdminAuthProvider>
-        <BrowserRouter>
-          <div className="min-h-screen bg-white dark:bg-dark-bg transition-colors duration-500 selection:bg-brand-500 selection:text-white relative text-gray-900 dark:text-gray-100">
-            
-            <Routes>
+        <CartProvider>
+          <BrowserRouter>
+            <div className="min-h-screen bg-white dark:bg-dark-bg transition-colors duration-500 selection:bg-brand-500 selection:text-white relative text-gray-900 dark:text-gray-100">
+              
+              <Routes>
               {/* Public Routes */}
               <Route path="/" element={
                 <>
@@ -101,10 +97,11 @@ const App: React.FC = () => {
               
               {/* Fallback */}
               <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
+              </Routes>
 
-          </div>
-        </BrowserRouter>
+            </div>
+          </BrowserRouter>
+        </CartProvider>
       </AdminAuthProvider>
     </AppProvider>
   );

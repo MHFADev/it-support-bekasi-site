@@ -30,12 +30,7 @@ import ProtectedRoute from './admin/ProtectedRoute';
 
 const HomePage = () => (
   <>
-    <Hero />
-    <TechPartners />
-    <Products />
-    <WhyChooseUs />
-    <FAQ />
-    <Contact />
+    <Shop />
   </>
 );
 

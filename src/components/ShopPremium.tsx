@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { Search, Filter, Loader2, Package, Tag, ArrowRight } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-import { CATEGORIES } from '@/constants';
+import { CATEGORIES } from '../constants';
 
 interface Product {
   id: string;
@@ -236,9 +236,6 @@ const ShopPremium: React.FC = () => {
             ))}
           </div>
         )}
-      </div>
-    </div>
-  );
       </div>
     </div>
   );

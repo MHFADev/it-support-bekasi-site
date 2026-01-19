@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Menu, X, Laptop, ShoppingCart, MessageSquare } from 'lucide-react';
+import { ShoppingBag, Menu, X, Laptop, ShoppingCart, MessageSquare, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { CONTACT_INFO } from '@/constants';
+import { useApp } from '../context/AppContext';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,6 +12,7 @@ const Navbar: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
   const { cart, cartCount, cartTotal, removeFromCart, updateQuantity } = useCart();
+  const { theme, toggleTheme } = useApp();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,6 +73,13 @@ const Navbar: React.FC = () => {
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-all"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
             <button
               onClick={() => setIsCartOpen(true)}
               className="relative p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-all"
@@ -141,6 +150,13 @@ const Navbar: React.FC = () => {
               >
                 Belanja Sekarang
               </Link>
+              <button
+                onClick={toggleTheme}
+                className="w-full text-left px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg font-medium flex items-center justify-between"
+              >
+                <span>Mode {theme === 'dark' ? 'Terang' : 'Gelap'}</span>
+                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
             </div>
           </motion.div>
         )}

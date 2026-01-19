@@ -95,9 +95,36 @@ const ShopPremium: React.FC = () => {
           transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-gray-200/50 dark:shadow-none mb-12 border border-gray-100 dark:border-gray-800"
         >
+          {/* Categories Quick Filter */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            <button
+              onClick={() => handleCategoryChange('Semua')}
+              className={`px-5 py-2.5 rounded-2xl text-sm font-bold transition-all ${
+                selectedCategory === 'Semua'
+                  ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                  : 'bg-gray-50 dark:bg-gray-800 text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-700'
+              }`}
+            >
+              Semua
+            </button>
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => handleCategoryChange(cat)}
+                className={`px-5 py-2.5 rounded-2xl text-sm font-bold transition-all ${
+                  selectedCategory === cat
+                    ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                    : 'bg-gray-50 dark:bg-gray-800 text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
           <div className="grid md:grid-cols-12 gap-6 items-end">
             {/* Search */}
-            <div className="md:col-span-6 relative group">
+            <div className="md:col-span-8 relative group">
               <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 block ml-1">Cari Perangkat</label>
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors" size={18} />
@@ -111,29 +138,8 @@ const ShopPremium: React.FC = () => {
               </div>
             </div>
 
-            {/* Category Filter */}
-            <div className="md:col-span-3 relative">
-              <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 block ml-1">Kategori</label>
-              <div className="relative">
-                <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => handleCategoryChange(e.target.value)}
-                  className="w-full pl-12 pr-10 py-4 bg-gray-50/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all appearance-none cursor-pointer text-sm"
-                >
-                  <option value="Semua">Semua Kategori</option>
-                  {CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                </div>
-              </div>
-            </div>
-
             {/* Sort */}
-            <div className="md:col-span-3 relative">
+            <div className="md:col-span-4 relative">
               <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 block ml-1">Urutkan</label>
               <div className="relative">
                 <select

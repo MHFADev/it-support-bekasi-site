@@ -1,6 +1,6 @@
 export const uploadToCloudinary = async (file: File, maxRetries = 3) => {
-  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || '';
+  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || '';
 
   console.log('=== CLOUDINARY UPLOAD DEBUG ===');
   console.log('Cloud Name:', cloudName);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { uploadImageToSupabase, deleteImageFromSupabase } from '../lib/supabase-storage';
+import { uploadToCloudinary } from '../lib/cloudinary';
 import { 
   Plus, 
   Search, 
@@ -152,14 +152,9 @@ const AdminProducts: React.FC = () => {
         toast.loading('Mengoptimalkan & mengunggah gambar...', { id: 'upload' });
         
         try {
-          // Delete old image if editing and new image is uploaded
-          if (editingProduct?.image_path) {
-            await deleteImageFromSupabase(editingProduct.image_path);
-          }
-
-          const uploadResult = await uploadImageToSupabase(imageFile, 'products');
+          const uploadResult = await uploadToCloudinary(imageFile);
           finalImageUrl = uploadResult.url;
-          finalImagePath = uploadResult.path;
+          finalImagePath = uploadResult.public_id;
           toast.success('Gambar berhasil diunggah', { id: 'upload' });
         } catch (uploadError: any) {
           console.error('Upload error details:', uploadError);
@@ -217,17 +212,6 @@ const AdminProducts: React.FC = () => {
         .delete()
         .eq('id', id);
       if (error) throw error;
-      
-      // Delete image from Supabase Storage (if path exists)
-      if (productToDelete?.image_path) {
-        try {
-          await deleteImageFromSupabase(productToDelete.image_path);
-          console.log('Image deleted from Supabase Storage');
-        } catch (imgError) {
-          console.warn('Failed to delete image from storage:', imgError);
-          // Don't fail the whole operation if image delete fails
-        }
-      }
       
       toast.success('Produk berhasil dihapus');
       // Data will be updated via realtime subscription

@@ -57,14 +57,14 @@ const Navbar: React.FC = () => {
               <h1 className={`text-xl font-bold transition-colors duration-300 ${
                 isScrolled 
                   ? 'text-gray-900 dark:text-white' 
-                  : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]'
+                  : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]'
               }`}>
                 IT SUPPORT BEKASI
               </h1>
               <p className={`text-xs transition-colors duration-300 ${
                 isScrolled 
                   ? 'text-gray-500 dark:text-gray-400' 
-                  : 'text-gray-100 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]'
+                  : 'text-gray-100 font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]'
               }`}>
                 Premium Solutions
               </p>

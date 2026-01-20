@@ -1,10 +1,10 @@
 import React from 'react';
-import { Laptop, Settings, Shield, Wrench, Monitor, Cpu, HardDrive, Wifi } from 'lucide-react';
+import { Laptop } from 'lucide-react';
 
 export const SITE_INFO = {
-  name: "LaptopBekas Bekasi",
-  tagline: "Laptop Bekas Berkualitas & Jasa IT Profesional",
-  description: "Toko laptop bekas terpercaya di Bekasi dengan garansi dan layanan IT support profesional",
+  name: "IT SUPPORT BEKASI",
+  tagline: "Laptop Bekas Berkualitas & Premium IT Solutions",
+  description: "Toko laptop bekas terpercaya di Bekasi dengan garansi resmi dan koleksi unit premium.",
   email: "info@laptopbekasbekasi.com",
 };
 
@@ -20,9 +20,8 @@ export const CATEGORIES = [
   "PC Desktop", 
   "Aksesoris",
   "Hardware",
-  "Jasa IT Support",
-  "Jasa Instalasi",
-  "Jasa Maintenance",
+  "Macbook",
+  "Gaming",
 ];
 
 export const CONTENT: Record<'id' | 'en', {
@@ -80,217 +79,217 @@ export const CONTENT: Record<'id' | 'en', {
 }> = {
   id: {
     hero: {
-      badge: "Terpercaya Sejak 2015",
-      title: "Laptop Berkualitas. Harga Terjangkau",
-      desc: "Dapatkan laptop bekas berkualitas dengan garansi resmi dan dukungan IT profesional untuk bisnis dan personal Anda.",
-      ctaPrimary: "Konsultasi Gratis",
-      ctaSecondary: "Lihat Produk",
+      badge: "Katalog Laptop Terlengkap",
+      title: "Laptop Premium. Harga Terbaik Bekasi.",
+      desc: "Temukan koleksi laptop bekas berkualitas dengan garansi resmi. Unit pilihan untuk profesional, pelajar, dan gamers.",
+      ctaPrimary: "Lihat Katalog",
+      ctaSecondary: "Hubungi Admin",
       indicators: [
-        "500+ Pelanggan Puas",
-        "Garansi Resmi 6 Bulan",
-        "Support 24/7"
+        "100% Original",
+        "Garansi Unit",
+        "Kondisi Mulus"
       ]
     },
     services: {
-      label: "Layanan Kami",
-      title: "Solusi IT Lengkap untuk Kebutuhan Anda",
-      desc: "Dari penjualan laptop bekas hingga layanan IT support profesional, kami siap membantu bisnis dan personal Anda.",
+      label: "Koleksi Kami",
+      title: "Pilih Laptop Impian Anda",
+      desc: "Koleksi unit terbaik yang sudah melalui proses pengecekan ketat (Quality Control).",
       items: [
         {
-          id: "laptop-sales",
+          id: "laptop-business",
           icon: React.createElement(Laptop, { className: "w-7 h-7" }),
-          title: "Penjualan Laptop",
-          description: "Laptop bekas berkualitas dengan garansi resmi. Semua unit sudah dicek dan diperbaiki oleh teknisi berpengalaman.",
+          title: "Laptop Bisnis",
+          description: "ThinkPad, Dell Latitude, HP EliteBook. Tangguh dan reliabel untuk kerja.",
           image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=400"
         },
         {
-          id: "it-support",
-          icon: React.createElement(Settings, { className: "w-7 h-7" }),
-          title: "IT Support",
-          description: "Layanan dukungan teknis untuk perusahaan dan personal. Penanganan cepat dan profesional.",
-          image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=400"
+          id: "laptop-gaming",
+          icon: React.createElement(Laptop, { className: "w-7 h-7 text-primary" }),
+          title: "Laptop Gaming",
+          description: "ROG, Legion, Predator. Performa tinggi untuk gaming dan editing.",
+          image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400"
         },
         {
-          id: "installation",
-          icon: React.createElement(Wrench, { className: "w-7 h-7" }),
-          title: "Jasa Instalasi",
-          description: "Instalasi software, hardware, dan jaringan. Setup komputer baru dan migrasi data.",
-          image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=400"
+          id: "macbook",
+          icon: React.createElement(Laptop, { className: "w-7 h-7 text-purple-500" }),
+          title: "Apple Macbook",
+          description: "Macbook Air & Pro. Desain elegan dengan performa mumpuni.",
+          image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=400"
         },
         {
-          id: "maintenance",
-          icon: React.createElement(Shield, { className: "w-7 h-7" }),
-          title: "Maintenance",
-          description: "Perawatan berkala untuk menjaga performa optimal perangkat IT Anda.",
-          image: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?q=80&w=400"
+          id: "accessories",
+          icon: React.createElement(Laptop, { className: "w-7 h-7 text-green-500" }),
+          title: "Aksesoris",
+          description: "Charger original, tas premium, dan upgrade hardware.",
+          image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=400"
         }
       ]
     },
     whyChooseUs: {
-      label: "Mengapa Kami",
-      title: "Alasan Memilih Kami",
+      label: "Kualitas Terjamin",
+      title: "Kenapa Belanja di Sini?",
       reasons: [
         {
-          title: "Garansi Resmi",
-          desc: "Setiap produk dilengkapi garansi resmi 6 bulan untuk ketenangan pikiran Anda."
+          title: "Unit Pilihan",
+          desc: "Hanya menjual unit dengan kondisi fisik dan fungsi di atas 90%."
         },
         {
-          title: "Respons Cepat",
-          desc: "Tim support kami siap membantu dalam waktu kurang dari 24 jam."
+          title: "Garansi Pasti",
+          desc: "Setiap pembelian mendapatkan kartu garansi resmi dari toko kami."
         },
         {
-          title: "Tim Berpengalaman",
-          desc: "Teknisi kami memiliki pengalaman lebih dari 10 tahun di bidang IT."
+          title: "Harga Kompetitif",
+          desc: "Harga terbaik di Bekasi untuk kualitas unit yang setara."
         },
         {
-          title: "Dukungan Purna Jual",
-          desc: "Layanan after-sales yang responsif untuk semua kebutuhan Anda."
+          title: "After Sales",
+          desc: "Bantuan teknis gratis untuk instalasi software standar setelah pembelian."
         }
       ]
     },
     faq: {
-      label: "FAQ",
-      title: "Pertanyaan yang Sering Diajukan",
+      label: "Bantuan",
+      title: "Pertanyaan Pembeli",
       items: [
         {
-          question: "Apakah laptop bekas dijamin berkualitas?",
-          answer: "Ya, setiap laptop sudah melalui proses pengecekan menyeluruh oleh teknisi berpengalaman kami. Kami juga memberikan garansi 6 bulan untuk setiap pembelian."
+          question: "Apakah bisa COD?",
+          answer: "Tentu, kami melayani COD area Bekasi atau datang langsung ke toko untuk cek unit sepuasnya."
         },
         {
-          question: "Bagaimana cara konsultasi layanan IT?",
-          answer: "Anda bisa menghubungi kami via WhatsApp atau mengisi form kontak di website ini. Tim kami akan merespons dalam waktu kurang dari 24 jam."
+          question: "Kondisi baterai bagaimana?",
+          answer: "Setiap unit kami pastikan memiliki ketahanan baterai normal (minimal 2-3 jam pemakaian standar)."
         },
         {
-          question: "Apakah bisa request spesifikasi laptop tertentu?",
-          answer: "Tentu! Kami menerima request spesifikasi khusus. Silakan hubungi kami untuk konsultasi kebutuhan Anda."
+          question: "Apakah sudah termasuk Windows original?",
+          answer: "Hampir semua unit kami sudah terinstall Windows original bawaan pabrik."
         },
         {
-          question: "Berapa lama waktu pengerjaan service?",
-          answer: "Tergantung jenis kerusakan. Untuk service ringan biasanya 1-2 hari kerja. Service berat maksimal 7 hari kerja."
+          question: "Bisa tukar tambah?",
+          answer: "Kami menerima tukar tambah dengan kondisi unit lama Anda akan kami taksir harganya secara fair."
         }
       ]
     },
     contact: {
-      label: "Kontak",
-      title: "Hubungi Kami",
-      desc: "Siap membantu kebutuhan IT Anda. Hubungi kami untuk konsultasi gratis.",
-      items: ["Telepon", "Email", "Alamat", "Jam Operasional"],
+      label: "Pemesanan",
+      title: "Tanya Stok & Order",
+      desc: "Ingin tanya stok terbaru? Langsung hubungi admin via WhatsApp.",
+      items: ["WhatsApp", "Email", "Lokasi Toko", "Jam Operasional"],
       form: {
-        title: "Kirim Pesan",
-        name: "Nama",
-        email: "Email",
-        msg: "Pesan",
-        submit: "Kirim Pesan",
-        success: "Pesan Terkirim!",
-        successDesc: "Tim kami akan menghubungi Anda segera."
+        title: "Form Pemesanan",
+        name: "Nama Lengkap",
+        email: "Email (Opsional)",
+        msg: "Tipe Laptop yang Dicari",
+        submit: "Cek Ketersediaan",
+        success: "Permintaan Diterima!",
+        successDesc: "Admin akan segera membalas pesan Anda."
       }
     }
   },
   en: {
     hero: {
-      badge: "Trusted Since 2015",
-      title: "Quality Laptops. Affordable Prices",
-      desc: "Get quality used laptops with official warranty and professional IT support for your business and personal needs.",
-      ctaPrimary: "Free Consultation",
-      ctaSecondary: "View Products",
+      badge: "Largest Laptop Catalog",
+      title: "Premium Laptops. Best Bekasi Prices.",
+      desc: "Find quality used laptop collections with official warranty. Selected units for professionals, students, and gamers.",
+      ctaPrimary: "View Catalog",
+      ctaSecondary: "Contact Admin",
       indicators: [
-        "500+ Happy Customers",
-        "6 Month Official Warranty",
-        "24/7 Support"
+        "100% Original",
+        "Unit Warranty",
+        "Mint Condition"
       ]
     },
     services: {
-      label: "Our Services",
-      title: "Complete IT Solutions for Your Needs",
-      desc: "From used laptop sales to professional IT support services, we're ready to help your business and personal needs.",
+      label: "Our Collection",
+      title: "Choose Your Dream Laptop",
+      desc: "Best units that have gone through a strict Quality Control process.",
       items: [
         {
-          id: "laptop-sales",
+          id: "laptop-business",
           icon: React.createElement(Laptop, { className: "w-7 h-7" }),
-          title: "Laptop Sales",
-          description: "Quality used laptops with official warranty. All units have been checked and repaired by experienced technicians.",
+          title: "Business Laptop",
+          description: "ThinkPad, Dell Latitude, HP EliteBook. Tough and reliable for work.",
           image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=400"
         },
         {
-          id: "it-support",
-          icon: React.createElement(Settings, { className: "w-7 h-7" }),
-          title: "IT Support",
-          description: "Technical support services for companies and individuals. Fast and professional handling.",
-          image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=400"
+          id: "laptop-gaming",
+          icon: React.createElement(Laptop, { className: "w-7 h-7 text-primary" }),
+          title: "Gaming Laptop",
+          description: "ROG, Legion, Predator. High performance for gaming and editing.",
+          image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400"
         },
         {
-          id: "installation",
-          icon: React.createElement(Wrench, { className: "w-7 h-7" }),
-          title: "Installation Services",
-          description: "Software, hardware, and network installation. New computer setup and data migration.",
-          image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=400"
+          id: "macbook",
+          icon: React.createElement(Laptop, { className: "w-7 h-7 text-purple-500" }),
+          title: "Apple Macbook",
+          description: "Macbook Air & Pro. Elegant design with capable performance.",
+          image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=400"
         },
         {
-          id: "maintenance",
-          icon: React.createElement(Shield, { className: "w-7 h-7" }),
-          title: "Maintenance",
-          description: "Regular maintenance to keep your IT devices performing optimally.",
-          image: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?q=80&w=400"
+          id: "accessories",
+          icon: React.createElement(Laptop, { className: "w-7 h-7 text-green-500" }),
+          title: "Accessories",
+          description: "Original chargers, premium bags, and hardware upgrades.",
+          image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=400"
         }
       ]
     },
     whyChooseUs: {
-      label: "Why Us",
-      title: "Reasons to Choose Us",
+      label: "Guaranteed Quality",
+      title: "Why Shop Here?",
       reasons: [
         {
-          title: "Official Warranty",
-          desc: "Every product comes with a 6-month official warranty for your peace of mind."
+          title: "Selected Units",
+          desc: "We only sell units with physical and functional conditions above 90%."
         },
         {
-          title: "Fast Response",
-          desc: "Our support team is ready to help within 24 hours."
+          title: "Warranty",
+          desc: "Every purchase gets an official warranty card from our store."
         },
         {
-          title: "Experienced Team",
-          desc: "Our technicians have over 10 years of experience in IT."
+          title: "Competitive Price",
+          desc: "Best prices in Bekasi for equivalent quality units."
         },
         {
-          title: "After-Sales Support",
-          desc: "Responsive after-sales service for all your needs."
+          title: "After Sales",
+          desc: "Free technical assistance for standard software installation after purchase."
         }
       ]
     },
     faq: {
-      label: "FAQ",
-      title: "Frequently Asked Questions",
+      label: "Help",
+      title: "Buyer Questions",
       items: [
         {
-          question: "Are used laptops guaranteed quality?",
-          answer: "Yes, every laptop has undergone thorough inspection by our experienced technicians. We also provide a 6-month warranty for every purchase."
+          question: "Can I do COD?",
+          answer: "Of course, we serve COD in the Bekasi area or come directly to the store to check units."
         },
         {
-          question: "How to consult for IT services?",
-          answer: "You can contact us via WhatsApp or fill out the contact form on this website. Our team will respond within 24 hours."
+          question: "What about the battery condition?",
+          answer: "We ensure every unit has normal battery life (minimum 2-3 hours of standard use)."
         },
         {
-          question: "Can I request specific laptop specifications?",
-          answer: "Of course! We accept special specification requests. Please contact us for consultation on your needs."
+          question: "Is original Windows included?",
+          answer: "Almost all our units come with pre-installed original factory Windows."
         },
         {
-          question: "How long does service take?",
-          answer: "Depends on the type of damage. For minor service, usually 1-2 working days. Major service takes maximum 7 working days."
+          question: "Can I trade-in?",
+          answer: "We accept trade-ins; we will appraise your old unit fairly."
         }
       ]
     },
     contact: {
-      label: "Contact",
-      title: "Contact Us",
-      desc: "Ready to help with your IT needs. Contact us for free consultation.",
-      items: ["Phone", "Email", "Address", "Operating Hours"],
+      label: "Ordering",
+      title: "Check Stock & Order",
+      desc: "Want to ask about the latest stock? Contact admin directly via WhatsApp.",
+      items: ["WhatsApp", "Email", "Store Location", "Operating Hours"],
       form: {
-        title: "Send Message",
-        name: "Name",
-        email: "Email",
-        msg: "Message",
-        submit: "Send Message",
-        success: "Message Sent!",
-        successDesc: "Our team will contact you soon."
+        title: "Order Form",
+        name: "Full Name",
+        email: "Email (Optional)",
+        msg: "Laptop Type You're Looking For",
+        submit: "Check Availability",
+        success: "Request Received!",
+        successDesc: "Admin will reply to your message soon."
       }
     }
   }

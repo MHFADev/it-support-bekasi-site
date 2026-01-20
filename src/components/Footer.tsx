@@ -81,14 +81,14 @@ const Footer: React.FC = () => {
 
           {/* Services Column */}
           <div className="lg:col-span-3">
-            <h3 className="text-foreground font-bold text-lg mb-8 uppercase tracking-widest text-xs">Layanan Kami</h3>
+            <h3 className="text-foreground font-bold text-lg mb-8 uppercase tracking-widest text-xs">Produk Kami</h3>
             <ul className="space-y-4">
               {[
-                'Jual Beli Laptop Bekas',
-                'Service & Perbaikan PC',
-                'Upgrade SSD & RAM',
-                'Instalasi CCTV Pro',
-                'Maintenance Korporat'
+                'Laptop Bisnis',
+                'Laptop Gaming',
+                'Apple Macbook',
+                'Aksesoris Laptop',
+                'Custom PC'
               ].map((service) => (
                 <li key={service} className="text-muted-foreground flex items-center gap-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary/40"></div>

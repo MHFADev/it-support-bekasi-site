@@ -25,9 +25,9 @@ const Navbar: React.FC = () => {
 
   const navLinks = [
     { name: 'Beranda', path: '/' },
-    { name: 'Produk', path: '/shop' },
-    { name: 'Layanan', path: '/#services' },
-    { name: 'Tentang', path: '/#about' },
+    { name: 'Katalog', path: '/shop' },
+    { name: 'Testimoni', path: '/#why-us' },
+    { name: 'Kontak', path: '/#contact' },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {

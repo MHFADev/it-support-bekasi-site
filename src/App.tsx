@@ -24,7 +24,7 @@ import { Toaster } from './components/ui/sonner';
 const HomePage = () => (
   <div className="flex flex-col">
     <Hero />
-    <Services />
+    <Shop />
     <WhyChooseUs />
     <TechPartners />
     <Contact />

@@ -54,28 +54,30 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-2 group">
             <div className="relative">
-              <div className="absolute -inset-1 bg-linear-to-r from-primary to-purple-500 rounded-lg blur-sm opacity-25 group-hover:opacity-100 transition duration-500"></div>
-              <div className="relative bg-background p-2 rounded-lg border border-border shadow-sm">
-                <Laptop className="w-6 h-6 text-primary" />
-              </div>
+              <Laptop className="w-8 h-8 text-primary" />
             </div>
             <div className="flex flex-col">
               <span className={cn(
-                "text-lg font-bold tracking-tight transition-colors",
-                !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
+                "text-xl font-bold tracking-tight text-primary transition-colors",
+                !isScrolled && location.pathname === '/' ? "text-primary" : "text-primary"
               )}>
                 IT SUPPORT BEKASI
               </span>
-              <span className={cn(
-                "text-[10px] font-medium tracking-[0.2em] uppercase transition-colors",
-                !isScrolled && location.pathname === '/' ? "text-white/70" : "text-muted-foreground"
-              )}>
-                Premium Solutions
-              </span>
             </div>
           </Link>
+
+          {/* Search Bar (Tokopedia Style) */}
+          <div className="hidden md:flex flex-1 max-w-xl mx-8">
+            <div className="relative w-full">
+              <input 
+                type="text" 
+                placeholder="Cari laptop impianmu di sini..." 
+                className="w-full bg-accent/20 border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden"
+              />
+            </div>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
@@ -98,48 +100,15 @@ const Navbar: React.FC = () => {
           {/* Actions */}
           <div className="flex items-center gap-2 md:gap-4">
             <button
-              onClick={toggleTheme}
-              className={cn(
-                "p-2 rounded-full transition-all hover:bg-accent/50",
-                !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
-              )}
-              aria-label="Toggle theme"
-            >
-              <AnimatePresence mode="wait">
-                {theme === 'dark' ? (
-                  <motion.div
-                    key="sun"
-                    initial={{ scale: 0.5, rotate: -45, opacity: 0 }}
-                    animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                    exit={{ scale: 0.5, rotate: 45, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Sun className="w-5 h-5" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="moon"
-                    initial={{ scale: 0.5, rotate: 45, opacity: 0 }}
-                    animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                    exit={{ scale: 0.5, rotate: -45, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Moon className="w-5 h-5" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </button>
-
-            <button
               onClick={() => setIsCartOpen(true)}
               className={cn(
                 "p-2 rounded-full transition-all hover:bg-accent/50 relative",
-                !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
+                !isScrolled && location.pathname === '/' ? "text-primary" : "text-foreground"
               )}
             >
-              <ShoppingCart className="w-5 h-5" />
+              <ShoppingCart className="w-6 h-6" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-background">
                   {cartCount}
                 </span>
               )}

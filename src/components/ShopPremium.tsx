@@ -83,34 +83,22 @@ const ShopPremium: React.FC = () => {
       </section>
 
       {/* Filter & Search Bar */}
-      <section className="container mx-auto px-4 md:px-6 sticky top-24 z-30 mb-12">
-        <div className="bg-card/80 backdrop-blur-xl border border-border p-4 rounded-3xl shadow-xl elegant-shadow flex flex-col lg:flex-row gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Cari laptop, PC, atau hardware..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-accent/30 border border-border rounded-2xl pl-12 pr-6 py-3 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden"
-            />
-          </div>
-          <div className="flex overflow-x-auto pb-1 lg:pb-0 gap-2 no-scrollbar">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={cn(
-                  "whitespace-nowrap px-6 py-3 rounded-2xl text-sm font-bold transition-all shrink-0",
-                  activeCategory === cat 
-                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
-                    : "bg-accent/50 text-muted-foreground hover:bg-accent border border-border/50"
-                )}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+      <section className="container mx-auto px-4 md:px-6 mb-8">
+        <div className="flex overflow-x-auto pb-2 gap-2 no-scrollbar">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={cn(
+                "whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-all border shrink-0",
+                activeCategory === cat 
+                  ? "bg-primary text-white border-primary" 
+                  : "bg-white text-[#6D7588] border-[#E5E7E9] hover:border-primary hover:text-primary"
+              )}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
       </section>
 
@@ -141,59 +129,40 @@ const ShopPremium: React.FC = () => {
                 <motion.div
                   key={product.id}
                   layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                  className="group bg-card rounded-[2.5rem] border border-border p-4 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 flex flex-col"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="group bg-white rounded-lg border border-[#E5E7E9] overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col cursor-pointer"
+                  onClick={() => handleAddToCart(product)}
                 >
-                  <div className="relative aspect-square rounded-3xl overflow-hidden mb-5">
+                  <div className="relative aspect-square overflow-hidden mb-3">
                     <img
                       src={product.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=800'}
                       alt={product.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute top-4 left-4">
-                      <div className="bg-background/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-border">
-                        {product.category}
-                      </div>
-                    </div>
                     {product.stock === 0 && (
-                      <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px] flex items-center justify-center">
-                        <span className="bg-destructive text-destructive-foreground px-4 py-1.5 rounded-lg font-bold text-xs uppercase tracking-widest">Stok Habis</span>
+                      <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex items-center justify-center">
+                        <span className="bg-[#6D7588] text-white px-2 py-1 rounded text-[10px] font-bold uppercase">Stok Habis</span>
                       </div>
                     )}
                   </div>
 
-                  <div className="px-2 flex-1 flex flex-col">
-                    <div className="flex items-center gap-1 mb-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
-                      ))}
-                      <span className="text-[10px] text-muted-foreground font-bold ml-1">5.0</span>
-                    </div>
-                    
-                    <h3 className="text-lg font-bold text-foreground mb-1 line-clamp-1 group-hover:text-primary transition-colors">
+                  <div className="px-2 pb-3 flex-1 flex flex-col">
+                    <h3 className="text-sm font-medium text-[#212121] mb-1 line-clamp-2 group-hover:text-primary transition-colors">
                       {product.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
-                      {product.description}
-                    </p>
-
-                    <div className="mt-auto flex items-center justify-between">
-                      <div className="flex flex-col">
-                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Harga</span>
-                        <span className="text-lg font-bold text-primary">
-                          Rp {new Intl.NumberFormat('id-ID').format(product.price)}
-                        </span>
+                    
+                    <div className="mt-auto">
+                      <span className="text-base font-bold text-[#212121]">
+                        Rp {new Intl.NumberFormat('id-ID').format(product.price)}
+                      </span>
+                      
+                      <div className="flex items-center gap-1 mt-1">
+                        <Star className="w-3 h-3 fill-[#FFC400] text-[#FFC400]" />
+                        <span className="text-xs text-[#6D7588]">5.0 | Terjual 10+</span>
                       </div>
-                      <button
-                        onClick={() => handleAddToCart(product)}
-                        disabled={product.stock === 0}
-                        className="bg-primary text-primary-foreground p-3 rounded-2xl shadow-lg shadow-primary/20 hover:scale-110 active:scale-95 transition-all disabled:opacity-30 disabled:hover:scale-100"
-                      >
-                        <ShoppingCart className="w-5 h-5" />
-                      </button>
                     </div>
                   </div>
                 </motion.div>

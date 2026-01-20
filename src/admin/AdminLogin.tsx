@@ -12,7 +12,6 @@ const AdminLogin: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Redirect if already authenticated
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-950">
@@ -65,11 +64,9 @@ const AdminLogin: React.FC = () => {
         transition={{ duration: 0.5 }}
         className="relative w-full max-w-md"
       >
-        {/* Glow Effect */}
         <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-500 rounded-3xl blur-xl opacity-20" />
         
         <div className="relative bg-card border border-border rounded-3xl p-8 shadow-2xl">
-          {/* Logo/Header */}
           <div className="text-center mb-8">
             <motion.div
               initial={{ scale: 0 }}
@@ -83,7 +80,6 @@ const AdminLogin: React.FC = () => {
             <p className="text-muted-foreground mt-2 text-sm">IT Support Bekasi Management</p>
           </div>
 
-          {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <label className="text-sm font-medium text-muted-foreground">Username</label>
@@ -142,23 +138,9 @@ const AdminLogin: React.FC = () => {
               )}
             </motion.button>
           </form>
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="animate-spin" size={20} />
-                  <span>Memproses...</span>
-                </>
-              ) : (
-                <>
-                  <Lock size={20} />
-                  <span>Masuk ke Panel Admin</span>
-                </>
-              )}
-            </motion.button>
-          </form>
 
-          {/* Footer */}
-          <div className="mt-8 pt-6 border-t border-white/10 text-center">
-            <p className="text-gray-500 text-xs">
+          <div className="mt-8 pt-6 border-t border-border text-center">
+            <p className="text-muted-foreground text-xs">
               © {new Date().getFullYear()} IT Support Bekasi. All rights reserved.
             </p>
           </div>

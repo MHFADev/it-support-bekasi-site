@@ -63,7 +63,6 @@ const AdminProducts: React.FC = () => {
           
           if (payload.eventType === 'INSERT') {
             setProducts((prev) => {
-              // Avoid duplicates
               if (prev.some(p => p.id === payload.new.id)) {
                 return prev;
               }
@@ -190,7 +189,6 @@ const AdminProducts: React.FC = () => {
       }
 
       setIsModalOpen(false);
-      // Data will be updated via realtime subscription
     } catch (error: any) {
       console.error('Form submission error:', error);
       toast.error(error.message || 'Terjadi kesalahan');
@@ -203,18 +201,12 @@ const AdminProducts: React.FC = () => {
     if (!confirm('Apakah Anda yakin ingin menghapus produk ini?')) return;
 
     try {
-      // Find the product to get the image path
-      const productToDelete = products.find(p => p.id === id);
-      
-      // Delete from database
       const { error } = await supabase
         .from('products')
         .delete()
         .eq('id', id);
       if (error) throw error;
-      
       toast.success('Produk berhasil dihapus');
-      // Data will be updated via realtime subscription
     } catch (error: any) {
       console.error('Delete error:', error);
       toast.error('Gagal menghapus produk');
@@ -235,7 +227,6 @@ const AdminProducts: React.FC = () => {
       
       if (error) throw error;
       
-      // Optimistic update
       setProducts(prev => prev.map(p => 
         p.id === id ? { ...p, stock_status: newStatus } : p
       ));
@@ -256,8 +247,8 @@ const AdminProducts: React.FC = () => {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Manajemen Produk</h1>
-          <p className="text-gray-500 dark:text-gray-400">Tambah, edit, atau hapus inventaris laptop dan hardware.</p>
+          <h1 className="text-2xl font-bold text-foreground">Manajemen Produk</h1>
+          <p className="text-muted-foreground">Tambah, edit, atau hapus inventaris laptop dan hardware.</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <button 
@@ -268,13 +259,13 @@ const AdminProducts: React.FC = () => {
                 else toast.success('Semua produk berhasil dihapus');
               }
             }}
-            className="px-4 py-2 border border-red-200 text-red-500 hover:bg-red-50 rounded-xl text-xs font-bold uppercase tracking-widest transition-all"
+            className="px-4 py-2 border border-destructive/20 text-destructive hover:bg-destructive/10 rounded-xl text-xs font-bold uppercase tracking-widest transition-all"
           >
             Hapus Semua
           </button>
           <button 
             onClick={() => handleOpenModal()}
-            className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-lg shadow-brand-500/25"
+            className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-lg shadow-primary/25"
           >
             <Plus size={20} />
             <span>Tambah Produk</span>
@@ -282,23 +273,23 @@ const AdminProducts: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-100 dark:border-dark-border overflow-hidden">
-        <div className="p-6 border-b border-gray-100 dark:border-dark-border">
+      <div className="bg-card rounded-2xl border border-border overflow-hidden">
+        <div className="p-6 border-b border-border">
           <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
             <input 
               type="text" 
               placeholder="Cari produk..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 dark:bg-dark-bg border border-gray-200 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-brand-500 outline-none transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none transition-all"
             />
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-gray-50 dark:bg-dark-bg text-gray-500 text-sm uppercase tracking-wider">
+            <thead className="bg-accent/30 text-muted-foreground text-sm uppercase tracking-wider">
               <tr>
                 <th className="px-6 py-4 font-semibold">Produk</th>
                 <th className="px-6 py-4 font-semibold">Kategori</th>
@@ -307,45 +298,45 @@ const AdminProducts: React.FC = () => {
                 <th className="px-6 py-4 font-semibold text-right">Aksi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-dark-border">
+            <tbody className="divide-y divide-border">
               {loading ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center">
-                    <Loader2 className="animate-spin mx-auto text-brand-500" size={32} />
+                    <Loader2 className="animate-spin mx-auto text-primary" size={32} />
                   </td>
                 </tr>
               ) : filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground">
                     Tidak ada produk ditemukan.
                   </td>
                 </tr>
               ) : (
                 filteredProducts.map((product) => (
-                  <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-brand-900/5 transition-colors">
+                  <tr key={product.id} className="hover:bg-accent/10 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-50 border border-gray-100 dark:border-dark-border flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-lg overflow-hidden bg-accent/20 border border-border flex items-center justify-center">
                           {product.image_url ? (
                             <img src={product.image_url} alt={product.title} className="w-full h-full object-cover" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-gray-300">
+                            <div className="w-full h-full flex items-center justify-center text-muted-foreground/30">
                               <ImageIcon size={20} />
                             </div>
                           )}
                         </div>
                         <div>
-                          <p className="font-semibold text-gray-800 dark:text-gray-100">{product.title}</p>
-                          <p className="text-xs text-gray-500 line-clamp-1">{product.description}</p>
+                          <p className="font-semibold text-foreground">{product.title}</p>
+                          <p className="text-xs text-muted-foreground line-clamp-1">{product.description}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="px-3 py-1 bg-gray-100 dark:bg-dark-bg rounded-full text-xs font-medium text-gray-600 dark:text-gray-400">
+                      <span className="px-3 py-1 bg-accent/50 rounded-full text-xs font-medium text-muted-foreground">
                         {product.category || 'N/A'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-medium">
+                    <td className="px-6 py-4 font-medium text-foreground">
                       Rp {new Intl.NumberFormat('id-ID').format(product.price)}
                     </td>
                     <td className="px-6 py-4">
@@ -353,12 +344,12 @@ const AdminProducts: React.FC = () => {
                         onClick={() => handleToggleStatus(product.id, product.stock_status)}
                         className={`flex items-center space-x-1 text-xs font-bold px-3 py-1.5 rounded-lg transition-all hover:scale-105 active:scale-95 ${
                           product.stock_status === 'in_stock' 
-                            ? 'text-green-600 bg-green-50 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400' 
-                            : 'text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400'
+                            ? 'text-green-600 bg-green-50 hover:bg-green-100' 
+                            : 'text-destructive bg-destructive/10 hover:bg-destructive/20'
                         }`}
                         title="Klik untuk ubah status"
                       >
-                        <div className={`w-1.5 h-1.5 rounded-full ${product.stock_status === 'in_stock' ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                        <div className={`w-1.5 h-1.5 rounded-full ${product.stock_status === 'in_stock' ? 'bg-green-500' : 'bg-destructive'}`}></div>
                         <span>{product.stock_status === 'in_stock' ? 'Stok Ada' : 'Habis'}</span>
                       </button>
                     </td>
@@ -366,13 +357,13 @@ const AdminProducts: React.FC = () => {
                       <div className="flex items-center justify-end space-x-2">
                         <button 
                           onClick={() => handleOpenModal(product)}
-                          className="p-2 text-gray-400 hover:text-brand-500 transition-colors"
+                          className="p-2 text-muted-foreground hover:text-primary transition-colors"
                         >
                           <Edit2 size={18} />
                         </button>
                         <button 
                           onClick={() => handleDelete(product.id)}
-                          className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                          className="p-2 text-muted-foreground hover:text-destructive transition-colors"
                         >
                           <Trash2 size={18} />
                         </button>
@@ -386,60 +377,59 @@ const AdminProducts: React.FC = () => {
         </div>
       </div>
 
-      {/* Product Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-dark-surface w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-            <div className="p-6 border-b border-gray-100 dark:border-dark-border flex items-center justify-between">
-              <h3 className="text-xl font-bold">{editingProduct ? 'Edit Produk' : 'Tambah Produk Baru'}</h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600"><X size={24} /></button>
+          <div className="bg-card w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col border border-border">
+            <div className="p-6 border-b border-border flex items-center justify-between bg-card">
+              <h3 className="text-xl font-bold text-foreground">{editingProduct ? 'Edit Produk' : 'Tambah Produk Baru'}</h3>
+              <button onClick={() => setIsModalOpen(false)} className="text-muted-foreground hover:text-foreground"><X size={24} /></button>
             </div>
             
             <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold">Nama Produk</label>
+                  <label className="text-sm font-semibold text-foreground">Nama Produk</label>
                   <input 
                     required
                     type="text" 
                     value={formData.title}
                     onChange={(e) => setFormData({...formData, title: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-200 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-brand-500 outline-none"
+                    className="w-full px-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none text-foreground"
                     placeholder="Contoh: Laptop ASUS Vivobook"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold">Harga (Rp)</label>
+                  <label className="text-sm font-semibold text-foreground">Harga (Rp)</label>
                   <input 
                     required
                     type="number" 
                     value={formData.price}
                     onChange={(e) => setFormData({...formData, price: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-200 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-brand-500 outline-none"
+                    className="w-full px-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none text-foreground"
                     placeholder="0"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold">Deskripsi</label>
+                <label className="text-sm font-semibold text-foreground">Deskripsi</label>
                 <textarea 
                   required
                   rows={4}
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-200 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-brand-500 outline-none resize-none"
+                  className="w-full px-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none resize-none text-foreground"
                   placeholder="Detail spesifikasi dan kondisi..."
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold">Kategori</label>
+                  <label className="text-sm font-semibold text-foreground">Kategori</label>
                   <select 
                     value={formData.category}
                     onChange={(e) => setFormData({...formData, category: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-200 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-brand-500 outline-none bg-white dark:bg-dark-surface"
+                    className="w-full px-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none text-foreground"
                   >
                     <option value="">Pilih Kategori</option>
                     <option value="Laptop">Laptop</option>
@@ -449,11 +439,11 @@ const AdminProducts: React.FC = () => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold">Status Stok</label>
+                  <label className="text-sm font-semibold text-foreground">Status Stok</label>
                   <select 
                     value={formData.stock_status}
                     onChange={(e) => setFormData({...formData, stock_status: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-200 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-brand-500 outline-none bg-white dark:bg-dark-surface"
+                    className="w-full px-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none text-foreground"
                   >
                     <option value="in_stock">Stok Ada</option>
                     <option value="out_of_stock">Habis</option>
@@ -462,13 +452,13 @@ const AdminProducts: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold flex items-center gap-2">
-                  <ImageIcon size={16} className="text-brand-500" />
+                <label className="text-sm font-semibold flex items-center gap-2 text-foreground">
+                  <ImageIcon size={16} className="text-primary" />
                   Gambar Produk
-                  <span className="text-red-500">*</span>
+                  <span className="text-destructive">*</span>
                 </label>
                 <div className="flex items-center gap-6">
-                  <div className="w-40 h-40 rounded-[1.5rem] border-2 border-dashed border-gray-200 dark:border-dark-border flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-dark-bg transition-all hover:border-brand-500/50 relative group">
+                  <div className="w-40 h-40 rounded-3xl border-2 border-dashed border-border flex items-center justify-center overflow-hidden bg-accent/30 transition-all hover:border-primary/50 relative group">
                     {imageFile ? (
                       <>
                         <img src={URL.createObjectURL(imageFile)} alt="Preview" className="w-full h-full object-cover" />
@@ -476,7 +466,7 @@ const AdminProducts: React.FC = () => {
                           <button 
                             type="button"
                             onClick={() => setImageFile(null)}
-                            className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
+                            className="bg-destructive text-white p-2 rounded-full hover:bg-destructive/80 transition-colors"
                           >
                             <X size={20} />
                           </button>
@@ -491,8 +481,8 @@ const AdminProducts: React.FC = () => {
                       </>
                     ) : (
                       <div className="flex flex-col items-center gap-2">
-                        <ImageIcon className="text-gray-300" size={32} />
-                        <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">No Image</span>
+                        <ImageIcon className="text-muted-foreground/30" size={32} />
+                        <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">No Image</span>
                       </div>
                     )}
                   </div>
@@ -504,7 +494,6 @@ const AdminProducts: React.FC = () => {
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (file) {
-                          // Validate file size (max 10MB)
                           if (file.size > 10 * 1024 * 1024) {
                             alert('Ukuran file terlalu besar. Maksimal 10MB.');
                             return;
@@ -516,16 +505,16 @@ const AdminProducts: React.FC = () => {
                     />
                     <label 
                       htmlFor="product-image"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-400 rounded-xl text-sm font-bold uppercase tracking-widest cursor-pointer hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-all shadow-sm"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 text-primary rounded-xl text-sm font-bold uppercase tracking-widest cursor-pointer hover:bg-primary/20 transition-all shadow-sm"
                     >
                       <ImageIcon size={18} />
                       {imageFile || formData.image_url ? 'Ganti Gambar' : 'Pilih Gambar'}
                     </label>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
+                    <p className="text-xs text-muted-foreground font-medium leading-relaxed">
                       ✓ Format: JPG, PNG, atau WebP<br />
                       ✓ Maksimal 10MB<br />
                       ✓ Resolusi optimal: 800x800px<br />
-                      <span className="text-brand-500">→ Gambar akan dioptimalkan ke WebP otomatis</span>
+                      <span className="text-primary">→ Gambar akan dioptimalkan otomatis</span>
                     </p>
                   </div>
                 </div>
@@ -535,17 +524,26 @@ const AdminProducts: React.FC = () => {
                 <button 
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="flex-1 px-6 py-3 border border-gray-200 dark:border-dark-border rounded-xl hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors font-semibold"
+                  className="flex-1 px-6 py-3 border border-border rounded-xl hover:bg-accent/50 transition-colors font-semibold text-foreground"
                 >
                   Batal
                 </button>
                 <button 
                   disabled={isSubmitting}
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition-all font-semibold flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all font-semibold disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                  {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : <Check size={20} />}
-                  <span>{editingProduct ? 'Simpan Perubahan' : 'Tambah Produk'}</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="animate-spin" size={20} />
+                      <span>Menyimpan...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Check size={20} />
+                      <span>{editingProduct ? 'Simpan Perubahan' : 'Tambah Produk'}</span>
+                    </>
+                  )}
                 </button>
               </div>
             </form>

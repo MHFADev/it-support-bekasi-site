@@ -32,6 +32,13 @@ const HomePage = () => (
   </div>
 );
 
+import AdminLogin from './admin/AdminLogin';
+import AdminLayout from './admin/AdminLayout';
+import Dashboard from './admin/Dashboard';
+import Products from './admin/Products';
+import Settings from './admin/Settings';
+import ProtectedRoute from './admin/ProtectedRoute';
+
 const App: React.FC = () => {
   return (
     <AppProvider>
@@ -50,8 +57,28 @@ const App: React.FC = () => {
                   <Route path="/product/:id" element={<ProductDetail />} />
                   
                   {/* Admin Routes */}
-                  <Route path="/admin/login" element={<div>Admin Login (TBD)</div>} />
-                  {/* Add other admin routes if needed */}
+                  <Route path="/admin/login" element={<AdminLogin />} />
+                  <Route path="/admin" element={
+                    <ProtectedRoute>
+                      <AdminLayout>
+                        <Dashboard />
+                      </AdminLayout>
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/admin/products" element={
+                    <ProtectedRoute>
+                      <AdminLayout>
+                        <Products />
+                      </AdminLayout>
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/admin/settings" element={
+                    <ProtectedRoute>
+                      <AdminLayout>
+                        <Settings />
+                      </AdminLayout>
+                    </ProtectedRoute>
+                  } />
                   
                   {/* Fallback */}
                   <Route path="*" element={<Navigate to="/" replace />} />

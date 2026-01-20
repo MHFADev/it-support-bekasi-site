@@ -5,71 +5,71 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-border: hsl(210 16% 93%);
+  --color-border: hsl(214.3 31.8% 91.4%);
   --color-background: hsl(0 0% 100%);
-  --color-foreground: hsl(222 13% 15%);
+  --color-foreground: hsl(222.2 84% 4.9%);
   --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(222 13% 15%);
+  --color-card-foreground: hsl(222.2 84% 4.9%);
   --color-popover: hsl(0 0% 100%);
-  --color-popover-foreground: hsl(222 13% 15%);
-  --color-primary: #03AC0E; /* Tokopedia Green */
+  --color-popover-foreground: hsl(222.2 84% 4.9%);
+  --color-primary: #2563eb; /* Premium Blue */
   --color-primary-foreground: #FFFFFF;
-  --color-secondary: #f3f4f5;
-  --color-secondary-foreground: #6c727c;
-  --color-muted: #f3f4f5;
-  --color-muted-foreground: #6c727c;
-  --color-accent: #e5f7e6;
-  --color-accent-foreground: #03AC0E;
-  --color-destructive: #ff5c5c;
+  --color-secondary: #f8fafc;
+  --color-secondary-foreground: #64748b;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-accent: #eff6ff;
+  --color-accent-foreground: #2563eb;
+  --color-destructive: #ef4444;
   --color-destructive-foreground: #FFFFFF;
-  --color-input: #e5e7e9;
-  --color-ring: #03AC0E;
-  --radius: 0.5rem;
+  --color-input: #e2e8f0;
+  --color-ring: #2563eb;
+  --radius: 0.75rem;
 }
 
 :root {
   --background: 0 0% 100%;
-  --foreground: 222 13% 15%;
+  --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
-  --card-foreground: 222 13% 15%;
+  --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222 13% 15%;
-  --primary: 124 97% 34%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 210 20% 96%;
-  --secondary-foreground: 215 13% 45%;
-  --muted: 210 20% 96%;
-  --muted-foreground: 215 13% 45%;
-  --accent: 124 45% 93%;
-  --accent-foreground: 124 97% 34%;
-  --destructive: 0 100% 68%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 210 16% 93%;
-  --input: 210 16% 93%;
-  --ring: 124 97% 34%;
-  --radius: 0.5rem;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.75rem;
 }
 
 .dark {
-  --background: 222 13% 15%;
-  --foreground: 210 20% 96%;
-  --card: 222 13% 20%;
-  --card-foreground: 210 20% 96%;
-  --popover: 222 13% 20%;
-  --popover-foreground: 210 20% 96%;
-  --primary: 124 97% 34%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 217 32% 25%;
-  --secondary-foreground: 210 20% 96%;
-  --muted: 217 32% 25%;
-  --muted-foreground: 215 20% 75%;
-  --accent: 124 45% 20%;
-  --accent-foreground: 124 97% 34%;
-  --destructive: 0 62% 40%;
-  --destructive-foreground: 210 20% 96%;
-  --border: 217 32% 30%;
-  --input: 217 32% 30%;
-  --ring: 124 97% 34%;
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 48%;
 }
 
 @layer base {
@@ -83,20 +83,26 @@
 }
 
 .product-card {
-  @apply bg-card rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-300;
+  @apply bg-card rounded-2xl border border-border shadow-sm hover:shadow-xl transition-all duration-300;
 }
 
 .btn-primary {
-  @apply bg-primary text-primary-foreground px-4 py-2 rounded-lg font-bold transition-all;
+  @apply bg-primary text-primary-foreground px-6 py-2.5 rounded-xl font-bold transition-all;
   &:hover {
     background-color: color-mix(in srgb, var(--color-primary), white 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px hsl(var(--primary) / 0.3);
   }
 }
 
 .btn-secondary {
-  @apply bg-background text-primary border border-primary px-4 py-2 rounded-lg font-bold hover:bg-accent transition-all;
+  @apply bg-background text-primary border border-primary px-6 py-2.5 rounded-xl font-bold transition-all;
+  &:hover {
+    @apply bg-accent;
+    transform: translateY(-2px);
+  }
 }
 
 .glass {
-  @apply bg-background/80 backdrop-blur-lg border border-border/50;
+  @apply bg-background/80 backdrop-blur-xl border border-border/50;
 }

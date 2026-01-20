@@ -19,6 +19,10 @@ const ShopPremium: React.FC = () => {
     fetchProducts();
   }, []);
 
+  const [sortBy, setSortBy] = useState('Terbaru');
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 50000000]);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+
   const fetchProducts = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -32,11 +36,19 @@ const ShopPremium: React.FC = () => {
     setLoading(false);
   };
 
-  const filteredProducts = products.filter(p => {
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sortBy === 'Harga Terendah') return a.price - b.price;
+    if (sortBy === 'Harga Tertinggi') return b.price - a.price;
+    if (sortBy === 'Nama A-Z') return a.title.localeCompare(b.title);
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  });
+
+  const filteredProducts = sortedProducts.filter(p => {
     const matchesCategory = activeCategory === 'Semua' || p.category === activeCategory;
     const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                          p.description?.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    const matchesPrice = p.price >= priceRange[0] && p.price <= priceRange[1];
+    return matchesCategory && matchesSearch && matchesPrice;
   });
 
   const categories = ['Semua', ...CATEGORIES];
@@ -82,23 +94,48 @@ const ShopPremium: React.FC = () => {
         </div>
       </section>
 
-      {/* Filter & Search Bar */}
-      <section className="container mx-auto px-4 md:px-6 mb-8">
-        <div className="flex overflow-x-auto pb-2 gap-2 no-scrollbar">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={cn(
-                "whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-all border shrink-0",
-                activeCategory === cat 
-                  ? "bg-primary text-white border-primary" 
-                  : "bg-white text-[#6D7588] border-[#E5E7E9] hover:border-primary hover:text-primary"
-              )}
-            >
-              {cat}
-            </button>
-          ))}
+      {/* Filter & Sort Bar */}
+      <section className="container mx-auto px-4 md:px-6 mb-12">
+        <div className="bg-card border border-border p-4 rounded-3xl shadow-sm flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="flex flex-wrap items-center gap-2 no-scrollbar">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={cn(
+                  "whitespace-nowrap px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shrink-0",
+                  activeCategory === cat 
+                    ? "bg-primary text-white shadow-lg shadow-primary/20" 
+                    : "bg-accent/50 text-muted-foreground hover:bg-accent border border-border/50"
+                )}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-4 w-full lg:w-auto">
+            <div className="relative flex-1 lg:w-64">
+              <select 
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full bg-accent/30 border border-border rounded-xl px-4 py-2.5 text-sm font-semibold outline-hidden focus:ring-2 focus:ring-primary/20"
+              >
+                <option>Terbaru</option>
+                <option>Harga Terendah</option>
+                <option>Harga Tertinggi</option>
+                <option>Nama A-Z</option>
+              </select>
+            </div>
+            <div className="flex bg-accent/50 p-1 rounded-xl border border-border">
+              <button 
+                onClick={() => setViewMode('grid')}
+                className={cn("p-2 rounded-lg transition-all", viewMode === 'grid' ? "bg-white shadow-sm text-primary" : "text-muted-foreground")}
+              >
+                <Filter className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -107,8 +144,8 @@ const ShopPremium: React.FC = () => {
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-card rounded-[2.5rem] border border-border p-4 animate-pulse">
-                <div className="aspect-square bg-accent rounded-3xl mb-4"></div>
+              <div key={i} className="bg-card rounded-3xl border border-border p-4 animate-pulse">
+                <div className="aspect-square bg-accent rounded-2xl mb-4"></div>
                 <div className="h-4 bg-accent rounded-full w-2/3 mb-2"></div>
                 <div className="h-4 bg-accent rounded-full w-1/2"></div>
               </div>
@@ -123,46 +160,73 @@ const ShopPremium: React.FC = () => {
             <p className="text-muted-foreground">Coba gunakan kata kunci atau kategori lain.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className={cn(
+            "grid gap-8",
+            viewMode === 'grid' ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"
+          )}>
             <AnimatePresence mode="popLayout">
               {filteredProducts.map((product) => (
                 <motion.div
                   key={product.id}
                   layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="group bg-white rounded-lg border border-[#E5E7E9] overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col cursor-pointer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3 }}
+                  className={cn(
+                    "group bg-card rounded-3xl border border-border p-4 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500",
+                    viewMode === 'list' ? "flex flex-row gap-8 items-center" : "flex flex-col"
+                  )}
                   onClick={() => handleAddToCart(product)}
                 >
-                  <div className="relative aspect-square overflow-hidden mb-3">
+                  <div className={cn(
+                    "relative overflow-hidden rounded-2xl",
+                    viewMode === 'list' ? "w-48 h-48" : "aspect-square mb-5"
+                  )}>
                     <img
                       src={product.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=800'}
                       alt={product.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    {product.stock === 0 && (
-                      <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex items-center justify-center">
-                        <span className="bg-[#6D7588] text-white px-2 py-1 rounded text-[10px] font-bold uppercase">Stok Habis</span>
+                    <div className="absolute top-4 left-4">
+                      <div className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-border text-primary">
+                        {product.category}
                       </div>
-                    )}
+                    </div>
                   </div>
 
-                  <div className="px-2 pb-3 flex-1 flex flex-col">
-                    <h3 className="text-sm font-medium text-[#212121] mb-1 line-clamp-2 group-hover:text-primary transition-colors">
+                  <div className="flex-1 flex flex-col">
+                    <div className="flex items-center gap-1 mb-2">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                      ))}
+                      <span className="text-[10px] text-muted-foreground font-bold ml-1">5.0</span>
+                    </div>
+                    
+                    <h3 className="text-lg font-bold text-foreground mb-1 line-clamp-1 group-hover:text-primary transition-colors">
                       {product.title}
                     </h3>
-                    
-                    <div className="mt-auto">
-                      <span className="text-base font-bold text-[#212121]">
-                        Rp {new Intl.NumberFormat('id-ID').format(product.price)}
-                      </span>
-                      
-                      <div className="flex items-center gap-1 mt-1">
-                        <Star className="w-3 h-3 fill-[#FFC400] text-[#FFC400]" />
-                        <span className="text-xs text-[#6D7588]">5.0 | Terjual 10+</span>
+                    <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+                      {product.description}
+                    </p>
+
+                    <div className="mt-auto flex items-center justify-between">
+                      <div className="flex flex-col">
+                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Harga</span>
+                        <span className="text-xl font-extrabold text-primary">
+                          Rp {new Intl.NumberFormat('id-ID').format(product.price)}
+                        </span>
                       </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAddToCart(product);
+                        }}
+                        disabled={product.stock === 0}
+                        className="bg-primary text-primary-foreground p-3 rounded-2xl shadow-lg shadow-primary/20 hover:scale-110 active:scale-95 transition-all disabled:opacity-30"
+                      >
+                        <ShoppingCart className="w-5 h-5" />
+                      </button>
                     </div>
                   </div>
                 </motion.div>

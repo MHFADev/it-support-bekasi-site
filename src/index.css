@@ -87,7 +87,10 @@
 }
 
 .btn-primary {
-  @apply bg-primary text-primary-foreground px-4 py-2 rounded-lg font-bold hover:bg-opacity-90 transition-all;
+  @apply bg-primary text-primary-foreground px-4 py-2 rounded-lg font-bold transition-all;
+  &:hover {
+    background-color: color-mix(in srgb, var(--color-primary), white 10%);
+  }
 }
 
 .btn-secondary {

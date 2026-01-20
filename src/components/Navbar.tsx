@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Menu, X, Laptop, ShoppingCart, MessageSquare, Moon, Sun } from 'lucide-react';
+import { ShoppingBag, Menu, X, ShoppingCart, MessageSquare, Moon, Sun, Laptop } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import { CONTACT_INFO } from '@/constants';
+import { CONTACT_INFO } from '../constants';
 import { useApp } from '../context/AppContext';
+import { cn } from '../lib/utils';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,112 +24,145 @@ const Navbar: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Beranda', path: '/', hash: '' },
-    { name: 'Produk Kami', path: '/shop', hash: '' },
+    { name: 'Beranda', path: '/' },
+    { name: 'Produk', path: '/shop' },
+    { name: 'Layanan', path: '/#services' },
+    { name: 'Tentang', path: '/#about' },
   ];
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
-    if (hash && location.pathname === '/') {
-      e.preventDefault();
-      const element = document.querySelector(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    if (path.startsWith('/#')) {
+      const hash = path.split('#')[1];
+      if (location.pathname === '/') {
+        e.preventDefault();
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     }
     setIsMenuOpen(false);
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <nav className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
       isScrolled 
-        ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg' 
-        : 'bg-transparent'
-    }`}>
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
+        ? "bg-background/80 backdrop-blur-lg border-b border-border shadow-lg py-3" 
+        : "bg-transparent py-5"
+    )}>
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <img 
-              src="https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/Logo.png" 
-              alt="Logo" 
-              className="w-10 h-10 object-contain transition-transform group-hover:scale-110"
-            />
-            <div>
-              <h1 className={`text-xl font-bold transition-colors duration-300 ${
-                isScrolled 
-                  ? 'text-gray-900 dark:text-white' 
-                  : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]'
-              }`}>
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative">
+              <div className="absolute -inset-1 bg-linear-to-r from-primary to-purple-500 rounded-lg blur-sm opacity-25 group-hover:opacity-100 transition duration-500"></div>
+              <div className="relative bg-background p-2 rounded-lg border border-border shadow-sm">
+                <Laptop className="w-6 h-6 text-primary" />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <span className={cn(
+                "text-lg font-bold tracking-tight transition-colors",
+                !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
+              )}>
                 IT SUPPORT BEKASI
-              </h1>
-              <p className={`text-xs transition-colors duration-300 ${
-                isScrolled 
-                  ? 'text-gray-500 dark:text-gray-400' 
-                  : 'text-gray-100 font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]'
-              }`}>
+              </span>
+              <span className={cn(
+                "text-[10px] font-medium tracking-[0.2em] uppercase transition-colors",
+                !isScrolled && location.pathname === '/' ? "text-white/70" : "text-muted-foreground"
+              )}>
                 Premium Solutions
-              </p>
+              </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
-                to={link.path + link.hash}
-                onClick={(e) => handleNavClick(e, link.hash)}
-                className={`font-medium transition-all duration-300 hover:scale-105 ${
-                  isScrolled 
-                    ? 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400' 
-                    : 'text-white hover:text-white/80 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]'
-                }`}
+                to={link.path}
+                onClick={(e) => handleNavClick(e, link.path)}
+                className={cn(
+                  "text-sm font-medium transition-all hover:text-primary relative group",
+                  !isScrolled && location.pathname === '/' ? "text-white/90" : "text-foreground/80"
+                )}
               >
                 {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
               </Link>
             ))}
           </div>
 
-          {/* CTA Buttons */}
-          <div className="hidden lg:flex items-center space-x-4">
+          {/* Actions */}
+          <div className="flex items-center gap-2 md:gap-4">
             <button
               onClick={toggleTheme}
-              className="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-all"
+              className={cn(
+                "p-2 rounded-full transition-all hover:bg-accent/50",
+                !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
+              )}
               aria-label="Toggle theme"
             >
-              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              <AnimatePresence mode="wait">
+                {theme === 'dark' ? (
+                  <motion.div
+                    key="sun"
+                    initial={{ scale: 0.5, rotate: -45, opacity: 0 }}
+                    animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                    exit={{ scale: 0.5, rotate: 45, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Sun className="w-5 h-5" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="moon"
+                    initial={{ scale: 0.5, rotate: 45, opacity: 0 }}
+                    animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                    exit={{ scale: 0.5, rotate: -45, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Moon className="w-5 h-5" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </button>
+
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-all"
+              className={cn(
+                "p-2 rounded-full transition-all hover:bg-accent/50 relative",
+                !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
+              )}
             >
               <ShoppingCart className="w-5 h-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
             </button>
+
             <Link
               to="/shop"
-              className="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all flex items-center space-x-2"
+              className="hidden sm:flex bg-primary text-primary-foreground px-5 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all items-center gap-2"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Belanja</span>
             </Link>
-          </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`lg:hidden p-2 rounded-lg transition-colors duration-300 ${
-              isScrolled 
-                ? 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800' 
-                : 'text-white hover:bg-white/10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]'
-            }`}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={cn(
+                "lg:hidden p-2 rounded-full transition-all hover:bg-accent/50",
+                !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
+              )}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -136,49 +170,49 @@ const Navbar: React.FC = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="lg:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-xl overflow-hidden"
           >
-            <div className="container mx-auto px-4 py-4 space-y-2">
+            <div className="container mx-auto px-4 py-6 space-y-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
-                  to={link.path + link.hash}
-                  onClick={(e) => handleNavClick(e, link.hash)}
-                  className="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg font-medium"
+                  to={link.path}
+                  onClick={(e) => handleNavClick(e, link.path)}
+                  className="block px-4 py-3 text-lg font-medium text-foreground/80 hover:text-primary hover:bg-accent rounded-xl transition-all"
                 >
                   {link.name}
                 </Link>
               ))}
-              <button
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  setIsCartOpen(true);
-                }}
-                className="w-full text-left px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg font-medium flex items-center justify-between"
-              >
-                <span>Keranjang</span>
-                {cartCount > 0 && (
-                  <span className="bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </button>
-              <Link
-                to="/shop"
-                className="block mt-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold text-center"
-              >
-                Belanja Sekarang
-              </Link>
-              <button
-                onClick={toggleTheme}
-                className="w-full text-left px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg font-medium flex items-center justify-between"
-              >
-                <span>Mode {theme === 'dark' ? 'Terang' : 'Gelap'}</span>
-                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </button>
+              <div className="pt-4 border-t border-border flex flex-col gap-3">
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsCartOpen(true);
+                  }}
+                  className="flex items-center justify-between px-4 py-3 text-lg font-medium text-foreground/80 hover:bg-accent rounded-xl transition-all"
+                >
+                  <span>Keranjang</span>
+                  <div className="flex items-center gap-2">
+                    <ShoppingCart className="w-5 h-5" />
+                    {cartCount > 0 && (
+                      <span className="bg-primary text-primary-foreground text-xs font-bold rounded-full px-2 py-0.5">
+                        {cartCount}
+                      </span>
+                    )}
+                  </div>
+                </button>
+                <Link
+                  to="/shop"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full bg-primary text-primary-foreground px-6 py-4 rounded-xl font-bold text-center shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+                >
+                  <ShoppingBag className="w-5 h-5" />
+                  Belanja Sekarang
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}
@@ -188,74 +222,86 @@ const Navbar: React.FC = () => {
       <AnimatePresence>
         {isCartOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsCartOpen(false)}
-              className="fixed inset-0 bg-black/50 z-[100]"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
             />
             
-            {/* Cart Panel */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25 }}
-              className="fixed right-0 top-0 h-full w-full max-w-md bg-white dark:bg-gray-900 z-[101] shadow-2xl flex flex-col"
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="fixed right-0 top-0 h-full w-full max-w-md bg-background z-[101] shadow-2xl flex flex-col border-l border-border"
             >
-              {/* Header */}
-              <div className="p-6 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+              <div className="p-6 border-b border-border flex items-center justify-between bg-accent/20">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Keranjang</h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{cartCount} item</p>
+                  <h2 className="text-xl font-bold text-foreground">Keranjang Belanja</h2>
+                  <p className="text-sm text-muted-foreground">{cartCount} items</p>
                 </div>
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  className="p-2 hover:bg-accent rounded-full transition-colors"
                 >
-                  <X className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+                  <X className="w-6 h-6" />
                 </button>
               </div>
 
-              {/* Cart Items */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-4">
+              <div className="flex-1 overflow-y-auto p-6 space-y-6">
                 {cart.length === 0 ? (
-                  <div className="text-center py-12">
-                    <ShoppingCart className="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-                    <p className="text-gray-500 dark:text-gray-400">Keranjang kosong</p>
+                  <div className="h-full flex flex-col items-center justify-center text-center opacity-50">
+                    <div className="bg-accent p-6 rounded-full mb-4">
+                      <ShoppingCart className="w-12 h-12 text-muted-foreground" />
+                    </div>
+                    <p className="text-lg font-medium text-foreground">Keranjang Anda kosong</p>
+                    <p className="text-sm text-muted-foreground mt-2">Mulai belanja untuk menambahkan item</p>
+                    <Link
+                      to="/shop"
+                      onClick={() => setIsCartOpen(false)}
+                      className="mt-6 text-primary font-bold hover:underline"
+                    >
+                      Lihat Produk
+                    </Link>
                   </div>
                 ) : (
                   cart.map((item) => (
-                    <div key={item.id} className="flex gap-4 bg-gray-50 dark:bg-gray-800 p-4 rounded-xl">
-                      <img
-                        src={item.image_url || '/placeholder.jpg'}
-                        alt={item.title}
-                        className="w-20 h-20 object-cover rounded-lg"
-                      />
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 dark:text-white line-clamp-1">{item.title}</h3>
-                        <p className="text-sm text-purple-600 dark:text-purple-400 font-bold mt-1">
-                          Rp {new Intl.NumberFormat('id-ID').format(item.price)}
-                        </p>
-                        <div className="flex items-center gap-2 mt-2">
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="w-7 h-7 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-                          >
-                            -
-                          </button>
-                          <span className="w-8 text-center font-semibold text-gray-900 dark:text-white">{item.quantity}</span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-7 h-7 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-                          >
-                            +
-                          </button>
+                    <div key={item.id} className="flex gap-4 p-4 rounded-2xl border border-border bg-card/50 hover:bg-accent/10 transition-colors group">
+                      <div className="relative w-20 h-20 overflow-hidden rounded-xl border border-border">
+                        <img
+                          src={item.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=200'}
+                          alt={item.title}
+                          className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                        />
+                      </div>
+                      <div className="flex-1 flex flex-col justify-between">
+                        <div>
+                          <h3 className="font-semibold text-foreground line-clamp-1">{item.title}</h3>
+                          <p className="text-primary font-bold mt-0.5">
+                            Rp {new Intl.NumberFormat('id-ID').format(item.price)}
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between mt-2">
+                          <div className="flex items-center bg-accent rounded-lg border border-border">
+                            <button
+                              onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}
+                              className="w-8 h-8 flex items-center justify-center hover:bg-primary/10 transition-colors rounded-l-lg"
+                            >
+                              -
+                            </button>
+                            <span className="w-8 text-center text-sm font-bold">{item.quantity}</span>
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              className="w-8 h-8 flex items-center justify-center hover:bg-primary/10 transition-colors rounded-r-lg"
+                            >
+                              +
+                            </button>
+                          </div>
                           <button
                             onClick={() => removeFromCart(item.id)}
-                            className="ml-auto text-red-500 hover:text-red-600 text-sm font-medium"
+                            className="text-destructive hover:text-destructive/80 text-xs font-bold"
                           >
                             Hapus
                           </button>
@@ -266,22 +312,20 @@ const Navbar: React.FC = () => {
                 )}
               </div>
 
-              {/* Footer */}
               {cart.length > 0 && (
-                <div className="p-6 border-t border-gray-200 dark:border-gray-800 space-y-4">
+                <div className="p-6 border-t border-border bg-accent/10 space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-semibold text-gray-900 dark:text-white">Total</span>
-                    <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span className="text-2xl font-bold text-primary">
                       Rp {new Intl.NumberFormat('id-ID').format(cartTotal)}
                     </span>
                   </div>
                   <button
                     onClick={() => {
-                      window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${encodeURIComponent(
-                        `Halo, saya ingin memesan:\n\n${cart.map(item => `${item.title} (${item.quantity}x) - Rp ${new Intl.NumberFormat('id-ID').format(item.price * item.quantity)}`).join('\n')}\n\nTotal: Rp ${new Intl.NumberFormat('id-ID').format(cartTotal)}`
-                      )}`, '_blank');
+                      const message = `Halo IT Support Bekasi, saya ingin memesan:\n\n${cart.map(item => `- ${item.title} (${item.quantity}x) - Rp ${new Intl.NumberFormat('id-ID').format(item.price * item.quantity)}`).join('\n')}\n\nTotal: Rp ${new Intl.NumberFormat('id-ID').format(cartTotal)}`;
+                      window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${encodeURIComponent(message)}`, '_blank');
                     }}
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-4 rounded-xl font-bold hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-primary text-primary-foreground py-4 rounded-xl font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
                   >
                     <MessageSquare className="w-5 h-5" />
                     Checkout via WhatsApp

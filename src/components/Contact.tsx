@@ -1,117 +1,153 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react';
-import { CONTACT_INFO } from '@/constants';
+import { Send, MapPin, Phone, Mail, Clock, MessageSquare, CheckCircle2 } from 'lucide-react';
+import { CONTACT_INFO, CONTENT } from '../constants';
+import { useApp } from '../context/AppContext';
+import { cn } from '../lib/utils';
+import { toast } from 'sonner';
 
 const Contact: React.FC = () => {
-  const contactMethods = [
-    {
-      icon: MapPin,
-      title: 'Alamat',
-      content: CONTACT_INFO.address,
-      color: 'from-blue-500 to-blue-600',
-    },
-    {
-      icon: Phone,
-      title: 'WhatsApp',
-      content: '+62 812-3456-7890',
-      link: `https://wa.me/${CONTACT_INFO.whatsapp}`,
-      color: 'from-green-500 to-green-600',
-    },
-    {
-      icon: Mail,
-      title: 'Email',
-      content: CONTACT_INFO.email,
-      link: `mailto:${CONTACT_INFO.email}`,
-      color: 'from-purple-500 to-purple-600',
-    },
-    {
-      icon: Clock,
-      title: 'Jam Operasional',
-      content: 'Senin - Sabtu, 09:00 - 18:00',
-      color: 'from-orange-500 to-orange-600',
-    },
+  const { language } = useApp();
+  const content = CONTENT[language].contact;
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      toast.success(content.form.success, {
+        description: content.form.successDesc
+      });
+      setFormData({ name: '', email: '', message: '' });
+    }, 1500);
+  };
+
+  const contactItems = [
+    { icon: <Phone />, label: content.items[0], value: `+${CONTACT_INFO.whatsapp}`, action: () => window.open(`https://wa.me/${CONTACT_INFO.whatsapp}`) },
+    { icon: <Mail />, label: content.items[1], value: CONTACT_INFO.email, action: () => window.location.href = `mailto:${CONTACT_INFO.email}` },
+    { icon: <MapPin />, label: content.items[2], value: CONTACT_INFO.address, action: () => window.open(CONTACT_INFO.mapsUrl) },
+    { icon: <Clock />, label: content.items[3], value: "09:00 - 21:00 WIB", action: null }
   ];
 
   return (
-    <section id="contact" className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center space-x-2 bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full mb-4">
-            <MessageCircle className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">Hubungi Kami</span>
-          </div>
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Siap Membantu <span className="text-blue-600">Anda</span>
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Ada pertanyaan? Kami siap membantu Anda 24/7
-          </p>
-        </motion.div>
-
-        {/* Contact Methods Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {contactMethods.map((method, index) => (
+    <section id="contact" className="py-24 relative">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          {/* Info Side */}
+          <div className="flex flex-col">
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
+              className="mb-12"
             >
-              {method.link ? (
-                <a
-                  href={method.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block group bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:scale-105"
-                >
-                  <div className={`w-12 h-12 bg-gradient-to-br ${method.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                    <method.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">{method.title}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{method.content}</p>
-                </a>
-              ) : (
-                <div className="group bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-                  <div className={`w-12 h-12 bg-gradient-to-br ${method.color} rounded-xl flex items-center justify-center mb-4`}>
-                    <method.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">{method.title}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{method.content}</p>
-                </div>
-              )}
+              <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-4">
+                {content.label}
+              </span>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
+                {content.title}
+              </h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                {content.desc}
+              </p>
             </motion.div>
-          ))}
-        </div>
 
-        {/* WhatsApp CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="bg-gradient-to-r from-green-500 to-green-600 rounded-3xl p-12 text-white text-center"
-        >
-          <MessageCircle className="w-16 h-16 mx-auto mb-6" />
-          <h3 className="text-3xl font-bold mb-4">Konsultasi Gratis via WhatsApp</h3>
-          <p className="text-xl mb-8 opacity-90">Tanya langsung, respon cepat!</p>
-          <a
-            href={`https://wa.me/${CONTACT_INFO.whatsapp}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-white text-green-600 px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all"
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {contactItems.map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  onClick={item.action || undefined}
+                  className={cn(
+                    "p-6 rounded-2xl border border-border bg-card/50 transition-all group",
+                    item.action ? "hover:bg-accent hover:border-primary/30 cursor-pointer" : ""
+                  )}
+                >
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+                    {item.icon}
+                  </div>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground font-bold mb-1">{item.label}</p>
+                  <p className="text-foreground font-semibold break-words">{item.value}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Form Side */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="relative"
           >
-            Chat via WhatsApp
-          </a>
-        </motion.div>
+            <div className="absolute -inset-4 bg-linear-to-r from-primary/10 to-purple-500/10 rounded-[3rem] blur-3xl -z-10"></div>
+            <div className="bg-card border border-border rounded-[2.5rem] p-8 md:p-12 shadow-2xl elegant-shadow">
+              <h3 className="text-2xl font-bold mb-8">{content.form.title}</h3>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-muted-foreground uppercase tracking-wider">{content.form.name}</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="John Doe"
+                    className="w-full bg-accent/50 border border-border rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-muted-foreground uppercase tracking-wider">{content.form.email}</label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="john@example.com"
+                    className="w-full bg-accent/50 border border-border rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-muted-foreground uppercase tracking-wider">{content.form.msg}</label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="Apa yang bisa kami bantu?"
+                    className="w-full bg-accent/50 border border-border rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden resize-none"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-primary text-primary-foreground py-5 rounded-2xl font-bold shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-70"
+                >
+                  {isSubmitting ? (
+                    <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      <span>{content.form.submit}</span>
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

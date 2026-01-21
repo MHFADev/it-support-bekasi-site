@@ -143,7 +143,7 @@ const Navbar: React.FC = () => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={cn(
                 "xl:hidden p-2 rounded-xl transition-all hover:bg-accent/50",
-                !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
+                isMenuOpen || isScrolled || location.pathname !== '/' ? "text-foreground" : "text-primary"
               )}
             >
               <div className="relative w-6 h-6">

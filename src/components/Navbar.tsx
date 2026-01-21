@@ -57,9 +57,13 @@ const Navbar: React.FC = () => {
           <Link to="/" className="flex items-center gap-2 group flex-shrink-0">
             <div className="relative">
               <div className="absolute -inset-2 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-              <Laptop className="w-7 h-7 sm:w-8 sm:h-8 text-primary relative" />
+              <img 
+                src="https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/Logo.png" 
+                alt="IT Support Bekasi Logo" 
+                className="w-10 h-10 sm:w-12 sm:h-12 object-contain relative transition-transform group-hover:scale-110"
+              />
             </div>
-            <div className="flex flex-col leading-none">
+            <div className="flex flex-col leading-tight">
               <span className="text-lg sm:text-xl font-black tracking-tighter text-primary">
                 IT SUPPORT
               </span>

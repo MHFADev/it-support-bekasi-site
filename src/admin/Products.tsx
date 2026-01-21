@@ -9,9 +9,21 @@ import {
   X, 
   Loader2,
   Image as ImageIcon,
-  Check
+  Check,
+  Cpu,
+  HardDrive,
+  Monitor,
+  ExternalLink,
+  ChevronDown,
+  ChevronUp,
+  AlertCircle
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+
+interface Specification {
+  label: string;
+  value: string;
+}
 
 interface Product {
   id: string;
@@ -22,7 +34,8 @@ interface Product {
   image_path?: string;
   category: string;
   stock_status: string;
-  specifications: any[];
+  specifications: Specification[];
+  created_at?: string;
 }
 
 const AdminProducts: React.FC = () => {
@@ -42,6 +55,7 @@ const AdminProducts: React.FC = () => {
     image_path: '',
     stock_status: 'in_stock',
   });
+  const [specifications, setSpecifications] = useState<Specification[]>([]);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -49,7 +63,6 @@ const AdminProducts: React.FC = () => {
     initializeStorageBucket();
     fetchProducts();
     
-    // Setup realtime subscription for products
     const channel = supabase
       .channel('products-changes')
       .on(
@@ -60,39 +73,26 @@ const AdminProducts: React.FC = () => {
           table: 'products'
         },
         (payload) => {
-          console.log('📡 Realtime change detected:', payload);
-          
           if (payload.eventType === 'INSERT') {
             setProducts((prev) => {
-              if (prev.some(p => p.id === payload.new.id)) {
-                return prev;
-              }
+              if (prev.some(p => p.id === payload.new.id)) return prev;
               return [payload.new as Product, ...prev];
             });
-            toast.success('✨ Produk baru ditambahkan', { icon: '📦' });
+            toast.success('✨ Produk baru ditambahkan');
           } else if (payload.eventType === 'UPDATE') {
             setProducts((prev) =>
               prev.map((p) => (p.id === payload.new.id ? (payload.new as Product) : p))
             );
-            toast.success('✅ Produk diperbarui', { icon: '📝' });
+            toast.success('✅ Produk diperbarui');
           } else if (payload.eventType === 'DELETE') {
             setProducts((prev) => prev.filter((p) => p.id !== payload.old.id));
-            toast.success('🗑️ Produk dihapus', { icon: '✅' });
+            toast.success('🗑️ Produk dihapus');
           }
         }
       )
-      .subscribe((status) => {
-        console.log('📡 Realtime subscription status:', status);
-        if (status === 'SUBSCRIBED') {
-          console.log('✅ Successfully subscribed to products realtime updates');
-        } else if (status === 'CHANNEL_ERROR') {
-          console.error('❌ Realtime subscription error');
-          toast.error('Realtime updates gagal. Refresh halaman untuk melihat perubahan.');
-        }
-      });
+      .subscribe();
 
     return () => {
-      console.log('🔌 Unsubscribing from realtime channel');
       supabase.removeChannel(channel);
     };
   }, []);
@@ -124,6 +124,7 @@ const AdminProducts: React.FC = () => {
         image_path: product.image_path || '',
         stock_status: product.stock_status,
       });
+      setSpecifications(product.specifications || []);
     } else {
       setEditingProduct(null);
       setFormData({
@@ -135,9 +136,29 @@ const AdminProducts: React.FC = () => {
         image_path: '',
         stock_status: 'in_stock',
       });
+      setSpecifications([
+        { label: 'Processor', value: '' },
+        { label: 'RAM', value: '' },
+        { label: 'Storage', value: '' },
+        { label: 'Display', value: '' }
+      ]);
     }
     setImageFile(null);
     setIsModalOpen(true);
+  };
+
+  const addSpecification = () => {
+    setSpecifications([...specifications, { label: '', value: '' }]);
+  };
+
+  const removeSpecification = (index: number) => {
+    setSpecifications(specifications.filter((_, i) => i !== index));
+  };
+
+  const updateSpecification = (index: number, field: keyof Specification, value: string) => {
+    const newSpecs = [...specifications];
+    newSpecs[index][field] = value;
+    setSpecifications(newSpecs);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -149,15 +170,13 @@ const AdminProducts: React.FC = () => {
       let finalImagePath = formData.image_path;
 
       if (imageFile) {
-        toast.loading('Mengoptimalkan & mengunggah gambar...', { id: 'upload' });
-        
+        toast.loading('Mengunggah gambar...', { id: 'upload' });
         try {
           const uploadResult = await uploadImageToSupabase(imageFile);
           finalImageUrl = uploadResult.url;
           finalImagePath = uploadResult.path;
           toast.success('Gambar berhasil diunggah', { id: 'upload' });
         } catch (uploadError: any) {
-          console.error('Upload error details:', uploadError);
           toast.error(`Upload gagal: ${uploadError.message}`, { id: 'upload' });
           throw uploadError;
         }
@@ -171,6 +190,7 @@ const AdminProducts: React.FC = () => {
         image_url: finalImageUrl,
         image_path: finalImagePath,
         stock_status: formData.stock_status,
+        specifications: specifications.filter(s => s.label && s.value),
         updated_at: new Date().toISOString(),
       };
 
@@ -209,7 +229,6 @@ const AdminProducts: React.FC = () => {
       if (error) throw error;
       toast.success('Produk berhasil dihapus');
     } catch (error: any) {
-      console.error('Delete error:', error);
       toast.error('Gagal menghapus produk');
     }
   };
@@ -217,7 +236,6 @@ const AdminProducts: React.FC = () => {
   const handleToggleStatus = async (id: string, currentStatus: string) => {
     try {
       const newStatus = currentStatus === 'in_stock' ? 'out_of_stock' : 'in_stock';
-      
       const { error } = await supabase
         .from('products')
         .update({ 
@@ -225,16 +243,8 @@ const AdminProducts: React.FC = () => {
           updated_at: new Date().toISOString()
         })
         .eq('id', id);
-      
       if (error) throw error;
-      
-      setProducts(prev => prev.map(p => 
-        p.id === id ? { ...p, stock_status: newStatus } : p
-      ));
-      
-      toast.success(`Status berubah ke ${newStatus === 'in_stock' ? 'Stok Ada' : 'Habis'}`);
-    } catch (error: any) {
-      console.error('Toggle status error:', error);
+    } catch (error) {
       toast.error('Gagal mengubah status');
     }
   };
@@ -245,28 +255,17 @@ const AdminProducts: React.FC = () => {
   );
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="space-y-6 pb-20">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-white dark:bg-slate-800 p-6 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Manajemen Produk</h1>
-          <p className="text-muted-foreground">Tambah, edit, atau hapus inventaris laptop dan hardware.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Manajemen Inventaris</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Kelola produk laptop dan hardware IT Solutions Anda.</p>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <button 
-            onClick={async () => {
-              if (confirm('PERINGATAN: Ini akan menghapus SEMUA produk dari database. Apakah Anda yakin?')) {
-                const { error } = await supabase.from('products').delete().neq('id', '0');
-                if (error) toast.error('Gagal menghapus semua produk');
-                else toast.success('Semua produk berhasil dihapus');
-              }
-            }}
-            className="px-4 py-2 border border-destructive/20 text-destructive hover:bg-destructive/10 rounded-xl text-xs font-bold uppercase tracking-widest transition-all"
-          >
-            Hapus Semua
-          </button>
+        <div className="flex gap-3">
           <button 
             onClick={() => handleOpenModal()}
-            className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-lg shadow-primary/25"
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold transition-all shadow-lg shadow-blue-500/20 active:scale-95"
           >
             <Plus size={20} />
             <span>Tambah Produk</span>
@@ -274,99 +273,130 @@ const AdminProducts: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-card rounded-2xl border border-border overflow-hidden">
-        <div className="p-6 border-b border-border">
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
+      {/* Stats Quick View (Mock for better look) */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {[
+          { label: 'Total Produk', value: products.length, icon: ImageIcon, color: 'blue' },
+          { label: 'Stok Tersedia', value: products.filter(p => p.stock_status === 'in_stock').length, icon: Check, color: 'green' },
+          { label: 'Stok Habis', value: products.filter(p => p.stock_status !== 'in_stock').length, icon: AlertCircle, color: 'red' },
+          { label: 'Kategori', value: new Set(products.map(p => p.category)).size, icon: Search, color: 'purple' },
+        ].map((stat, i) => (
+          <div key={i} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-gray-100 dark:border-slate-700 flex items-center gap-4">
+            <div className={`w-12 h-12 rounded-xl bg-${stat.color}-100 dark:bg-${stat.color}-900/30 flex items-center justify-center text-${stat.color}-600 dark:text-${stat.color}-400`}>
+              <stat.icon size={24} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</p>
+              <p className="text-xl font-bold text-gray-900 dark:text-white">{stat.value}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Table Section */}
+      <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div className="p-5 border-b border-gray-100 dark:border-slate-700 flex flex-col md:flex-row gap-4 justify-between items-center">
+          <div className="relative w-full md:w-96">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input 
               type="text" 
-              placeholder="Cari produk..." 
+              placeholder="Cari berdasarkan nama atau kategori..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500/20 outline-none transition-all dark:text-white"
             />
+          </div>
+          <div className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+            Menampilkan {filteredProducts.length} dari {products.length} produk
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="bg-accent/30 text-muted-foreground text-sm uppercase tracking-wider">
-              <tr>
-                <th className="px-6 py-4 font-semibold">Produk</th>
-                <th className="px-6 py-4 font-semibold">Kategori</th>
-                <th className="px-6 py-4 font-semibold">Harga</th>
-                <th className="px-6 py-4 font-semibold">Status</th>
-                <th className="px-6 py-4 font-semibold text-right">Aksi</th>
+          <table className="w-full">
+            <thead>
+              <tr className="bg-gray-50 dark:bg-slate-900/50 text-gray-500 dark:text-gray-400 text-xs font-bold uppercase tracking-wider">
+                <th className="px-6 py-4 text-left">Detail Produk</th>
+                <th className="px-6 py-4 text-left">Kategori</th>
+                <th className="px-6 py-4 text-left">Harga</th>
+                <th className="px-6 py-4 text-left">Status</th>
+                <th className="px-6 py-4 text-right">Aksi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-gray-100 dark:divide-slate-700">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center">
-                    <Loader2 className="animate-spin mx-auto text-primary" size={32} />
+                  <td colSpan={5} className="px-6 py-20 text-center">
+                    <Loader2 className="animate-spin mx-auto text-blue-600" size={40} />
+                    <p className="mt-4 text-gray-500">Memuat data...</p>
                   </td>
                 </tr>
               ) : filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground">
-                    Tidak ada produk ditemukan.
+                  <td colSpan={5} className="px-6 py-20 text-center">
+                    <div className="w-20 h-20 bg-gray-50 dark:bg-slate-900 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300">
+                      <Search size={32} />
+                    </div>
+                    <p className="text-gray-500 font-medium">Tidak ada produk yang sesuai dengan pencarian Anda.</p>
                   </td>
                 </tr>
               ) : (
                 filteredProducts.map((product) => (
-                  <tr key={product.id} className="hover:bg-accent/10 transition-colors">
+                  <tr key={product.id} className="group hover:bg-gray-50 dark:hover:bg-slate-900/30 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 rounded-lg overflow-hidden bg-accent/20 border border-border flex items-center justify-center">
+                      <div className="flex items-center gap-4">
+                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 dark:bg-slate-700 flex-shrink-0 border border-gray-100 dark:border-slate-600 shadow-sm">
                           {product.image_url ? (
-                            <img src={product.image_url} alt={product.title} className="w-full h-full object-cover" />
+                            <img src={product.image_url} alt={product.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-muted-foreground/30">
-                              <ImageIcon size={20} />
+                            <div className="w-full h-full flex items-center justify-center text-gray-300">
+                              <ImageIcon size={24} />
                             </div>
                           )}
                         </div>
-                        <div>
-                          <p className="font-semibold text-foreground">{product.title}</p>
-                          <p className="text-xs text-muted-foreground line-clamp-1">{product.description}</p>
+                        <div className="min-w-0">
+                          <p className="font-bold text-gray-900 dark:text-white truncate group-hover:text-blue-600 transition-colors">{product.title}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1 mt-0.5">{product.description}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="px-3 py-1 bg-accent/50 rounded-full text-xs font-medium text-muted-foreground">
-                        {product.category || 'N/A'}
+                      <span className="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg text-xs font-bold uppercase tracking-wider">
+                        {product.category || 'General'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-medium text-foreground">
-                      Rp {new Intl.NumberFormat('id-ID').format(product.price)}
+                    <td className="px-6 py-4">
+                      <p className="font-bold text-gray-900 dark:text-white">
+                        Rp {new Intl.NumberFormat('id-ID').format(product.price)}
+                      </p>
                     </td>
                     <td className="px-6 py-4">
                       <button
                         onClick={() => handleToggleStatus(product.id, product.stock_status)}
-                        className={`flex items-center space-x-1 text-xs font-bold px-3 py-1.5 rounded-lg transition-all hover:scale-105 active:scale-95 ${
+                        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${
                           product.stock_status === 'in_stock' 
-                            ? 'text-green-600 bg-green-50 hover:bg-green-100' 
-                            : 'text-destructive bg-destructive/10 hover:bg-destructive/20'
+                            ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 hover:bg-green-200' 
+                            : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 hover:bg-red-200'
                         }`}
-                        title="Klik untuk ubah status"
                       >
-                        <div className={`w-1.5 h-1.5 rounded-full ${product.stock_status === 'in_stock' ? 'bg-green-500' : 'bg-destructive'}`}></div>
-                        <span>{product.stock_status === 'in_stock' ? 'Stok Ada' : 'Habis'}</span>
+                        <div className={`w-1.5 h-1.5 rounded-full ${product.stock_status === 'in_stock' ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                        {product.stock_status === 'in_stock' ? 'Ready Stock' : 'Out of Stock'}
                       </button>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end space-x-2">
+                      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => handleOpenModal(product)}
-                          className="p-2 text-muted-foreground hover:text-primary transition-colors"
+                          className="p-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-lg text-gray-600 dark:text-gray-400 hover:text-blue-600 hover:border-blue-600 transition-all shadow-sm"
+                          title="Edit Produk"
                         >
-                          <Edit2 size={18} />
+                          <Edit2 size={16} />
                         </button>
                         <button 
                           onClick={() => handleDelete(product.id)}
-                          className="p-2 text-muted-foreground hover:text-destructive transition-colors"
+                          className="p-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-lg text-gray-600 dark:text-gray-400 hover:text-red-600 hover:border-red-600 transition-all shadow-sm"
+                          title="Hapus Produk"
                         >
-                          <Trash2 size={18} />
+                          <Trash2 size={16} />
                         </button>
                       </div>
                     </td>
@@ -378,171 +408,226 @@ const AdminProducts: React.FC = () => {
         </div>
       </div>
 
+      {/* Modal Section */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-card w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col border border-border">
-            <div className="p-6 border-b border-border flex items-center justify-between bg-card">
-              <h3 className="text-xl font-bold text-foreground">{editingProduct ? 'Edit Produk' : 'Tambah Produk Baru'}</h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-muted-foreground hover:text-foreground"><X size={24} /></button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-md">
+          <div className="bg-white dark:bg-slate-800 w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col border border-gray-200 dark:border-slate-700 animate-in fade-in zoom-in duration-300">
+            <div className="px-8 py-6 border-b border-gray-100 dark:border-slate-700 flex items-center justify-between">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {editingProduct ? 'Edit Informasi Produk' : 'Buat Produk Baru'}
+                </h3>
+                <p className="text-sm text-gray-500 mt-1">Lengkapi detail spesifikasi untuk hasil terbaik di e-commerce.</p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(false)} 
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 dark:bg-slate-900 text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors"
+              >
+                <X size={24} />
+              </button>
             </div>
             
-            <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-foreground">Nama Produk</label>
-                  <input 
-                    required
-                    type="text" 
-                    value={formData.title}
-                    onChange={(e) => setFormData({...formData, title: e.target.value})}
-                    className="w-full px-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none text-foreground"
-                    placeholder="Contoh: Laptop ASUS Vivobook"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-foreground">Harga (Rp)</label>
-                  <input 
-                    required
-                    type="number" 
-                    value={formData.price}
-                    onChange={(e) => setFormData({...formData, price: e.target.value})}
-                    className="w-full px-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none text-foreground"
-                    placeholder="0"
-                  />
-                </div>
-              </div>
+            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto">
+              <div className="p-8 space-y-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Left Column: Basic Info */}
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Nama Produk</label>
+                      <input 
+                        required
+                        type="text" 
+                        value={formData.title}
+                        onChange={(e) => setFormData({...formData, title: e.target.value})}
+                        className="w-full px-4 py-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500/20 outline-none dark:text-white transition-all"
+                        placeholder="Contoh: MacBook Pro M3 Max"
+                      />
+                    </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-foreground">Deskripsi</label>
-                <textarea 
-                  required
-                  rows={4}
-                  value={formData.description}
-                  onChange={(e) => setFormData({...formData, description: e.target.value})}
-                  className="w-full px-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none resize-none text-foreground"
-                  placeholder="Detail spesifikasi dan kondisi..."
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-foreground">Kategori</label>
-                  <select 
-                    value={formData.category}
-                    onChange={(e) => setFormData({...formData, category: e.target.value})}
-                    className="w-full px-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none text-foreground"
-                  >
-                    <option value="">Pilih Kategori</option>
-                    <option value="Laptop">Laptop</option>
-                    <option value="PC Desktop">PC Desktop</option>
-                    <option value="Aksesoris">Aksesoris</option>
-                    <option value="Hardware">Hardware</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-foreground">Status Stok</label>
-                  <select 
-                    value={formData.stock_status}
-                    onChange={(e) => setFormData({...formData, stock_status: e.target.value})}
-                    className="w-full px-4 py-2 bg-accent/30 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none text-foreground"
-                  >
-                    <option value="in_stock">Stok Ada</option>
-                    <option value="out_of_stock">Habis</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-semibold flex items-center gap-2 text-foreground">
-                  <ImageIcon size={16} className="text-primary" />
-                  Gambar Produk
-                  <span className="text-destructive">*</span>
-                </label>
-                <div className="flex items-center gap-6">
-                  <div className="w-40 h-40 rounded-3xl border-2 border-dashed border-border flex items-center justify-center overflow-hidden bg-accent/30 transition-all hover:border-primary/50 relative group">
-                    {imageFile ? (
-                      <>
-                        <img src={URL.createObjectURL(imageFile)} alt="Preview" className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                          <button 
-                            type="button"
-                            onClick={() => setImageFile(null)}
-                            className="bg-destructive text-white p-2 rounded-full hover:bg-destructive/80 transition-colors"
-                          >
-                            <X size={20} />
-                          </button>
-                        </div>
-                      </>
-                    ) : formData.image_url ? (
-                      <>
-                        <img src={formData.image_url} alt="Current" className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                          <span className="text-white text-xs font-semibold">Gambar Saat Ini</span>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="flex flex-col items-center gap-2">
-                        <ImageIcon className="text-muted-foreground/30" size={32} />
-                        <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">No Image</span>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Harga (Rp)</label>
+                        <input 
+                          required
+                          type="number" 
+                          value={formData.price}
+                          onChange={(e) => setFormData({...formData, price: e.target.value})}
+                          className="w-full px-4 py-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500/20 outline-none dark:text-white transition-all"
+                          placeholder="0"
+                        />
                       </div>
-                    )}
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Kategori</label>
+                        <select 
+                          value={formData.category}
+                          onChange={(e) => setFormData({...formData, category: e.target.value})}
+                          className="w-full px-4 py-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500/20 outline-none dark:text-white transition-all appearance-none"
+                        >
+                          <option value="">Pilih Kategori</option>
+                          <option value="Laptop">Laptop</option>
+                          <option value="PC Desktop">PC Desktop</option>
+                          <option value="Aksesoris">Aksesoris</option>
+                          <option value="Hardware">Hardware</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Deskripsi Lengkap</label>
+                      <textarea 
+                        required
+                        rows={6}
+                        value={formData.description}
+                        onChange={(e) => setFormData({...formData, description: e.target.value})}
+                        className="w-full px-4 py-3 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500/20 outline-none dark:text-white transition-all resize-none"
+                        placeholder="Berikan deskripsi produk yang menarik..."
+                      />
+                    </div>
                   </div>
-                  <div className="flex-1 space-y-3">
-                    <input 
-                      type="file" 
-                      id="product-image"
-                      accept="image/jpeg,image/jpg,image/png,image/webp"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          if (file.size > 10 * 1024 * 1024) {
-                            alert('Ukuran file terlalu besar. Maksimal 10MB.');
-                            return;
-                          }
-                          setImageFile(file);
-                        }
-                      }}
-                      className="hidden"
-                    />
-                    <label 
-                      htmlFor="product-image"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 text-primary rounded-xl text-sm font-bold uppercase tracking-widest cursor-pointer hover:bg-primary/20 transition-all shadow-sm"
+
+                  {/* Right Column: Image & Status */}
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Gambar Produk</label>
+                      <div className="relative group">
+                        <div className="aspect-video rounded-3xl border-2 border-dashed border-gray-200 dark:border-slate-700 overflow-hidden bg-gray-50 dark:bg-slate-900 flex items-center justify-center transition-all group-hover:border-blue-500/50">
+                          {imageFile ? (
+                            <img src={URL.createObjectURL(imageFile)} alt="Preview" className="w-full h-full object-cover" />
+                          ) : formData.image_url ? (
+                            <img src={formData.image_url} alt="Current" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="flex flex-col items-center gap-2 text-gray-400">
+                              <ImageIcon size={48} />
+                              <span className="text-sm font-semibold">Belum ada gambar</span>
+                            </div>
+                          )}
+                          
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-4">
+                            <input 
+                              type="file" 
+                              id="product-image-upload"
+                              accept="image/*"
+                              onChange={(e) => e.target.files?.[0] && setImageFile(e.target.files[0])}
+                              className="hidden"
+                            />
+                            <label 
+                              htmlFor="product-image-upload"
+                              className="px-4 py-2 bg-white text-gray-900 rounded-xl font-bold text-sm cursor-pointer hover:bg-blue-600 hover:text-white transition-all shadow-xl"
+                            >
+                              Ganti Gambar
+                            </label>
+                            {(imageFile || formData.image_url) && (
+                              <button 
+                                type="button"
+                                onClick={() => { setImageFile(null); setFormData({...formData, image_url: ''}) }}
+                                className="px-4 py-2 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 transition-all shadow-xl"
+                              >
+                                Hapus
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Status Ketersediaan</label>
+                      <div className="grid grid-cols-2 gap-3">
+                        {[
+                          { id: 'in_stock', label: 'Tersedia', icon: Check, color: 'green' },
+                          { id: 'out_of_stock', label: 'Habis', icon: X, color: 'red' }
+                        ].map((status) => (
+                          <button
+                            key={status.id}
+                            type="button"
+                            onClick={() => setFormData({...formData, stock_status: status.id})}
+                            className={`flex items-center justify-center gap-2 py-3 rounded-2xl border-2 transition-all font-bold ${
+                              formData.stock_status === status.id 
+                                ? `bg-${status.color}-50 dark:bg-${status.color}-900/20 border-${status.color}-500 text-${status.color}-600 dark:text-${status.color}-400`
+                                : 'bg-gray-50 dark:bg-slate-900 border-transparent text-gray-400'
+                            }`}
+                          >
+                            <status.icon size={18} />
+                            <span>{status.label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Specifications Section */}
+                <div className="space-y-4 pt-4 border-t border-gray-100 dark:border-slate-700">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <Cpu className="text-blue-500" size={20} />
+                        Spesifikasi Teknis
+                      </h4>
+                      <p className="text-sm text-gray-500">Tambahkan detail hardware seperti Processor, RAM, GPU, dll.</p>
+                    </div>
+                    <button 
+                      type="button"
+                      onClick={addSpecification}
+                      className="px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl text-sm font-bold hover:bg-blue-600 hover:text-white transition-all"
                     >
-                      <ImageIcon size={18} />
-                      {imageFile || formData.image_url ? 'Ganti Gambar' : 'Pilih Gambar'}
-                    </label>
-                    <p className="text-xs text-muted-foreground font-medium leading-relaxed">
-                      ✓ Format: JPG, PNG, atau WebP<br />
-                      ✓ Maksimal 10MB<br />
-                      ✓ Resolusi optimal: 800x800px<br />
-                      <span className="text-primary">→ Gambar akan dioptimalkan otomatis</span>
-                    </p>
+                      + Tambah Baris
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {specifications.map((spec, index) => (
+                      <div key={index} className="flex gap-2 items-center bg-gray-50 dark:bg-slate-900/50 p-3 rounded-2xl border border-gray-100 dark:border-slate-700 animate-in slide-in-from-left duration-300">
+                        <input 
+                          type="text" 
+                          placeholder="Label (ex: RAM)"
+                          value={spec.label}
+                          onChange={(e) => updateSpecification(index, 'label', e.target.value)}
+                          className="flex-1 bg-white dark:bg-slate-800 border-none rounded-lg px-3 py-2 text-sm dark:text-white outline-none focus:ring-1 focus:ring-blue-500"
+                        />
+                        <input 
+                          type="text" 
+                          placeholder="Value (ex: 16GB)"
+                          value={spec.value}
+                          onChange={(e) => updateSpecification(index, 'value', e.target.value)}
+                          className="flex-1 bg-white dark:bg-slate-800 border-none rounded-lg px-3 py-2 text-sm dark:text-white outline-none focus:ring-1 focus:ring-blue-500"
+                        />
+                        <button 
+                          type="button"
+                          onClick={() => removeSpecification(index)}
+                          className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              <div className="flex gap-4 pt-4">
+              {/* Footer Actions */}
+              <div className="px-8 py-6 bg-gray-50 dark:bg-slate-900/50 border-t border-gray-100 dark:border-slate-700 flex gap-4">
                 <button 
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="flex-1 px-6 py-3 border border-border rounded-xl hover:bg-accent/50 transition-colors font-semibold text-foreground"
+                  className="px-6 py-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 transition-all"
                 >
                   Batal
                 </button>
                 <button 
                   disabled={isSubmitting}
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all font-semibold disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold shadow-xl shadow-blue-500/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="animate-spin" size={20} />
-                      <span>Menyimpan...</span>
+                      <span>Memproses Data...</span>
                     </>
                   ) : (
                     <>
                       <Check size={20} />
-                      <span>{editingProduct ? 'Simpan Perubahan' : 'Tambah Produk'}</span>
+                      <span>{editingProduct ? 'Simpan Perubahan' : 'Terbitkan Produk'}</span>
                     </>
                   )}
                 </button>
@@ -556,3 +641,4 @@ const AdminProducts: React.FC = () => {
 };
 
 export default AdminProducts;
+

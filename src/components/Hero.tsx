@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
   return (
     <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden pt-20">
       {/* Background with subtle gradient */}
-      <div className="absolute inset-0 z-0 bg-[#F0F3F7]">
+      <div className="absolute inset-0 z-0 bg-accent/5 dark:bg-slate-950">
         <div className="absolute inset-0 bg-linear-to-b from-primary/5 to-transparent"></div>
       </div>
 
@@ -29,22 +29,20 @@ const Hero: React.FC = () => {
               <span className="text-sm font-bold">{content.badge}</span>
             </motion.div>
 
-            {/* Title */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#212121] mb-6 leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6 leading-tight"
             >
               {content.title}
             </motion.h1>
 
-            {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-base sm:text-lg text-[#6D7588] mb-10 max-w-xl leading-relaxed"
+              className="text-base sm:text-lg text-muted-foreground mb-10 max-w-xl leading-relaxed"
             >
               {content.desc}
             </motion.p>

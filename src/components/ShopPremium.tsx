@@ -64,13 +64,13 @@ const ShopPremium: React.FC = () => {
     <div className="min-h-screen pt-24 pb-20 bg-background">
       {/* Header Section */}
       <section className="relative py-12 mb-12 overflow-hidden">
-        <div className="absolute inset-0 bg-accent/5 -z-10"></div>
+        <div className="absolute inset-0 bg-accent/5 dark:bg-slate-900/50 -z-10"></div>
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-6"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-6 border border-primary/20"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Katalog Hardware</span>
@@ -130,7 +130,7 @@ const ShopPremium: React.FC = () => {
             <div className="flex bg-accent/50 p-1 rounded-xl border border-border">
               <button 
                 onClick={() => setViewMode('grid')}
-                className={cn("p-2 rounded-lg transition-all", viewMode === 'grid' ? "bg-white shadow-sm text-primary" : "text-muted-foreground")}
+                className={cn("p-2 rounded-lg transition-all", viewMode === 'grid' ? "bg-background shadow-sm text-primary" : "text-muted-foreground")}
               >
                 <Filter className="w-5 h-5" />
               </button>
@@ -180,7 +180,7 @@ const ShopPremium: React.FC = () => {
                   onClick={() => handleAddToCart(product)}
                 >
                   <div className={cn(
-                    "relative overflow-hidden rounded-2xl",
+                    "relative overflow-hidden rounded-2xl bg-accent/10",
                     viewMode === 'list' ? "w-48 h-48" : "aspect-square mb-5"
                   )}>
                     <img
@@ -189,7 +189,7 @@ const ShopPremium: React.FC = () => {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute top-4 left-4">
-                      <div className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-border text-primary">
+                      <div className="bg-background/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-border text-primary">
                         {product.category}
                       </div>
                     </div>

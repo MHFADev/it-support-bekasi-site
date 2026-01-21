@@ -97,7 +97,7 @@ const Services: React.FC = () => {
           </div>
           <button 
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-8 py-4 bg-white text-primary rounded-2xl font-bold hover:bg-gray-100 transition-colors flex items-center gap-2"
+            className="px-8 py-4 bg-background text-primary rounded-2xl font-bold hover:bg-accent transition-colors flex items-center gap-2"
           >
             <span>Hubungi Kami Sekarang</span>
             <ArrowRight className="w-5 h-5" />

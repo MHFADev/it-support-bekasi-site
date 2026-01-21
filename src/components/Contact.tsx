@@ -16,18 +16,28 @@ const Contact: React.FC = () => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const { blink } = await import('../lib/blink');
+      await blink.db.contactMessages.create({
+        id: crypto.randomUUID(),
+        ...formData,
+        status: 'unread'
+      });
+
       toast.success(content.form.success, {
         description: content.form.successDesc
       });
       setFormData({ name: '', email: '', message: '' });
-    }, 1500);
+    } catch (error) {
+      console.error('Error submitting message:', error);
+      toast.error('Gagal mengirim pesan. Silakan coba lagi.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactItems = [

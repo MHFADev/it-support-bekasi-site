@@ -8,18 +8,58 @@ import {
   MapPin, 
   Type,
   Image as ImageIcon,
-  Loader2
+  Loader2,
+  Database
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { blink } from '../lib/blink';
 
 const AdminSettings: React.FC = () => {
   const [settings, setSettings] = useState<any>({});
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isSeeding, setIsSeeding] = useState(false);
 
   useEffect(() => {
     fetchSettings();
   }, []);
+
+  const handleSeedData = async () => {
+    setIsSeeding(true);
+    try {
+      // Seed Page Views (Last 7 days)
+      const paths = ['/', '/shop', '/admin', '/product/1'];
+      const referrers = ['google.com', 'direct', 'facebook.com', 'twitter.com'];
+      
+      const seedViews = [];
+      for (let i = 0; i < 50; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() - Math.floor(Math.random() * 7));
+        seedViews.push({
+          id: crypto.randomUUID(),
+          path: paths[Math.floor(Math.random() * paths.length)],
+          referrer: referrers[Math.floor(Math.random() * referrers.length)],
+          device: Math.random() > 0.5 ? 'desktop' : 'mobile',
+          created_at: date.toISOString()
+        });
+      }
+      
+      await blink.db.pageViews.createMany(seedViews);
+
+      // Seed Messages
+      await blink.db.contactMessages.createMany([
+        { id: crypto.randomUUID(), name: 'Budi Santoso', email: 'budi@gmail.com', message: 'Tanya stok laptop ASUS ROG Zephyrus G14 apakah ready?', status: 'unread', created_at: new Date().toISOString() },
+        { id: crypto.randomUUID(), name: 'Ani Wijaya', email: 'ani@yahoo.com', message: 'Terima kasih servis laptop saya jadi kencang lagi!', status: 'read', created_at: new Date(Date.now() - 86400000).toISOString() }
+      ]);
+
+      toast.success('Data simulasi berhasil ditambahkan!');
+    } catch (error) {
+      console.error('Seeding error:', error);
+      toast.error('Gagal menambahkan data simulasi');
+    } finally {
+      setIsSeeding(false);
+    }
+  };
 
   const fetchSettings = async () => {
     setLoading(true);
@@ -167,6 +207,26 @@ const AdminSettings: React.FC = () => {
                 className="w-full px-4 py-2 border border-gray-200 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-brand-500 outline-none"
               />
             </div>
+          </div>
+        </div>
+
+        {/* Database & Tools */}
+        <div className="bg-white dark:bg-dark-surface p-6 rounded-2xl border border-gray-100 dark:border-dark-border shadow-sm space-y-4">
+          <div className="flex items-center space-x-2 text-brand-500 font-bold mb-4">
+            <Database size={20} />
+            <h3>Database & Tools</h3>
+          </div>
+          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800">
+            <h4 className="font-bold text-blue-700 dark:text-blue-400 mb-1">Simulasi Data Dashboard</h4>
+            <p className="text-sm text-blue-600 dark:text-blue-300 mb-4">Gunakan ini untuk mengisi dashboard dengan data simulasi kunjungan dan pesan agar grafik terlihat menarik.</p>
+            <button
+              onClick={handleSeedData}
+              disabled={isSeeding}
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all disabled:opacity-50"
+            >
+              {isSeeding ? <Loader2 className="animate-spin" size={16} /> : <RefreshCw size={16} />}
+              <span>Generate Data Simulasi</span>
+            </button>
           </div>
         </div>
       </div>

@@ -68,8 +68,8 @@ const Navbar: React.FC = () => {
                 IT SUPPORT
               </span>
               <span className={cn(
-                "text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase",
-                !isScrolled && location.pathname === '/' ? "text-white/80" : "text-muted-foreground"
+                "text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase transition-colors",
+                isMenuOpen || isScrolled || location.pathname !== '/' ? "text-muted-foreground" : "text-primary/80"
               )}>
                 Bekasi Premium
               </span>

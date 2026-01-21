@@ -44,63 +44,41 @@ const TechPartners: React.FC = () => {
         </motion.h2>
       </div>
 
-      <div className="relative mt-8">
-        <div className="absolute inset-y-0 left-0 w-32 bg-linear-to-r from-background to-transparent z-10 hidden md:block"></div>
-        <div className="absolute inset-y-0 right-0 w-32 bg-linear-to-l from-background to-transparent z-10 hidden md:block"></div>
+      <div className="relative mt-12 px-4">
+        <div className="absolute inset-y-0 left-0 w-24 bg-linear-to-r from-background to-transparent z-10 hidden md:block"></div>
+        <div className="absolute inset-y-0 right-0 w-24 bg-linear-to-l from-background to-transparent z-10 hidden md:block"></div>
         
-        <div className="flex flex-col gap-12">
-          {/* First Row - Fast */}
+        <div className="flex flex-col gap-12 overflow-hidden">
           <motion.div
             animate={{ x: [0, -1500] }}
             transition={{
               x: {
                 repeat: Infinity,
                 repeatType: "loop",
-                duration: 25,
+                duration: 30,
                 ease: "linear",
               },
             }}
-            className="flex gap-16 items-center whitespace-nowrap"
+            className="flex gap-24 items-center whitespace-nowrap px-12"
           >
             {scrollItems.map((partner, index) => (
               <motion.div
-                key={`row1-${partner.name}-${index}`}
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                className="flex items-center justify-center grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
+                key={`single-row-${partner.name}-${index}`}
+                whileHover={{ 
+                  scale: 1.2, 
+                  rotate: [0, -5, 5, -5, 0],
+                  filter: "grayscale(0%) opacity(100%)",
+                }}
+                transition={{
+                  rotate: { duration: 0.5, repeat: Infinity },
+                  scale: { duration: 0.2 }
+                }}
+                className="flex items-center justify-center grayscale opacity-30 transition-all duration-300 cursor-pointer p-4 rounded-2xl hover:bg-primary/5 border border-transparent hover:border-primary/10"
               >
                 <img
                   src={partner.logo}
                   alt={partner.name}
-                  className="h-10 md:h-14 w-auto object-contain dark:brightness-200"
-                  loading="lazy"
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Second Row - Slow / Reverse */}
-          <motion.div
-            animate={{ x: [-1500, 0] }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 35,
-                ease: "linear",
-              },
-            }}
-            className="flex gap-16 items-center whitespace-nowrap"
-          >
-            {scrollItems.map((partner, index) => (
-              <motion.div
-                key={`row2-${partner.name}-${index}`}
-                whileHover={{ scale: 1.2, rotate: -5 }}
-                className="flex items-center justify-center grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
-              >
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="h-10 md:h-14 w-auto object-contain dark:brightness-200"
+                  className="h-12 md:h-16 w-auto object-contain dark:brightness-200"
                   loading="lazy"
                 />
               </motion.div>

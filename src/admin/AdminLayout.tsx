@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { toast } from 'react-hot-toast';
+import { cn } from '../lib/utils';
 
 const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);

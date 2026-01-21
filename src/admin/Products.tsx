@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { uploadToCloudinary } from '../lib/cloudinary';
+import { uploadImageToSupabase, initializeStorageBucket } from '../lib/supabase-storage';
 import { 
   Plus, 
   Search, 
@@ -46,6 +46,7 @@ const AdminProducts: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
+    initializeStorageBucket();
     fetchProducts();
     
     // Setup realtime subscription for products
@@ -151,9 +152,9 @@ const AdminProducts: React.FC = () => {
         toast.loading('Mengoptimalkan & mengunggah gambar...', { id: 'upload' });
         
         try {
-          const uploadResult = await uploadToCloudinary(imageFile);
+          const uploadResult = await uploadImageToSupabase(imageFile);
           finalImageUrl = uploadResult.url;
-          finalImagePath = uploadResult.public_id;
+          finalImagePath = uploadResult.path;
           toast.success('Gambar berhasil diunggah', { id: 'upload' });
         } catch (uploadError: any) {
           console.error('Upload error details:', uploadError);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Menu, X, ShoppingCart, MessageSquare, Moon, Sun, Laptop } from 'lucide-react';
+import { ShoppingBag, Menu, X, ShoppingCart, MessageSquare, Moon, Sun, Laptop, Search, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { CONTACT_INFO } from '../constants';
@@ -48,76 +48,84 @@ const Navbar: React.FC = () => {
     <nav className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
       isScrolled 
-        ? "bg-background/80 backdrop-blur-lg border-b border-border shadow-lg py-3" 
-        : "bg-transparent py-5"
+        ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-[0_8px_30px_rgb(0,0,0,0.04)] py-2 sm:py-3" 
+        : "bg-transparent py-4 sm:py-6"
     )}>
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-2 group flex-shrink-0">
             <div className="relative">
-              <Laptop className="w-8 h-8 text-primary" />
+              <div className="absolute -inset-2 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Laptop className="w-7 h-7 sm:w-8 sm:h-8 text-primary relative" />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col leading-none">
+              <span className="text-lg sm:text-xl font-black tracking-tighter text-primary">
+                IT SUPPORT
+              </span>
               <span className={cn(
-                "text-xl font-bold tracking-tight text-primary transition-colors",
-                !isScrolled && location.pathname === '/' ? "text-primary" : "text-primary"
+                "text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase",
+                !isScrolled && location.pathname === '/' ? "text-white/80" : "text-muted-foreground"
               )}>
-                IT SUPPORT BEKASI
+                Bekasi Premium
               </span>
             </div>
           </Link>
 
           {/* Search Bar (Tokopedia Style) */}
-          <div className="hidden lg:flex flex-1 max-w-xl mx-8">
-            <div className="relative w-full">
+          <div className="hidden lg:flex flex-1 max-w-lg xl:max-w-xl">
+            <div className="relative w-full group">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+              </div>
               <input 
                 type="text" 
-                placeholder="Cari laptop impianmu di sini..." 
-                className="w-full bg-accent/20 border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden text-foreground"
+                placeholder="Cari laptop, PC, atau servis..." 
+                className="w-full bg-accent/20 border border-border rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden text-foreground placeholder:text-muted-foreground/50"
               />
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden xl:flex items-center gap-8">
+          <div className="hidden xl:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
                 onClick={(e) => handleNavClick(e, link.path)}
                 className={cn(
-                  "text-sm font-medium transition-all hover:text-primary relative group",
+                  "text-[13px] font-bold uppercase tracking-wider transition-all hover:text-primary relative group py-2",
                   !isScrolled && location.pathname === '/' ? "text-white/90" : "text-foreground/80"
                 )}
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all group-hover:w-8 rounded-full" />
               </Link>
             ))}
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex items-center gap-1 sm:gap-3">
             <button
               onClick={() => toggleTheme()}
               className={cn(
-                "p-2 rounded-full transition-all hover:bg-accent/50",
+                "p-2 rounded-xl transition-all hover:bg-accent/50",
                 !isScrolled && location.pathname === '/' ? "text-primary" : "text-foreground"
               )}
             >
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
+            
             <button
               onClick={() => setIsCartOpen(true)}
               className={cn(
-                "p-2 rounded-full transition-all hover:bg-accent/50 relative",
+                "p-2 rounded-xl transition-all hover:bg-accent/50 relative group",
                 !isScrolled && location.pathname === '/' ? "text-primary" : "text-foreground"
               )}
             >
-              <ShoppingCart className="w-6 h-6" />
+              <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-background">
+                <span className="absolute top-1 right-1 bg-primary text-primary-foreground text-[10px] font-black rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center border-2 border-background animate-in zoom-in">
                   {cartCount}
                 </span>
               )}
@@ -125,7 +133,7 @@ const Navbar: React.FC = () => {
 
             <Link
               to="/shop"
-              className="hidden lg:flex bg-primary text-primary-foreground px-5 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all items-center gap-2"
+              className="hidden md:flex bg-primary text-primary-foreground px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest hover:shadow-[0_10px_20px_rgba(37,99,235,0.3)] hover:-translate-y-0.5 active:translate-y-0 transition-all items-center gap-2"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Belanja</span>
@@ -134,11 +142,24 @@ const Navbar: React.FC = () => {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={cn(
-                "xl:hidden p-2 rounded-full transition-all hover:bg-accent/50",
+                "xl:hidden p-2 rounded-xl transition-all hover:bg-accent/50",
                 !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
               )}
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              <div className="relative w-6 h-6">
+                <motion.span
+                  animate={isMenuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -6 }}
+                  className="absolute inset-x-0 top-1/2 h-0.5 bg-current rounded-full"
+                />
+                <motion.span
+                  animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                  className="absolute inset-x-0 top-1/2 h-0.5 bg-current rounded-full"
+                />
+                <motion.span
+                  animate={isMenuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 6 }}
+                  className="absolute inset-x-0 top-1/2 h-0.5 bg-current rounded-full"
+                />
+              </div>
             </button>
           </div>
         </div>
@@ -148,48 +169,67 @@ const Navbar: React.FC = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="lg:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-xl overflow-hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="xl:hidden bg-background/95 backdrop-blur-xl border-b border-border shadow-2xl overflow-hidden"
           >
-            <div className="container mx-auto px-4 py-6 space-y-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={(e) => handleNavClick(e, link.path)}
-                  className="block px-4 py-3 text-lg font-medium text-foreground/80 hover:text-primary hover:bg-accent rounded-xl transition-all"
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <div className="pt-4 border-t border-border flex flex-col gap-3">
-                <button
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsCartOpen(true);
-                  }}
-                  className="flex items-center justify-between px-4 py-3 text-lg font-medium text-foreground/80 hover:bg-accent rounded-xl transition-all"
-                >
-                  <span>Keranjang</span>
-                  <div className="flex items-center gap-2">
-                    <ShoppingCart className="w-5 h-5" />
-                    {cartCount > 0 && (
-                      <span className="bg-primary text-primary-foreground text-xs font-bold rounded-full px-2 py-0.5">
-                        {cartCount}
-                      </span>
-                    )}
-                  </div>
-                </button>
+            <div className="container mx-auto px-4 py-8 space-y-6">
+              {/* Mobile Search */}
+              <div className="lg:hidden">
+                <div className="relative w-full group">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <input 
+                    type="text" 
+                    placeholder="Cari laptop atau PC..." 
+                    className="w-full bg-accent/50 border border-border rounded-xl pl-10 pr-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all outline-hidden text-foreground"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-2">
+                {navLinks.map((link, i) => (
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    key={link.name}
+                  >
+                    <Link
+                      to={link.path}
+                      onClick={(e) => handleNavClick(e, link.path)}
+                      className="flex items-center justify-between px-4 py-4 text-lg font-black text-foreground hover:text-primary hover:bg-primary/5 rounded-2xl transition-all group"
+                    >
+                      <span className="uppercase tracking-tight">{link.name}</span>
+                      <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ShoppingBag className="w-4 h-4" />
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="pt-6 border-t border-border flex flex-col gap-4">
                 <Link
                   to="/shop"
                   onClick={() => setIsMenuOpen(false)}
-                  className="w-full bg-primary text-primary-foreground px-6 py-4 rounded-xl font-bold text-center shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+                  className="w-full bg-primary text-primary-foreground px-6 py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-center shadow-xl shadow-primary/20 flex items-center justify-center gap-3 active:scale-95 transition-transform"
                 >
                   <ShoppingBag className="w-5 h-5" />
                   Belanja Sekarang
                 </Link>
+                
+                <div className="flex items-center justify-center gap-6 pt-4 text-muted-foreground">
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Premium</span>
+                    <ShieldCheck className="w-6 h-6 text-primary" />
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Support</span>
+                    <MessageSquare className="w-6 h-6 text-primary" />
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare } from 'lucide-react';
 import { AppProvider } from './context/AppContext';
@@ -39,56 +39,65 @@ import Products from './admin/Products';
 import Settings from './admin/Settings';
 import ProtectedRoute from './admin/ProtectedRoute';
 
+const AppContent = () => {
+  const location = useLocation();
+  const isAdminPath = location.pathname.startsWith('/admin');
+
+  return (
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+      <SEO type="business" />
+      {!isAdminPath && <Navbar />}
+      
+      <main className="relative">
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <Dashboard />
+              </AdminLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/products" element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <Products />
+              </AdminLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/settings" element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <Settings />
+              </AdminLayout>
+            </ProtectedRoute>
+          } />
+          
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+
+      {!isAdminPath && <Footer />}
+      {!isAdminPath && <WhatsAppButton />}
+      <Toaster />
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <AppProvider>
       <AdminAuthProvider>
         <CartProvider>
           <BrowserRouter>
-            <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
-              <SEO type="business" />
-              <Navbar />
-              
-              <main className="relative">
-                <Routes>
-                  {/* Public Routes */}
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/shop" element={<Shop />} />
-                  <Route path="/product/:id" element={<ProductDetail />} />
-                  
-                  {/* Admin Routes */}
-                  <Route path="/admin/login" element={<AdminLogin />} />
-                  <Route path="/admin" element={
-                    <ProtectedRoute>
-                      <AdminLayout>
-                        <Dashboard />
-                      </AdminLayout>
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/admin/products" element={
-                    <ProtectedRoute>
-                      <AdminLayout>
-                        <Products />
-                      </AdminLayout>
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/admin/settings" element={
-                    <ProtectedRoute>
-                      <AdminLayout>
-                        <Settings />
-                      </AdminLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  {/* Fallback */}
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </main>
-
-              <Footer />
-              <WhatsAppButton />
-              <Toaster />
-            </div>
+            <AppContent />
           </BrowserRouter>
         </CartProvider>
       </AdminAuthProvider>

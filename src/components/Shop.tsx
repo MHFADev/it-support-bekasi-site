@@ -124,10 +124,10 @@ const Shop: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Katalog Laptop
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
+          <p className="text-base md:text-lg text-gray-600 dark:text-gray-300">
             {filteredProducts.length} produk tersedia
           </p>
         </motion.div>

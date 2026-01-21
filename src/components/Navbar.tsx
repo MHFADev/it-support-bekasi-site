@@ -69,18 +69,18 @@ const Navbar: React.FC = () => {
           </Link>
 
           {/* Search Bar (Tokopedia Style) */}
-          <div className="hidden md:flex flex-1 max-w-xl mx-8">
+          <div className="hidden lg:flex flex-1 max-w-xl mx-8">
             <div className="relative w-full">
               <input 
                 type="text" 
                 placeholder="Cari laptop impianmu di sini..." 
-                className="w-full bg-accent/20 border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden"
+                className="w-full bg-accent/20 border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden text-foreground"
               />
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden xl:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -100,6 +100,15 @@ const Navbar: React.FC = () => {
           {/* Actions */}
           <div className="flex items-center gap-2 md:gap-4">
             <button
+              onClick={() => toggleTheme()}
+              className={cn(
+                "p-2 rounded-full transition-all hover:bg-accent/50",
+                !isScrolled && location.pathname === '/' ? "text-primary" : "text-foreground"
+              )}
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+            <button
               onClick={() => setIsCartOpen(true)}
               className={cn(
                 "p-2 rounded-full transition-all hover:bg-accent/50 relative",
@@ -116,7 +125,7 @@ const Navbar: React.FC = () => {
 
             <Link
               to="/shop"
-              className="hidden sm:flex bg-primary text-primary-foreground px-5 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all items-center gap-2"
+              className="hidden lg:flex bg-primary text-primary-foreground px-5 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all items-center gap-2"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Belanja</span>
@@ -125,7 +134,7 @@ const Navbar: React.FC = () => {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={cn(
-                "lg:hidden p-2 rounded-full transition-all hover:bg-accent/50",
+                "xl:hidden p-2 rounded-full transition-all hover:bg-accent/50",
                 !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
               )}
             >

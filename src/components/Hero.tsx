@@ -34,7 +34,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#212121] mb-6 leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#212121] mb-6 leading-tight"
             >
               {content.title}
             </motion.h1>
@@ -44,7 +44,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-lg text-[#6D7588] mb-10 max-w-xl leading-relaxed"
+              className="text-base sm:text-lg text-[#6D7588] mb-10 max-w-xl leading-relaxed"
             >
               {content.desc}
             </motion.p>

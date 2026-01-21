@@ -103,10 +103,10 @@ const WhatsAppButton = () => (
     whileHover={{ scale: 1.1, rotate: 10 }}
     whileTap={{ scale: 0.9 }}
     onClick={() => window.open(`https://wa.me/${CONTACT_INFO.whatsapp}`, '_blank')}
-    className="fixed bottom-8 right-8 z-[60] w-16 h-16 bg-[#25D366] text-white rounded-2xl flex items-center justify-center shadow-2xl shadow-[#25D366]/40 cursor-pointer"
+    className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-[60] w-12 h-12 sm:w-16 sm:h-16 bg-[#25D366] text-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-2xl shadow-[#25D366]/40 cursor-pointer"
     aria-label="Consult via WhatsApp"
   >
-    <MessageSquare className="w-8 h-8" />
+    <MessageSquare className="w-6 h-6 sm:w-8 sm:h-8" />
   </motion.button>
 );
 

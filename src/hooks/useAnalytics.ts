@@ -19,13 +19,15 @@ export function useAnalytics() {
           utm_source
         });
 
-        // Also save to our custom table for the dashboard graphs
-        await blink.db.pageViews.create({
-          id: crypto.randomUUID(),
-          path: location.pathname,
-          referrer,
-          browser: navigator.userAgent,
-          device: window.innerWidth < 768 ? 'mobile' : 'desktop'
+        // Also save to our custom table for the dashboard graphs via Edge Function (to bypass RLS)
+        await blink.functions.invoke('track-view', {
+          body: JSON.stringify({
+            id: crypto.randomUUID(),
+            path: location.pathname,
+            referrer,
+            browser: navigator.userAgent,
+            device: window.innerWidth < 768 ? 'mobile' : 'desktop'
+          })
         });
       } catch (error) {
         console.error('Analytics error:', error);

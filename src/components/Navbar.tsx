@@ -212,102 +212,134 @@ const Navbar: React.FC = () => {
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed right-0 top-0 h-full w-full max-w-md bg-background z-[101] shadow-2xl flex flex-col border-l border-border"
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed right-0 top-0 h-[100dvh] w-full sm:max-w-md bg-background z-[101] shadow-2xl flex flex-col border-l border-border"
             >
-              <div className="p-6 border-b border-border flex items-center justify-between bg-accent/20">
-                <div>
-                  <h2 className="text-xl font-bold text-foreground">Keranjang Belanja</h2>
-                  <p className="text-sm text-muted-foreground">{cartCount} items</p>
+              <div className="p-4 sm:p-6 border-b border-border flex items-center justify-between bg-accent/10 backdrop-blur-md sticky top-0 z-10">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                    <ShoppingCart className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-bold text-foreground">Pesanan Kamu</h2>
+                    <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold">{cartCount} Items</p>
+                  </div>
                 </div>
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className="p-2 hover:bg-accent rounded-full transition-colors"
+                  className="w-10 h-10 flex items-center justify-center hover:bg-accent rounded-full transition-all group"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-6 h-6 group-hover:rotate-90 transition-transform" />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-6 space-y-6">
+              <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 custom-scrollbar">
                 {cart.length === 0 ? (
-                  <div className="h-full flex flex-col items-center justify-center text-center opacity-50">
-                    <div className="bg-accent p-6 rounded-full mb-4">
-                      <ShoppingCart className="w-12 h-12 text-muted-foreground" />
+                  <div className="h-full flex flex-col items-center justify-center text-center px-6">
+                    <div className="w-24 h-24 bg-accent/50 rounded-full flex items-center justify-center mb-6 animate-pulse">
+                      <ShoppingBag className="w-12 h-12 text-muted-foreground/30" />
                     </div>
-                    <p className="text-lg font-medium text-foreground">Keranjang Anda kosong</p>
-                    <p className="text-sm text-muted-foreground mt-2">Mulai belanja untuk menambahkan item</p>
+                    <h3 className="text-xl font-bold text-foreground mb-2">Keranjang Kosong</h3>
+                    <p className="text-sm text-muted-foreground mb-8">Wah, sepertinya kamu belum memilih laptop impianmu. Yuk cek katalog kami!</p>
                     <Link
                       to="/shop"
                       onClick={() => setIsCartOpen(false)}
-                      className="mt-6 text-primary font-bold hover:underline"
+                      className="w-full bg-primary text-primary-foreground py-4 rounded-2xl font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-all"
                     >
-                      Lihat Produk
+                      Mulai Belanja
                     </Link>
                   </div>
                 ) : (
-                  cart.map((item) => (
-                    <div key={item.id} className="flex gap-4 p-4 rounded-2xl border border-border bg-card/50 hover:bg-accent/10 transition-colors group">
-                      <div className="relative w-20 h-20 overflow-hidden rounded-xl border border-border">
-                        <img
-                          src={item.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=200'}
-                          alt={item.title}
-                          className="w-full h-full object-cover transition-transform group-hover:scale-110"
-                        />
-                      </div>
-                      <div className="flex-1 flex flex-col justify-between">
-                        <div>
-                          <h3 className="font-semibold text-foreground line-clamp-1">{item.title}</h3>
-                          <p className="text-primary font-bold mt-0.5">
-                            Rp {new Intl.NumberFormat('id-ID').format(item.price)}
-                          </p>
+                  <div className="space-y-4">
+                    {cart.map((item) => (
+                      <motion.div 
+                        layout
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        key={item.id} 
+                        className="flex gap-4 p-3 sm:p-4 rounded-2xl border border-border bg-card/50 hover:bg-accent/5 hover:border-primary/20 transition-all group"
+                      >
+                        <div className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden rounded-xl border border-border bg-accent/10 flex-shrink-0">
+                          <img
+                            src={item.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=200'}
+                            alt={item.title}
+                            className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                          />
                         </div>
-                        <div className="flex items-center justify-between mt-2">
-                          <div className="flex items-center bg-accent rounded-lg border border-border">
+                        <div className="flex-1 flex flex-col justify-between min-w-0">
+                          <div className="pr-6 relative">
+                            <h3 className="font-bold text-sm sm:text-base text-foreground truncate group-hover:text-primary transition-colors">{item.title}</h3>
                             <button
-                              onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}
-                              className="w-8 h-8 flex items-center justify-center hover:bg-primary/10 transition-colors rounded-l-lg"
+                              onClick={() => removeFromCart(item.id)}
+                              className="absolute top-0 right-0 p-1 text-muted-foreground hover:text-destructive transition-colors"
                             >
-                              -
+                              <X size={14} />
                             </button>
-                            <span className="w-8 text-center text-sm font-bold">{item.quantity}</span>
-                            <button
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="w-8 h-8 flex items-center justify-center hover:bg-primary/10 transition-colors rounded-r-lg"
-                            >
-                              +
-                            </button>
+                            <p className="text-primary font-black mt-1 text-sm sm:text-lg">
+                              Rp {new Intl.NumberFormat('id-ID').format(item.price)}
+                            </p>
                           </div>
-                          <button
-                            onClick={() => removeFromCart(item.id)}
-                            className="text-destructive hover:text-destructive/80 text-xs font-bold"
-                          >
-                            Hapus
-                          </button>
+                          <div className="flex items-center justify-between mt-2">
+                            <div className="flex items-center bg-accent/50 rounded-xl border border-border p-1">
+                              <button
+                                onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}
+                                className="w-8 h-8 flex items-center justify-center hover:bg-background rounded-lg transition-colors font-bold text-lg"
+                              >
+                                -
+                              </button>
+                              <span className="w-10 text-center text-sm font-black">{item.quantity}</span>
+                              <button
+                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                className="w-8 h-8 flex items-center justify-center hover:bg-background rounded-lg transition-colors font-bold text-lg"
+                              >
+                                +
+                              </button>
+                            </div>
+                            <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">
+                              Sub: Rp {new Intl.NumberFormat('id-ID').format(item.price * item.quantity)}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ))
+                      </motion.div>
+                    ))}
+                  </div>
                 )}
               </div>
 
               {cart.length > 0 && (
-                <div className="p-6 border-t border-border bg-accent/10 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span className="text-2xl font-bold text-primary">
-                      Rp {new Intl.NumberFormat('id-ID').format(cartTotal)}
-                    </span>
+                <div className="p-4 sm:p-6 border-t border-border bg-card/80 backdrop-blur-xl space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                      <span>Subtotal Produk</span>
+                      <span>Rp {new Intl.NumberFormat('id-ID').format(cartTotal)}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                      <span>Pajak & Biaya Admin</span>
+                      <span className="text-green-600 font-bold">FREE</span>
+                    </div>
+                    <div className="pt-2 flex items-center justify-between">
+                      <span className="text-lg font-bold text-foreground">Total Bayar</span>
+                      <span className="text-2xl font-black text-primary">
+                        Rp {new Intl.NumberFormat('id-ID').format(cartTotal)}
+                      </span>
+                    </div>
                   </div>
-                  <button
-                    onClick={() => {
-                      const message = `Halo IT Support Bekasi, saya ingin memesan:\n\n${cart.map(item => `- ${item.title} (${item.quantity}x) - Rp ${new Intl.NumberFormat('id-ID').format(item.price * item.quantity)}`).join('\n')}\n\nTotal: Rp ${new Intl.NumberFormat('id-ID').format(cartTotal)}`;
-                      window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${encodeURIComponent(message)}`, '_blank');
-                    }}
-                    className="w-full bg-primary text-primary-foreground py-4 rounded-xl font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
-                  >
-                    <MessageSquare className="w-5 h-5" />
-                    Checkout via WhatsApp
-                  </button>
+                  
+                  <div className="grid grid-cols-1 gap-3 pt-2">
+                    <button
+                      onClick={() => {
+                        const message = `Halo IT Support Bekasi, saya ingin memesan:\n\n${cart.map(item => `- ${item.title} (${item.quantity}x) - Rp ${new Intl.NumberFormat('id-ID').format(item.price * item.quantity)}`).join('\n')}\n\nTotal: Rp ${new Intl.NumberFormat('id-ID').format(cartTotal)}`;
+                        window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${encodeURIComponent(message)}`, '_blank');
+                      }}
+                      className="w-full bg-primary text-primary-foreground py-4 rounded-2xl font-black shadow-xl shadow-primary/30 hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group"
+                    >
+                      <MessageSquare className="w-5 h-5 group-hover:scale-125 transition-transform" />
+                      Checkout via WhatsApp
+                    </button>
+                    <p className="text-[10px] text-center text-muted-foreground font-medium uppercase tracking-widest">
+                      🔒 Transaksi aman & Terverifikasi
+                    </p>
+                  </div>
                 </div>
               )}
             </motion.div>

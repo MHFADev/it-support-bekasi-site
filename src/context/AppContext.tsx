@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product } from '@/types';
 
-type Theme = 'light' | 'dark';
+type Theme = 'light';
 type Language = 'id' | 'en';
 type View = 'home' | 'shop' | 'product-detail';
 
@@ -21,6 +21,13 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme] = useState<Theme>('light');
 
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('dark');
+    root.classList.add('light');
+    localStorage.setItem('theme', 'light');
+  }, []);
+
   const [language, setLanguage] = useState<Language>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('language') as Language;
@@ -31,12 +38,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [view, setView] = useState<View>('home');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.remove('dark');
-    localStorage.setItem('theme', 'light');
-  }, []);
 
   useEffect(() => {
     localStorage.setItem('language', language);

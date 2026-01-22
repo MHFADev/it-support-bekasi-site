@@ -23,22 +23,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     
-    <script>
-      (function() {
-        try {
-          const savedTheme = localStorage.getItem('theme');
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-            document.documentElement.classList.add('dark');
-          }
-        } catch (e) {}
-      })();
-    </script>
-    
     <!-- CRITICAL: DO NOT REMOVE/MODIFY THIS COMMENT OR THE SCRIPT BELOW -->
-      <!-- CRITICAL: DO NOT REMOVE/MODIFY THIS COMMENT OR THE SCRIPT BELOW -->
     <script src="https://blink.new/auto-engineer.js?projectId=itsupport-bekasi-app-qg0jjerh" type="module"></script>
-  </head>
+</head>
 <body class="bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground transition-colors duration-300">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

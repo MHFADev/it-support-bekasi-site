@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Menu, X, ShoppingCart, MessageSquare, Laptop, Search, ShieldCheck } from 'lucide-react';
+import { ShoppingBag, Menu, X, ShoppingCart, MessageSquare, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { CONTACT_INFO } from '../constants';
@@ -13,7 +13,6 @@ const Navbar: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
   const { cart, cartCount, cartTotal, removeFromCart, updateQuantity } = useCart();
-  const { theme, toggleTheme } = useApp();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,178 +44,111 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className={cn(
-      "fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 w-[95%] max-w-7xl",
-      isScrolled 
-        ? "bg-white/80 backdrop-blur-xl border border-border shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 sm:py-3 rounded-full" 
-        : "bg-white/60 backdrop-blur-lg border border-white/20 py-3 sm:py-4 rounded-3xl"
-    )}>
-      <div className="container mx-auto px-6 sm:px-8">
-        <div className="flex items-center justify-between gap-4">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group flex-shrink-0">
-            <div className="relative">
-              <div className="absolute -inset-2 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-              <img 
-                src="https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/Logo.png" 
-                alt="IT Support Bekasi Logo" 
-                className="w-10 h-10 sm:w-11 sm:h-11 object-contain relative transition-transform group-hover:scale-110"
-              />
-            </div>
-            <div className="flex flex-col leading-tight hidden xs:flex">
-              <span className="text-lg font-black tracking-tighter text-primary">
-                IT SUPPORT
-              </span>
-              <span className="text-[10px] font-bold tracking-[0.2em] uppercase transition-colors text-muted-foreground">
-                Bekasi Premium
-              </span>
-            </div>
-          </Link>
-
-          {/* Search Bar (Tokopedia Style) */}
-          <div className="hidden lg:flex flex-1 max-w-md xl:max-w-lg">
-            <div className="relative w-full group">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+    <>
+      <div className="fixed top-6 left-0 right-0 z-50 px-4 pointer-events-none">
+        <nav className={cn(
+          "mx-auto transition-all duration-500 pointer-events-auto",
+          "bg-white/70 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.12)]",
+          "rounded-full max-w-fit px-2 sm:px-4",
+          isScrolled ? "py-1.5 sm:py-2" : "py-2 sm:py-3"
+        )}>
+          <div className="flex items-center gap-3 sm:gap-6">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-2 group flex-shrink-0 pl-2">
+              <div className="relative">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/Logo.png"
+                  alt="IT Support Bekasi Logo"
+                  className="w-8 h-8 sm:w-9 sm:h-9 object-contain relative transition-transform group-hover:scale-110"
+                />
               </div>
-              <input 
-                type="text" 
-                placeholder="Cari laptop, PC, atau servis..." 
-                className="w-full bg-accent/20 border border-border rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden text-foreground placeholder:text-muted-foreground/50"
-              />
-            </div>
-          </div>
+              <div className="flex flex-col leading-tight hidden xs:flex">
+                <span className="text-base font-black tracking-tighter text-primary">
+                  IT SUPPORT
+                </span>
+              </div>
+            </Link>
 
-          {/* Actions */}
-          <div className="flex items-center gap-2 sm:gap-4">
             {/* Desktop Navigation */}
-            <div className="hidden xl:flex items-center gap-6 mr-4">
+            <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.path}
                   onClick={(e) => handleNavClick(e, link.path)}
-                  className="text-[13px] font-bold uppercase tracking-wider transition-all hover:text-primary relative group py-2 text-foreground"
+                  className={cn(
+                    "text-[12px] font-bold uppercase tracking-wider transition-all px-4 py-2 rounded-full",
+                    location.pathname === link.path || (link.path.startsWith('/#') && location.pathname === '/')
+                      ? "bg-primary text-white"
+                      : "text-foreground hover:bg-accent/50"
+                  )}
                 >
                   {link.name}
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all group-hover:w-8 rounded-full" />
                 </Link>
               ))}
             </div>
 
-            <button
-              onClick={() => setIsCartOpen(true)}
-              className="p-2 rounded-full transition-all hover:bg-accent/50 relative group text-foreground"
-            >
-              <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
-              {cartCount > 0 && (
-                <span className="absolute top-1 right-1 bg-primary text-primary-foreground text-[10px] font-black rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center border-2 border-white animate-in zoom-in">
-                  {cartCount}
-                </span>
-              )}
-            </button>
+            {/* Actions */}
+            <div className="flex items-center gap-1 sm:gap-2 pr-2">
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="p-2 rounded-full transition-all hover:bg-accent/50 relative group text-foreground"
+              >
+                <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                {cartCount > 0 && (
+                  <span className="absolute top-1 right-1 bg-primary text-primary-foreground text-[10px] font-black rounded-full w-4 h-4 flex items-center justify-center border-2 border-white animate-in zoom-in">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
 
-            <Link
-              to="/shop"
-              className="hidden md:flex bg-primary text-primary-foreground px-6 py-2.5 rounded-full text-xs sm:text-sm font-black uppercase tracking-widest hover:shadow-[0_10px_20px_rgba(37,99,235,0.3)] hover:-translate-y-0.5 active:translate-y-0 transition-all items-center gap-2"
-            >
-              <ShoppingBag className="w-4 h-4" />
-              <span>Belanja</span>
-            </Link>
-
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="xl:hidden p-2 rounded-full transition-all hover:bg-accent/50 text-foreground"
-            >
-              <div className="relative w-6 h-6">
-                <motion.span
-                  animate={isMenuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -6 }}
-                  className="absolute inset-x-0 top-1/2 h-0.5 bg-current rounded-full"
-                />
-                <motion.span
-                  animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                  className="absolute inset-x-0 top-1/2 h-0.5 bg-current rounded-full"
-                />
-                <motion.span
-                  animate={isMenuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 6 }}
-                  className="absolute inset-x-0 top-1/2 h-0.5 bg-current rounded-full"
-                />
-              </div>
-            </button>
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="lg:hidden p-2 rounded-full transition-all hover:bg-accent/50 text-foreground"
+              >
+                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
+        </nav>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="xl:hidden bg-background/95 backdrop-blur-xl border-b border-border shadow-2xl overflow-hidden"
-          >
-            <div className="container mx-auto px-4 py-8 space-y-6">
-              {/* Mobile Search */}
-              <div className="lg:hidden">
-                <div className="relative w-full group">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <input 
-                    type="text" 
-                    placeholder="Cari laptop atau PC..." 
-                    className="w-full bg-accent/50 border border-border rounded-xl pl-10 pr-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all outline-hidden text-foreground"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-2">
-                {navLinks.map((link, i) => (
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    key={link.name}
-                  >
+        {/* Mobile Menu - Capsule Style */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              className="lg:hidden mt-4 mx-auto max-w-sm bg-white/90 backdrop-blur-2xl border border-white/20 shadow-2xl rounded-[2rem] overflow-hidden pointer-events-auto"
+            >
+              <div className="p-6 space-y-4">
+                <div className="grid grid-cols-1 gap-1">
+                  {navLinks.map((link) => (
                     <Link
+                      key={link.name}
                       to={link.path}
                       onClick={(e) => handleNavClick(e, link.path)}
-                      className="flex items-center justify-between px-4 py-4 text-lg font-black text-foreground hover:text-primary hover:bg-primary/5 rounded-2xl transition-all group"
+                      className="px-6 py-4 text-base font-bold text-foreground hover:bg-primary/10 hover:text-primary rounded-2xl transition-all"
                     >
-                      <span className="uppercase tracking-tight">{link.name}</span>
-                      <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ShoppingBag className="w-4 h-4" />
-                      </div>
+                      {link.name}
                     </Link>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="pt-6 border-t border-border flex flex-col gap-4">
-                <Link
-                  to="/shop"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="w-full bg-primary text-primary-foreground px-6 py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-center shadow-xl shadow-primary/20 flex items-center justify-center gap-3 active:scale-95 transition-transform"
-                >
-                  <ShoppingBag className="w-5 h-5" />
-                  Belanja Sekarang
-                </Link>
-                
-                <div className="flex items-center justify-center gap-6 pt-4 text-muted-foreground">
-                  <div className="flex flex-col items-center gap-1">
-                    <span className="text-[10px] font-bold uppercase tracking-widest">Premium</span>
-                    <ShieldCheck className="w-6 h-6 text-primary" />
-                  </div>
-                  <div className="flex flex-col items-center gap-1">
-                    <span className="text-[10px] font-bold uppercase tracking-widest">Support</span>
-                    <MessageSquare className="w-6 h-6 text-primary" />
-                  </div>
+                  ))}
+                </div>
+                <div className="pt-4 border-t border-border">
+                  <Link
+                    to="/shop"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="w-full bg-primary text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    Belanja
+                  </Link>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
       {/* Cart Sidebar */}
       <AnimatePresence>
@@ -229,7 +161,7 @@ const Navbar: React.FC = () => {
               onClick={() => setIsCartOpen(false)}
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
             />
-            
+
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
@@ -274,11 +206,11 @@ const Navbar: React.FC = () => {
                 ) : (
                   <div className="space-y-4">
                     {cart.map((item) => (
-                      <motion.div 
+                      <motion.div
                         layout
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        key={item.id} 
+                        key={item.id}
                         className="flex gap-4 p-3 sm:p-4 rounded-2xl border border-border bg-card/50 hover:bg-accent/5 hover:border-primary/20 transition-all group"
                       >
                         <div className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden rounded-xl border border-border bg-accent/10 flex-shrink-0">
@@ -346,7 +278,7 @@ const Navbar: React.FC = () => {
                       </span>
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-1 gap-3 pt-2">
                     <button
                       onClick={() => {
@@ -368,7 +300,7 @@ const Navbar: React.FC = () => {
           </>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 };
 

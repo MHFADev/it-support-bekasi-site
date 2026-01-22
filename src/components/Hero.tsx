@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
   const content = CONTENT[language].hero;
 
   return (
-    <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden pt-20 bg-primary">
       {/* Background with subtle gradient */}
       <div className="absolute inset-0 z-0 bg-accent/5 dark:bg-slate-950">
         <div className="absolute inset-0 bg-linear-to-b from-primary/5 to-transparent"></div>
@@ -35,7 +35,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6 leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 leading-tight"
             >
               {content.title}
             </motion.h1>
@@ -44,7 +44,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-base sm:text-lg text-muted-foreground mb-10 max-w-xl leading-relaxed"
+              className="text-base sm:text-lg text-white/90 mb-10 max-w-xl leading-relaxed"
             >
               {content.desc}
             </motion.p>

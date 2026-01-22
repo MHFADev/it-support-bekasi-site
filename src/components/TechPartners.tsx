@@ -15,7 +15,9 @@ const TechPartners: React.FC = () => {
   const scrollItems = [...PARTNERS, ...PARTNERS, ...PARTNERS, ...PARTNERS];
 
   return (
-    <section className="py-24 bg-linear-to-b from-accent/5 to-transparent overflow-hidden">
+    <section className="py-24 bg-primary relative overflow-hidden">
+      {/* Top transition gradient */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-linear-to-b from-primary to-transparent z-10"></div>
       <div className="container mx-auto px-4 md:px-6 mb-16 text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}

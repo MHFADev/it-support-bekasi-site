@@ -64,21 +64,21 @@ const ShopPremium: React.FC = () => {
   return (
     <div className="min-h-screen pt-24 pb-20 bg-background">
       {/* Header Section */}
-      <section className="relative py-12 mb-8 overflow-hidden bg-slate-50 dark:bg-slate-900/50">
+      <section className="relative py-12 mb-8 overflow-hidden bg-primary">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto text-center space-y-4">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white"
+              className="text-3xl md:text-5xl font-black tracking-tight text-white"
             >
-              Hardware Pilihan <span className="text-primary">Terbaik.</span>
+              Hardware Pilihan <span className="text-white/80">Terbaik.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto"
+              className="text-white/90 max-w-2xl mx-auto"
             >
               Dapatkan laptop bekas berkualitas, PC custom, dan hardware original dengan jaminan garansi teknisi kami.
             </motion.p>

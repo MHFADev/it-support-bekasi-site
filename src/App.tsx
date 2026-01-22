@@ -9,14 +9,12 @@ import { CartProvider } from './context/CartContext';
 // Components
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Services from './components/Services';
 import TechPartners from './components/TechPartners';
-import WorkGallery from './components/WorkGallery';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import FAQ from './components/FAQ';
 import WhyChooseUs from './components/WhyChooseUs';
+import Services from './components/Services';
 import Shop from './components/ShopPremium';
 import ProductDetail from './components/ProductDetail';
 import { SEO } from './components/SEO';
@@ -28,10 +26,7 @@ const HomePage = () => (
   <div className="flex flex-col">
     <Hero />
     <TechPartners />
-    <About />
-    <Services />
     <Shop />
-    <WorkGallery />
     <WhyChooseUs />
     <Contact />
     <FAQ />
@@ -136,14 +131,13 @@ const WhatsAppButton = () => (
   <motion.button
     initial={{ opacity: 0, scale: 0.5, y: 50 }}
     animate={{ opacity: 1, scale: 1, y: 0 }}
-    whileHover={{ scale: 1.1 }}
+    whileHover={{ scale: 1.1, rotate: 10 }}
     whileTap={{ scale: 0.9 }}
     onClick={() => window.open(`https://wa.me/${CONTACT_INFO.whatsapp}`, '_blank')}
-    className="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-[60] w-14 h-14 sm:w-16 sm:h-16 bg-[#25D366] text-white rounded-2xl flex items-center justify-center shadow-2xl shadow-[#25D366]/40 cursor-pointer group"
+    className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-[60] w-12 h-12 sm:w-16 sm:h-16 bg-[#25D366] text-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-2xl shadow-[#25D366]/40 cursor-pointer"
     aria-label="Consult via WhatsApp"
   >
-    <div className="absolute inset-0 bg-white/20 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-500" />
-    <MessageSquare className="w-7 h-7 sm:w-8 sm:h-8 relative z-10" />
+    <MessageSquare className="w-6 h-6 sm:w-8 sm:h-8" />
   </motion.button>
 );
 

@@ -46,15 +46,15 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-premium",
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
       isScrolled 
-        ? "glass-panel py-3 border-b border-white/5" 
-        : "bg-transparent py-6"
+        ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-[0_8px_30px_rgb(0,0,0,0.04)] py-2 sm:py-3" 
+        : "bg-transparent py-4 sm:py-6"
     )}>
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
+          <Link to="/" className="flex items-center gap-2 group flex-shrink-0">
             <div className="relative">
               <div className="absolute -inset-2 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
               <img 
@@ -64,15 +64,12 @@ const Navbar: React.FC = () => {
               />
             </div>
             <div className="flex flex-col leading-tight">
-              <span className={cn(
-                "text-xl sm:text-2xl font-black tracking-tighter transition-colors font-serif italic",
-                !isScrolled && location.pathname === '/' ? "text-white" : "text-primary"
-              )}>
+              <span className="text-lg sm:text-xl font-black tracking-tighter text-primary">
                 IT SUPPORT
               </span>
               <span className={cn(
-                "text-[9px] sm:text-[10px] font-bold tracking-[0.3em] uppercase transition-colors opacity-80",
-                !isScrolled && location.pathname === '/' ? "text-white/80" : "text-muted-foreground"
+                "text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase transition-colors",
+                isMenuOpen || isScrolled || location.pathname !== '/' ? "text-muted-foreground" : "text-primary/80"
               )}>
                 Bekasi Premium
               </span>
@@ -80,49 +77,44 @@ const Navbar: React.FC = () => {
           </Link>
 
           {/* Search Bar (Tokopedia Style) */}
-          <div className="hidden lg:flex flex-1 max-w-lg xl:max-w-xl mx-8">
+          <div className="hidden lg:flex flex-1 max-w-lg xl:max-w-xl">
             <div className="relative w-full group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
               </div>
               <input 
                 type="text" 
                 placeholder="Cari laptop, PC, atau servis..." 
-                className={cn(
-                  "w-full border rounded-2xl pl-12 pr-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden",
-                  !isScrolled && location.pathname === '/' 
-                    ? "bg-white/10 border-white/20 text-white placeholder:text-white/50 backdrop-blur-md" 
-                    : "bg-accent/20 border-border text-foreground placeholder:text-muted-foreground/50"
-                )}
+                className="w-full bg-accent/20 border border-border rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden text-foreground placeholder:text-muted-foreground/50"
               />
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden xl:flex items-center gap-8">
+          <div className="hidden xl:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
                 onClick={(e) => handleNavClick(e, link.path)}
                 className={cn(
-                  "text-sm font-medium transition-all hover:text-primary relative group py-2",
-                  !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground/80"
+                  "text-[13px] font-bold uppercase tracking-wider transition-all hover:text-primary relative group py-2",
+                  !isScrolled && location.pathname === '/' ? "text-white/90" : "text-foreground/80"
                 )}
               >
                 {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full rounded-full" />
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all group-hover:w-8 rounded-full" />
               </Link>
             ))}
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-1 sm:gap-3">
             <button
               onClick={() => toggleTheme()}
               className={cn(
-                "p-2.5 rounded-2xl transition-all hover:bg-white/10",
-                !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
+                "p-2 rounded-xl transition-all hover:bg-accent/50",
+                !isScrolled && location.pathname === '/' ? "text-primary" : "text-foreground"
               )}
             >
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -131,13 +123,13 @@ const Navbar: React.FC = () => {
             <button
               onClick={() => setIsCartOpen(true)}
               className={cn(
-                "p-2.5 rounded-2xl transition-all hover:bg-white/10 relative group",
-                !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
+                "p-2 rounded-xl transition-all hover:bg-accent/50 relative group",
+                !isScrolled && location.pathname === '/' ? "text-primary" : "text-foreground"
               )}
             >
-              <ShoppingCart className="w-5 h-5 sm:w-6 h-6 group-hover:scale-110 transition-transform" />
+              <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 premium-gradient text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-background animate-in zoom-in">
+                <span className="absolute top-1 right-1 bg-primary text-primary-foreground text-[10px] font-black rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center border-2 border-background animate-in zoom-in">
                   {cartCount}
                 </span>
               )}
@@ -145,12 +137,7 @@ const Navbar: React.FC = () => {
 
             <Link
               to="/shop"
-              className={cn(
-                "hidden md:flex px-6 py-2.5 rounded-full text-sm font-bold transition-all items-center gap-2 hover:scale-105 active:scale-95",
-                !isScrolled && location.pathname === '/' 
-                  ? "bg-white text-primary hover:bg-white/90" 
-                  : "premium-gradient text-white"
-              )}
+              className="hidden md:flex bg-primary text-primary-foreground px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest hover:shadow-[0_10px_20px_rgba(37,99,235,0.3)] hover:-translate-y-0.5 active:translate-y-0 transition-all items-center gap-2"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Belanja</span>
@@ -159,8 +146,8 @@ const Navbar: React.FC = () => {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={cn(
-                "xl:hidden p-2.5 rounded-2xl transition-all",
-                !isScrolled && location.pathname === '/' ? "text-white" : "text-foreground"
+                "xl:hidden p-2 rounded-xl transition-all hover:bg-accent/50",
+                isMenuOpen || isScrolled || location.pathname !== '/' ? "text-foreground" : "text-primary"
               )}
             >
               <div className="relative w-6 h-6">

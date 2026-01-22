@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Menu, X, ShoppingCart, MessageSquare, Moon, Sun, Laptop, Search, ShieldCheck } from 'lucide-react';
+import { ShoppingBag, Menu, X, ShoppingCart, MessageSquare, Laptop, Search, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { CONTACT_INFO } from '../constants';
@@ -46,12 +46,12 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+      "fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 w-[95%] max-w-7xl",
       isScrolled 
-        ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-[0_8px_30px_rgb(0,0,0,0.04)] py-2 sm:py-3" 
-        : "bg-transparent py-4 sm:py-6"
+        ? "bg-white/80 backdrop-blur-xl border border-border shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 sm:py-3 rounded-full" 
+        : "bg-white/60 backdrop-blur-lg border border-white/20 py-3 sm:py-4 rounded-3xl"
     )}>
-      <div className="container mx-auto px-4 sm:px-6">
+      <div className="container mx-auto px-6 sm:px-8">
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group flex-shrink-0">
@@ -60,21 +60,21 @@ const Navbar: React.FC = () => {
               <img 
                 src="https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/Logo.png" 
                 alt="IT Support Bekasi Logo" 
-                className="w-10 h-10 sm:w-12 sm:h-12 object-contain relative transition-transform group-hover:scale-110"
+                className="w-10 h-10 sm:w-11 sm:h-11 object-contain relative transition-transform group-hover:scale-110"
               />
             </div>
-            <div className="flex flex-col leading-tight">
-              <span className="text-lg sm:text-xl font-black tracking-tighter text-primary">
+            <div className="flex flex-col leading-tight hidden xs:flex">
+              <span className="text-lg font-black tracking-tighter text-primary">
                 IT SUPPORT
               </span>
-              <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase transition-colors text-muted-foreground">
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase transition-colors text-muted-foreground">
                 Bekasi Premium
               </span>
             </div>
           </Link>
 
           {/* Search Bar (Tokopedia Style) */}
-          <div className="hidden lg:flex flex-1 max-w-lg xl:max-w-xl">
+          <div className="hidden lg:flex flex-1 max-w-md xl:max-w-lg">
             <div className="relative w-full group">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
@@ -82,42 +82,35 @@ const Navbar: React.FC = () => {
               <input 
                 type="text" 
                 placeholder="Cari laptop, PC, atau servis..." 
-                className="w-full bg-accent/20 border border-border rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden text-foreground placeholder:text-muted-foreground/50"
+                className="w-full bg-accent/20 border border-border rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden text-foreground placeholder:text-muted-foreground/50"
               />
             </div>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden xl:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                onClick={(e) => handleNavClick(e, link.path)}
-                className="text-[13px] font-bold uppercase tracking-wider transition-all hover:text-primary relative group py-2 text-foreground"
-              >
-                {link.name}
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all group-hover:w-8 rounded-full" />
-              </Link>
-            ))}
-          </div>
-
           {/* Actions */}
-          <div className="flex items-center gap-1 sm:gap-3">
-            <button
-              onClick={() => toggleTheme()}
-              className="p-2 rounded-xl transition-all hover:bg-accent/50 text-foreground"
-            >
-              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
-            
+          <div className="flex items-center gap-2 sm:gap-4">
+            {/* Desktop Navigation */}
+            <div className="hidden xl:flex items-center gap-6 mr-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  onClick={(e) => handleNavClick(e, link.path)}
+                  className="text-[13px] font-bold uppercase tracking-wider transition-all hover:text-primary relative group py-2 text-foreground"
+                >
+                  {link.name}
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all group-hover:w-8 rounded-full" />
+                </Link>
+              ))}
+            </div>
+
             <button
               onClick={() => setIsCartOpen(true)}
-              className="p-2 rounded-xl transition-all hover:bg-accent/50 relative group text-foreground"
+              className="p-2 rounded-full transition-all hover:bg-accent/50 relative group text-foreground"
             >
               <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
               {cartCount > 0 && (
-                <span className="absolute top-1 right-1 bg-primary text-primary-foreground text-[10px] font-black rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center border-2 border-background animate-in zoom-in">
+                <span className="absolute top-1 right-1 bg-primary text-primary-foreground text-[10px] font-black rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center border-2 border-white animate-in zoom-in">
                   {cartCount}
                 </span>
               )}
@@ -125,7 +118,7 @@ const Navbar: React.FC = () => {
 
             <Link
               to="/shop"
-              className="hidden md:flex bg-primary text-primary-foreground px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest hover:shadow-[0_10px_20px_rgba(37,99,235,0.3)] hover:-translate-y-0.5 active:translate-y-0 transition-all items-center gap-2"
+              className="hidden md:flex bg-primary text-primary-foreground px-6 py-2.5 rounded-full text-xs sm:text-sm font-black uppercase tracking-widest hover:shadow-[0_10px_20px_rgba(37,99,235,0.3)] hover:-translate-y-0.5 active:translate-y-0 transition-all items-center gap-2"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Belanja</span>
@@ -133,7 +126,7 @@ const Navbar: React.FC = () => {
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="xl:hidden p-2 rounded-xl transition-all hover:bg-accent/50 text-foreground"
+              className="xl:hidden p-2 rounded-full transition-all hover:bg-accent/50 text-foreground"
             >
               <div className="relative w-6 h-6">
                 <motion.span

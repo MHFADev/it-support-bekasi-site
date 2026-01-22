@@ -122,17 +122,17 @@ const ProductDetail: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-slate-950 pt-32 pb-20">
+      <div className="min-h-screen bg-background pt-32 pb-20">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-12 gap-12 animate-pulse">
-            <div className="lg:col-span-5 aspect-square bg-gray-100 dark:bg-slate-800 rounded-2xl"></div>
+            <div className="lg:col-span-5 aspect-square bg-muted rounded-2xl"></div>
             <div className="lg:col-span-4 space-y-6">
-              <div className="h-10 bg-gray-100 dark:bg-slate-800 rounded w-1/4"></div>
-              <div className="h-12 bg-gray-100 dark:bg-slate-800 rounded"></div>
-              <div className="h-6 bg-gray-100 dark:bg-slate-800 rounded w-1/2"></div>
-              <div className="h-32 bg-gray-100 dark:bg-slate-800 rounded"></div>
+              <div className="h-10 bg-muted rounded w-1/4"></div>
+              <div className="h-12 bg-muted rounded"></div>
+              <div className="h-6 bg-muted rounded w-1/2"></div>
+              <div className="h-32 bg-muted rounded"></div>
             </div>
-            <div className="lg:col-span-3 h-[400px] bg-gray-100 dark:bg-slate-800 rounded-2xl"></div>
+            <div className="lg:col-span-3 h-[400px] bg-muted rounded-2xl"></div>
           </div>
         </div>
       </div>
@@ -141,13 +141,13 @@ const ProductDetail: React.FC = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center pt-24">
+      <div className="min-h-screen bg-background flex items-center justify-center pt-24">
         <div className="text-center">
-          <div className="w-24 h-24 bg-gray-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Info className="w-12 h-12 text-gray-400" />
+          <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
+            <Info className="w-12 h-12 text-muted-foreground" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Produk Tidak Ditemukan</h2>
-          <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-md mx-auto">
+          <h2 className="text-2xl font-bold text-foreground mb-4">Produk Tidak Ditemukan</h2>
+          <p className="text-muted-foreground mb-8 max-w-md mx-auto">
             Maaf, produk yang Anda cari mungkin sudah tidak tersedia atau telah dihapus.
           </p>
           <Button asChild className="rounded-full px-8">
@@ -159,15 +159,15 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 pt-24 pb-20">
+    <div className="min-h-screen bg-background pt-24 pb-20">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Breadcrumbs */}
-        <nav className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-8 py-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
+        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8 py-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
           <Link to="/" className="hover:text-primary transition-colors">Home</Link>
           <ChevronRight className="w-4 h-4" />
           <Link to="/shop" className="hover:text-primary transition-colors">Katalog</Link>
           <ChevronRight className="w-4 h-4" />
-          <span className="text-slate-900 dark:text-white font-medium truncate max-w-[200px] sm:max-w-xs">{product.title}</span>
+          <span className="text-foreground font-medium truncate max-w-[200px] sm:max-w-xs">{product.title}</span>
         </nav>
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
@@ -177,7 +177,7 @@ const ProductDetail: React.FC = () => {
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="relative aspect-square rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 group"
+                className="relative aspect-square rounded-2xl overflow-hidden bg-card border border-border group"
               >
                 <img
                   src={selectedImage || product.image_url}
@@ -255,7 +255,7 @@ const ProductDetail: React.FC = () => {
             </div>
 
             {/* Seller Trust */}
-            <div className="p-4 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex items-center justify-between">
+            <div className="p-4 rounded-2xl border border-border bg-slate-50/50 dark:bg-slate-900/50 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
                   <Store className="w-6 h-6 text-primary" />
@@ -271,8 +271,8 @@ const ProductDetail: React.FC = () => {
             </div>
 
             {/* Tabs Section */}
-            <div className="space-y-6 pt-4 border-t border-slate-100 dark:border-slate-800">
-              <div className="flex gap-8 border-b border-slate-100 dark:border-slate-800 sticky top-24 bg-white dark:bg-slate-950 z-10">
+            <div className="space-y-6 pt-4 border-t border-border">
+              <div className="flex gap-8 border-b border-border sticky top-24 bg-white dark:bg-slate-950 z-10">
                 {(['detail', 'specs', 'reviews'] as const).map((tab) => (
                   <button
                     key={tab}
@@ -309,14 +309,14 @@ const ProductDetail: React.FC = () => {
                         {product.description}
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-                        <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+                        <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-border">
                           <Shield className="w-5 h-5 text-emerald-500" />
                           <div className="text-xs">
                             <p className="font-bold text-slate-900 dark:text-white">Garansi 1 Tahun</p>
                             <p className="text-slate-500">Resmi IT Support Bekasi</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+                        <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-border">
                           <Truck className="w-5 h-5 text-blue-500" />
                           <div className="text-xs">
                             <p className="font-bold text-slate-900 dark:text-white">Bisa COD</p>
@@ -347,7 +347,7 @@ const ProductDetail: React.FC = () => {
                   {activeTab === 'reviews' && (
                     <div className="space-y-8">
                       {[1, 2].map((i) => (
-                        <div key={i} className="space-y-3 pb-6 border-b border-slate-100 dark:border-slate-800 last:border-0">
+                        <div key={i} className="space-y-3 pb-6 border-b border-border last:border-0">
                           <div className="flex items-center gap-2">
                             <div className="flex">
                               {[1, 2, 3, 4, 5].map(s => <Star key={s} className="w-3 h-3 fill-amber-400 text-amber-400" />)}
@@ -374,7 +374,7 @@ const ProductDetail: React.FC = () => {
           {/* Right Column: Order Card */}
           <div className="lg:col-span-3">
             <div className="sticky top-28 space-y-4">
-              <div className="p-6 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/50 dark:shadow-none space-y-6">
+              <div className="p-6 rounded-2xl border border-border bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/50 dark:shadow-none space-y-6">
                 <h3 className="font-extrabold text-slate-900 dark:text-white">Atur Jumlah</h3>
                 
                 <div className="flex items-center gap-4">
@@ -445,7 +445,7 @@ const ProductDetail: React.FC = () => {
                 <Link key={related.id} to={`/product/${related.id}`}>
                   <motion.div 
                     whileHover={{ y: -5 }}
-                    className="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-800 hover:shadow-xl transition-all h-full flex flex-col"
+                    className="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-border hover:shadow-xl transition-all h-full flex flex-col"
                   >
                     <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800 p-4">
                       <img

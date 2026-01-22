@@ -97,7 +97,7 @@ const ShopPremium: React.FC = () => {
                   placeholder="Cari laptop, hardware, atau aksesoris..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none focus:border-primary/50 outline-none transition-all dark:text-white"
+                  className="w-full pl-12 pr-4 py-4 bg-background border-2 border-border rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none focus:border-primary/50 outline-none transition-all text-foreground"
                 />
               </div>
             </motion.div>

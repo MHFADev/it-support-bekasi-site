@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
           <div className="lg:col-span-4">
             <Link to="/" className="flex items-center gap-3 mb-8 group">
               <div className="relative">
-                <div className="absolute -inset-1 bg-linear-to-r from-primary to-purple-500 rounded-lg blur-sm opacity-25 group-hover:opacity-100 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary to-cyan-400 rounded-lg blur-sm opacity-25 group-hover:opacity-100 transition duration-500"></div>
                 <div className="relative bg-background p-2 rounded-lg border border-border">
                   <Laptop className="w-6 h-6 text-primary" />
                 </div>

@@ -67,10 +67,7 @@ const Navbar: React.FC = () => {
               <span className="text-lg sm:text-xl font-black tracking-tighter text-primary">
                 IT SUPPORT
               </span>
-              <span className={cn(
-                "text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase transition-colors",
-                isMenuOpen || isScrolled || location.pathname !== '/' ? "text-muted-foreground" : "text-primary/80"
-              )}>
+              <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase transition-colors text-muted-foreground">
                 Bekasi Premium
               </span>
             </div>
@@ -97,10 +94,7 @@ const Navbar: React.FC = () => {
                 key={link.name}
                 to={link.path}
                 onClick={(e) => handleNavClick(e, link.path)}
-                className={cn(
-                  "text-[13px] font-bold uppercase tracking-wider transition-all hover:text-primary relative group py-2",
-                  !isScrolled && location.pathname === '/' ? "text-white/90" : "text-foreground/80"
-                )}
+                className="text-[13px] font-bold uppercase tracking-wider transition-all hover:text-primary relative group py-2 text-foreground"
               >
                 {link.name}
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary transition-all group-hover:w-8 rounded-full" />
@@ -112,20 +106,14 @@ const Navbar: React.FC = () => {
           <div className="flex items-center gap-1 sm:gap-3">
             <button
               onClick={() => toggleTheme()}
-              className={cn(
-                "p-2 rounded-xl transition-all hover:bg-accent/50",
-                !isScrolled && location.pathname === '/' ? "text-primary" : "text-foreground"
-              )}
+              className="p-2 rounded-xl transition-all hover:bg-accent/50 text-foreground"
             >
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
             
             <button
               onClick={() => setIsCartOpen(true)}
-              className={cn(
-                "p-2 rounded-xl transition-all hover:bg-accent/50 relative group",
-                !isScrolled && location.pathname === '/' ? "text-primary" : "text-foreground"
-              )}
+              className="p-2 rounded-xl transition-all hover:bg-accent/50 relative group text-foreground"
             >
               <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
               {cartCount > 0 && (
@@ -145,10 +133,7 @@ const Navbar: React.FC = () => {
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={cn(
-                "xl:hidden p-2 rounded-xl transition-all hover:bg-accent/50",
-                isMenuOpen || isScrolled || location.pathname !== '/' ? "text-foreground" : "text-primary"
-              )}
+              className="xl:hidden p-2 rounded-xl transition-all hover:bg-accent/50 text-foreground"
             >
               <div className="relative w-6 h-6">
                 <motion.span

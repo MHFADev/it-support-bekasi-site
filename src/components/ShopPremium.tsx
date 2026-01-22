@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Search, Filter, Laptop, Cpu, Shield, ArrowRight, Star, ShoppingCart } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -63,22 +64,13 @@ const ShopPremium: React.FC = () => {
   return (
     <div className="min-h-screen pt-24 pb-20 bg-background">
       {/* Header Section */}
-      <section className="relative py-12 mb-12 overflow-hidden">
-        <div className="absolute inset-0 bg-accent/5 dark:bg-slate-900/50 -z-10"></div>
+      <section className="relative py-12 mb-8 overflow-hidden bg-slate-50 dark:bg-slate-900/50">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-6 border border-primary/20"
-            >
-              <ShoppingBag className="w-4 h-4" />
-              <span>Katalog Hardware</span>
-            </motion.div>
+          <div className="max-w-4xl mx-auto text-center space-y-4">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6"
+              className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white"
             >
               Hardware Pilihan <span className="text-primary">Terbaik.</span>
             </motion.h1>
@@ -86,10 +78,29 @@ const ShopPremium: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-lg text-muted-foreground max-w-2xl mx-auto"
+              className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto"
             >
               Dapatkan laptop bekas berkualitas, PC custom, dan hardware original dengan jaminan garansi teknisi kami.
             </motion.p>
+            
+            {/* Main Search Bar */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="relative max-w-2xl mx-auto pt-4"
+            >
+              <div className="relative group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                <input 
+                  type="text" 
+                  placeholder="Cari laptop, hardware, atau aksesoris..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none focus:border-primary/50 outline-none transition-all dark:text-white"
+                />
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -174,11 +185,12 @@ const ShopPremium: React.FC = () => {
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ duration: 0.3 }}
                   className={cn(
-                    "group bg-card rounded-3xl border border-border p-4 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500",
+                    "group bg-card rounded-3xl border border-border p-4 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 relative cursor-pointer",
                     viewMode === 'list' ? "flex flex-row gap-8 items-center" : "flex flex-col"
                   )}
-                  onClick={() => handleAddToCart(product)}
                 >
+                  <Link to={`/product/${product.id}`} className="absolute inset-0 z-10" />
+                  
                   <div className={cn(
                     "relative overflow-hidden rounded-2xl bg-accent/10",
                     viewMode === 'list' ? "w-48 h-48" : "aspect-square mb-5"
@@ -219,11 +231,12 @@ const ShopPremium: React.FC = () => {
                       </div>
                       <button
                         onClick={(e) => {
+                          e.preventDefault();
                           e.stopPropagation();
                           handleAddToCart(product);
                         }}
-                        disabled={product.stock === 0}
-                        className="bg-primary text-primary-foreground p-3 rounded-2xl shadow-lg shadow-primary/20 hover:scale-110 active:scale-95 transition-all disabled:opacity-30"
+                        disabled={product.stock_status === 'out_of_stock'}
+                        className="bg-primary text-primary-foreground p-3 rounded-2xl shadow-lg shadow-primary/20 hover:scale-110 active:scale-95 transition-all disabled:opacity-30 relative z-20"
                       >
                         <ShoppingCart className="w-5 h-5" />
                       </button>

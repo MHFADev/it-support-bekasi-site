@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ShieldCheck, Zap, Award, ArrowRight, Laptop, Settings, Shield } from 'lucide-react';
 import { CONTENT, SITE_INFO } from '../constants';
 import { useApp } from '../context/AppContext';
 import { cn } from '../lib/utils';
+import { Button } from './ui/button';
 
 const Hero: React.FC = () => {
   const { language } = useApp();
@@ -54,12 +56,12 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-wrap gap-4"
             >
-              <button
-                onClick={() => document.getElementById('shop-premium')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-primary text-white px-10 py-3 rounded-lg font-bold shadow-sm hover:brightness-110 transition-all"
-              >
-                {content.ctaPrimary}
-              </button>
+              <Button asChild size="lg" className="rounded-xl px-10 h-14 font-bold text-lg shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95">
+                <Link to="/shop">{content.ctaSecondary}</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-xl px-10 h-14 font-bold text-lg border-2 transition-all hover:bg-primary/5 hover:scale-105 active:scale-95">
+                <a href="#services">{content.ctaPrimary}</a>
+              </Button>
             </motion.div>
           </div>
 

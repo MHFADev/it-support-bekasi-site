@@ -41,55 +41,59 @@ const Contact: React.FC = () => {
   };
 
   const contactItems = [
-    { icon: <Phone />, label: content.items[0], value: `+${CONTACT_INFO.whatsapp}`, action: () => window.open(`https://wa.me/${CONTACT_INFO.whatsapp}`) },
-    { icon: <Mail />, label: content.items[1], value: CONTACT_INFO.email, action: () => window.location.href = `mailto:${CONTACT_INFO.email}` },
-    { icon: <MapPin />, label: content.items[2], value: CONTACT_INFO.address, action: () => window.open(CONTACT_INFO.mapsUrl) },
-    { icon: <Clock />, label: content.items[3], value: "09:00 - 21:00 WIB", action: null }
+    { icon: <Phone className="w-6 h-6" />, label: content.items[0], value: `+${CONTACT_INFO.whatsapp}`, action: () => window.open(`https://wa.me/${CONTACT_INFO.whatsapp}`) },
+    { icon: <Mail className="w-6 h-6" />, label: content.items[1], value: CONTACT_INFO.email, action: () => window.location.href = `mailto:${CONTACT_INFO.email}` },
+    { icon: <MapPin className="w-6 h-6" />, label: content.items[2], value: CONTACT_INFO.address, action: () => window.open(CONTACT_INFO.mapsUrl) },
+    { icon: <Clock className="w-6 h-6" />, label: content.items[3], value: "09:00 - 21:00 WIB", action: null }
   ];
 
   return (
-    <section id="contact" className="py-24 relative">
+    <section id="contact" className="py-32 relative noise-bg overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(var(--primary),0.05)_0%,transparent_70%)] -z-10" />
+      
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
           {/* Info Side */}
           <div className="flex flex-col">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="mb-12"
+              className="mb-16"
             >
-              <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-4">
+              <span className="inline-flex items-center gap-3 px-5 py-2 rounded-full glass-panel text-primary font-bold tracking-widest uppercase text-[10px] mb-8">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
                 {content.label}
               </span>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
+              <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-8 font-serif">
                 {content.title}
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-xl text-muted-foreground leading-relaxed font-light max-w-xl">
                 {content.desc}
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               {contactItems.map((item, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  transition={{ duration: 0.8, delay: i * 0.1 }}
                   viewport={{ once: true }}
                   onClick={item.action || undefined}
                   className={cn(
-                    "p-6 rounded-2xl border border-border bg-card/50 transition-all group",
-                    item.action ? "hover:bg-accent hover:border-primary/30 cursor-pointer" : ""
+                    "card-premium group border-beam",
+                    item.action ? "cursor-pointer" : ""
                   )}
                 >
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center text-primary mb-6 border border-primary/10 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-sm group-hover:shadow-elegant">
                     {item.icon}
                   </div>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground font-bold mb-1">{item.label}</p>
-                  <p className="text-foreground font-semibold break-words">{item.value}</p>
+                  <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-bold mb-2 opacity-70">{item.label}</p>
+                  <p className="text-foreground font-bold break-words group-hover:text-primary transition-colors">{item.value}</p>
                 </motion.div>
               ))}
             </div>
@@ -97,60 +101,60 @@ const Contact: React.FC = () => {
 
           {/* Form Side */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.2, 0, 0.2, 1] }}
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="absolute -inset-4 bg-linear-to-r from-primary/10 to-purple-500/10 rounded-[3rem] blur-3xl -z-10"></div>
-            <div className="bg-card border border-border rounded-[2.5rem] p-8 md:p-12 shadow-2xl elegant-shadow">
-              <h3 className="text-2xl font-bold mb-8">{content.form.title}</h3>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-muted-foreground uppercase tracking-wider">{content.form.name}</label>
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[3rem] blur opacity-20 transition duration-1000"></div>
+            <div className="relative glass-panel rounded-[3rem] p-10 md:p-16 shadow-2xl border border-white/10">
+              <h3 className="text-3xl font-bold mb-10 font-serif">{content.form.title}</h3>
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="space-y-3">
+                  <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest ml-1">{content.form.name}</label>
                   <input
                     type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="John Doe"
-                    className="w-full bg-accent/50 border border-border rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden"
+                    className="w-full bg-accent/10 border border-border/50 rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden text-foreground"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-muted-foreground uppercase tracking-wider">{content.form.email}</label>
+                <div className="space-y-3">
+                  <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest ml-1">{content.form.email}</label>
                   <input
                     type="email"
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="john@example.com"
-                    className="w-full bg-accent/50 border border-border rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden"
+                    className="w-full bg-accent/10 border border-border/50 rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden text-foreground"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-muted-foreground uppercase tracking-wider">{content.form.msg}</label>
+                <div className="space-y-3">
+                  <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest ml-1">{content.form.msg}</label>
                   <textarea
                     required
                     rows={4}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Apa yang bisa kami bantu?"
-                    className="w-full bg-accent/50 border border-border rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden resize-none"
+                    placeholder="Bagaimana kami dapat membantu Anda?"
+                    className="w-full bg-accent/10 border border-border/50 rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden resize-none text-foreground"
                   ></textarea>
                 </div>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-primary text-primary-foreground py-5 rounded-2xl font-bold shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-70"
+                  className="w-full premium-gradient text-white py-5 rounded-2xl font-black uppercase tracking-[0.2em] shadow-2xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-4 disabled:opacity-70 group"
                 >
                   {isSubmitting ? (
                     <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                   ) : (
                     <>
-                      <Send className="w-5 h-5" />
                       <span>{content.form.submit}</span>
+                      <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </>
                   )}
                 </button>

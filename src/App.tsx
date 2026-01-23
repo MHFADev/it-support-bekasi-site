@@ -14,7 +14,6 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import FAQ from './components/FAQ';
 import WhyChooseUs from './components/WhyChooseUs';
-import Services from './components/Services';
 import Shop from './components/ShopPremium';
 import ProductDetail from './components/ProductDetail';
 import LoadingScreen from './components/LoadingScreen';
@@ -22,6 +21,13 @@ import { SEO } from './components/SEO';
 import { CONTACT_INFO } from './constants';
 import { Toaster } from './components/ui/sonner';
 import { useAnalytics } from './hooks/useAnalytics';
+
+import AdminLogin from './admin/AdminLogin';
+import AdminLayout from './admin/AdminLayout';
+import Dashboard from './admin/Dashboard';
+import Products from './admin/Products';
+import Settings from './admin/Settings';
+import ProtectedRoute from './admin/ProtectedRoute';
 
 const HomePage = () => (
   <div className="flex flex-col">
@@ -34,15 +40,6 @@ const HomePage = () => (
   </div>
 );
 
-import AdminLogin from './admin/AdminLogin';
-import AdminLayout from './admin/AdminLayout';
-import Dashboard from './admin/Dashboard';
-import Products from './admin/Products';
-import Settings from './admin/Settings';
-import ProtectedRoute from './admin/ProtectedRoute';
-
-import { blink } from './lib/blink';
-
 const AppContent = () => {
   const [isLoading, setIsLoading] = useState(true);
   useAnalytics();
@@ -50,31 +47,14 @@ const AppContent = () => {
   const isAdminPath = location.pathname.startsWith('/admin');
 
   useEffect(() => {
-    // Simulate initial load or wait for assets
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000); // 2 seconds minimum loading time for better UX visibility
+    }, 2000);
 
-    // Basic presence tracking
-    let channel: any = null;
-    const setupPresence = async () => {
-      try {
-        channel = blink.realtime.channel('global-presence');
-        await channel.subscribe({
-          userId: `guest-${Math.random().toString(36).substr(2, 9)}`,
-          metadata: { path: location.pathname }
-        });
-      } catch (err) {
-        console.error('Presence error:', err);
-      }
-    };
-    setupPresence();
-    
     return () => { 
-      channel?.unsubscribe(); 
       clearTimeout(timer);
     };
-  }, [location.pathname]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
@@ -87,12 +67,10 @@ const AppContent = () => {
       
       <main className="relative">
         <Routes>
-          {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           
-          {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={
             <ProtectedRoute>
@@ -116,7 +94,6 @@ const AppContent = () => {
             </ProtectedRoute>
           } />
           
-          {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

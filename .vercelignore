@@ -32,7 +32,6 @@ scripts/
 
 # Old/unused files
 components/ShopNew.tsx
-App.tsx
 index.tsx
 main.ts
 counter.ts

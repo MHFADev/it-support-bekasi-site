@@ -158,38 +158,44 @@ const ProductDetail: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="space-y-6"
+            className="relative"
           >
-            <div className="relative aspect-square rounded-[3rem] overflow-hidden bg-gradient-to-br from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 border border-border group shadow-2xl p-4">
-              <div className="w-full h-full rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-950 relative">
-                <img
+            <div className="relative aspect-square flex items-center justify-center">
+              {/* Complex Organic Background */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-primary/5 to-transparent rounded-[60%_40%_30%_70%/60%_30%_70%_40%] animate-[blob_10s_infinite] opacity-50"></div>
+              <div className="absolute inset-4 bg-gradient-to-bl from-blue-400/10 via-transparent to-primary/10 rounded-[40%_60%_70%_30%/40%_70%_30%_60%] animate-[blob_15s_infinite_reverse] opacity-50"></div>
+              
+              <div className="relative w-full h-full flex items-center justify-center p-8 group">
+                <motion.img
+                  initial={{ y: 20 }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 1, delay: 0.2 }}
                   src={product.image_url}
                   alt={product.title}
-                  className="w-full h-full object-contain p-12 group-hover:scale-110 transition-transform duration-1000 ease-in-out"
+                  className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] group-hover:scale-105 transition-transform duration-1000 ease-in-out z-10"
                 />
-                <div className="absolute inset-0 bg-radial-gradient from-transparent to-black/5 pointer-events-none"></div>
               </div>
               
-              <div className="absolute top-8 right-8">
+              <div className="absolute top-4 right-4 z-20">
                 <Button 
                   variant="secondary" 
                   size="icon" 
-                  className="rounded-2xl shadow-xl bg-white/90 backdrop-blur-md hover:bg-white hover:scale-110 transition-all duration-300 w-12 h-12"
+                  className="rounded-2xl shadow-2xl bg-white/20 backdrop-blur-2xl border border-white/50 hover:bg-white hover:scale-110 transition-all duration-300 w-14 h-14"
                   onClick={() => {
                     if (navigator.share) {
                       navigator.share({ title: product.title, url: window.location.href });
                     }
                   }}
                 >
-                  <Share2 className="w-6 h-6" />
+                  <Share2 className="w-7 h-7 text-slate-800" />
                 </Button>
               </div>
             </div>
             
-            {/* Decor Elements */}
-            <div className="grid grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="aspect-square rounded-2xl bg-slate-100 dark:bg-slate-800 animate-pulse border border-border"></div>
+            {/* Minimalist Decor */}
+            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex gap-2">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className={`h-1 rounded-full bg-primary/20 ${i === 1 ? 'w-8 bg-primary/40' : 'w-2'}`}></div>
               ))}
             </div>
           </motion.div>

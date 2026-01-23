@@ -192,18 +192,22 @@ const ShopPremium: React.FC = () => {
                   <Link to={`/product/${product.id}`} className="absolute inset-0 z-10" />
                   
                   <div className={cn(
-                    "relative overflow-hidden rounded-[2rem] bg-slate-100 dark:bg-slate-800/50 p-2",
-                    viewMode === 'list' ? "w-48 h-48" : "aspect-square mb-5"
+                    "relative overflow-hidden p-6",
+                    viewMode === 'list' ? "w-64 h-64" : "aspect-square"
                   )}>
-                    <div className="w-full h-full overflow-hidden rounded-[1.5rem] relative group-hover:shadow-inner transition-all duration-500">
-                      <img
+                    {/* Organic Background Shape */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/20 rounded-[30%_70%_70%_30%/30%_30%_70%_70%] animate-[blob_7s_infinite] transition-all duration-1000 group-hover:rounded-[50%]"></div>
+                    
+                    <div className="relative w-full h-full flex items-center justify-center">
+                      <motion.img
                         src={product.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=800'}
                         alt={product.title}
-                        className="w-full h-full object-contain p-4 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-2"
+                        className="w-[85%] h-[85%] object-contain drop-shadow-2xl transition-all duration-700 group-hover:scale-110 group-hover:-rotate-6"
                       />
                     </div>
-                    <div className="absolute top-4 left-4">
-                      <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase border border-border/50 text-primary shadow-sm">
+                    
+                    <div className="absolute top-4 left-4 z-20">
+                      <div className="bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border border-white/50 text-primary shadow-xl">
                         {product.category}
                       </div>
                     </div>

@@ -274,13 +274,17 @@ const Shop: React.FC = () => {
                 <Link to={`/product/${product.id}`}>
                   <div className="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     {/* Image */}
-                    <div className="relative aspect-video overflow-hidden bg-gray-100 dark:bg-slate-700">
+                    <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-slate-800 dark:to-slate-900/50 p-6 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_70%)]"></div>
                       {product.image_url ? (
-                        <img
-                          src={product.image_url}
-                          alt={product.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
+                        <div className="relative w-full h-full">
+                          <img
+                            src={product.image_url}
+                            alt={product.title}
+                            className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] group-hover:scale-110 group-hover:-rotate-2 transition-all duration-700 ease-out z-10 relative"
+                          />
+                          <div className="absolute inset-x-0 bottom-0 h-4 bg-black/10 blur-xl rounded-[100%] scale-x-75 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        </div>
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           <Laptop className="w-16 h-16 text-gray-300 dark:text-gray-600" />
@@ -288,8 +292,7 @@ const Shop: React.FC = () => {
                       )}
                       
                       {product.stock_status === 'in_stock' && (
-                        <div className="absolute top-3 right-3 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg">
-                          <BadgeCheck className="w-3 h-3" />
+                        <div className="absolute top-4 left-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase border border-blue-100 dark:border-blue-900/30 shadow-sm z-20">
                           Ready
                         </div>
                       )}

@@ -106,15 +106,19 @@ const Products: React.FC = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Link to={`/product/${product.id}`}>
-                <div className="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                <div className="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border border-gray-100 dark:border-slate-700">
                   {/* Image */}
-                  <div className="relative aspect-video overflow-hidden bg-gray-100 dark:bg-slate-700">
+                  <div className="relative aspect-square overflow-hidden bg-gradient-to-tr from-gray-50 to-white dark:from-slate-900 dark:to-slate-800 p-8 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(59,130,246,0.05),transparent_50%)]"></div>
                     {product.image_url ? (
-                      <img
-                        src={product.image_url}
-                        alt={product.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
+                      <div className="relative w-full h-full flex items-center justify-center">
+                        <img
+                          src={product.image_url}
+                          alt={product.title}
+                          className="w-[90%] h-[90%] object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.2)] group-hover:scale-110 group-hover:rotate-3 transition-all duration-700 ease-out"
+                        />
+                        <div className="absolute -bottom-4 w-1/2 h-4 bg-black/20 blur-2xl rounded-[100%] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                      </div>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <Laptop className="w-20 h-20 text-gray-300 dark:text-gray-600" />
@@ -122,18 +126,12 @@ const Products: React.FC = () => {
                     )}
                     
                     {/* Badge */}
-                    <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-lg">
-                      <BadgeCheck className="w-4 h-4" />
-                      Ready Stock
+                    <div className="absolute top-5 left-5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl text-blue-600 dark:text-blue-400 px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border border-blue-100 dark:border-blue-900/30 shadow-xl z-10">
+                      Best Choice
                     </div>
 
                     {/* Quick View Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
-                      <button className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                        <ShoppingCart className="w-4 h-4" />
-                        Lihat Detail
-                      </button>
-                    </div>
+                    <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                   </div>
 
                   {/* Content */}

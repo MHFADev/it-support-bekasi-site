@@ -192,30 +192,30 @@ const ShopPremium: React.FC = () => {
                   <Link to={`/product/${product.id}`} className="absolute inset-0 z-10" />
                   
                   <div className={cn(
-                    "relative overflow-hidden p-6",
+                    "relative overflow-hidden p-8",
                     viewMode === 'list' ? "w-64 h-64" : "aspect-square"
                   )}>
                     {/* Organic Background Shape */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/20 rounded-[30%_70%_70%_30%/30%_30%_70%_70%] animate-[blob_7s_infinite] transition-all duration-1000 group-hover:rounded-[50%]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-primary/30 rounded-[30%_70%_70%_30%/30%_30%_70%_70%] animate-[blob_10s_infinite] transition-all duration-1000 group-hover:rounded-[50%] opacity-50"></div>
                     
                     <div className="relative w-full h-full flex items-center justify-center p-4">
-                      <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-20"></div>
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.4),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-20"></div>
                       <motion.div
                         className="relative z-10 w-full h-full flex items-center justify-center"
-                        style={{ perspective: "1000px" }}
+                        style={{ perspective: "1200px" }}
                       >
                         <motion.img
                           src={product.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=800'}
                           alt={product.title}
-                          className="w-[90%] h-[90%] object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.2)] transition-all duration-700 group-hover:scale-110 group-hover:[transform:rotateY(-15deg)_rotateX(10deg)]"
+                          className="w-[95%] h-[95%] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.25)] transition-all duration-700 group-hover:scale-110 group-hover:[transform:rotateY(-20deg)_rotateX(15deg)_translateZ(30px)]"
                         />
-                        {/* Reflection overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 [transform:skewY(-10deg)] pointer-events-none"></div>
+                        {/* Shadow & Reflection */}
+                        <div className="absolute -bottom-6 w-3/4 h-6 bg-black/20 blur-3xl rounded-[100%] opacity-0 group-hover:opacity-100 transition-all duration-700 scale-x-75"></div>
                       </motion.div>
                     </div>
                     
-                    <div className="absolute top-4 left-4 z-20">
-                      <div className="bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border border-white/50 text-primary shadow-xl">
+                    <div className="absolute top-6 left-6 z-20">
+                      <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl px-5 py-2 rounded-2xl text-[10px] font-black tracking-[0.2em] uppercase border border-white/40 text-primary shadow-2xl shadow-primary/10">
                         {product.category}
                       </div>
                     </div>

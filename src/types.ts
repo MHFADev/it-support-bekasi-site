@@ -13,12 +13,13 @@ export interface Service {
 export interface Product {
   id: string;
   title: string;
-  price: number | string;
+  price: number;
   description: string;
   image_url: string;
   category: string;
   stock_status?: string;
   specifications?: any[];
+  created_at?: string;
 }
 
 export interface Testimonial {

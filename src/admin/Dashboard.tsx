@@ -312,7 +312,7 @@ const Dashboard: React.FC = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-start mb-1">
                       <p className="font-bold text-sm truncate">{m.name}</p>
-                      <span className="text-[10px] text-gray-400 uppercase font-bold">{new Date(m.createdAt as string).toLocaleDateString()}</span>
+                      <span className="text-[10px] text-gray-400 uppercase font-bold">{new Date(m.created_at as string).toLocaleDateString()}</span>
                     </div>
                     <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">{m.message}</p>
                   </div>

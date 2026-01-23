@@ -33,6 +33,13 @@ export const CONTENT: Record<'id' | 'en', {
     ctaSecondary: string;
     indicators: string[];
   };
+  about: {
+    label: string;
+    title: string;
+    p1: string;
+    p2: string;
+    stats: string[];
+  };
   services: {
     label: string;
     title: string;
@@ -88,6 +95,16 @@ export const CONTENT: Record<'id' | 'en', {
         "100% Original",
         "Garansi Unit",
         "Kondisi Mulus"
+      ]
+    },
+    about: {
+      label: "Tentang Kami",
+      title: "Optimalkan Performa Perangkat Anda",
+      p1: "IT Support Bekasi hadir sebagai mitra terpercaya untuk semua kebutuhan teknologi Anda. Dengan pengalaman lebih dari 5 tahun, kami telah melayani ribuan pelanggan di area Bekasi dan sekitarnya.",
+      p2: "Kami berkomitmen memberikan layanan terbaik dengan teknisi berpengalaman, spare part original, dan garansi resmi untuk setiap perbaikan.",
+      stats: [
+        "Kepuasan Pelanggan",
+        "Unit Terjual & Diperbaiki"
       ]
     },
     services: {
@@ -196,6 +213,16 @@ export const CONTENT: Record<'id' | 'en', {
         "100% Original",
         "Unit Warranty",
         "Mint Condition"
+      ]
+    },
+    about: {
+      label: "About Us",
+      title: "Optimize Your Device Performance",
+      p1: "IT Support Bekasi is here as your trusted partner for all your technology needs. With over 5 years of experience, we have served thousands of customers in the Bekasi area and beyond.",
+      p2: "We are committed to providing the best service with experienced technicians, original spare parts, and official warranty for every repair.",
+      stats: [
+        "Customer Satisfaction",
+        "Units Sold & Repaired"
       ]
     },
     services: {

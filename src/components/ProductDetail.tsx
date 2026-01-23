@@ -110,13 +110,16 @@ const ProductDetail: React.FC = () => {
 
   const handleAddToCart = () => {
     if (!product) return;
-    addToCart({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      image_url: product.image_url,
-      quantity: quantity
-    });
+    const priceNum = typeof product.price === 'string' ? parseFloat(product.price) : product.price;
+    // Add item multiple times based on quantity
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: product.id,
+        title: product.title,
+        price: priceNum,
+        image_url: product.image_url,
+      });
+    }
     toast.success(`${product.title} berhasil ditambah ke keranjang`);
   };
 

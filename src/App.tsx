@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare } from 'lucide-react';
@@ -17,6 +17,7 @@ import WhyChooseUs from './components/WhyChooseUs';
 import Services from './components/Services';
 import Shop from './components/ShopPremium';
 import ProductDetail from './components/ProductDetail';
+import LoadingScreen from './components/LoadingScreen';
 import { SEO } from './components/SEO';
 import { CONTACT_INFO } from './constants';
 import { Toaster } from './components/ui/sonner';
@@ -43,11 +44,17 @@ import ProtectedRoute from './admin/ProtectedRoute';
 import { blink } from './lib/blink';
 
 const AppContent = () => {
+  const [isLoading, setIsLoading] = useState(true);
   useAnalytics();
   const location = useLocation();
   const isAdminPath = location.pathname.startsWith('/admin');
 
-  React.useEffect(() => {
+  useEffect(() => {
+    // Simulate initial load or wait for assets
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // 2 seconds minimum loading time for better UX visibility
+
     // Basic presence tracking
     let channel: any = null;
     const setupPresence = async () => {
@@ -62,11 +69,19 @@ const AppContent = () => {
       }
     };
     setupPresence();
-    return () => { channel?.unsubscribe(); };
+    
+    return () => { 
+      channel?.unsubscribe(); 
+      clearTimeout(timer);
+    };
   }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+      <AnimatePresence mode="wait">
+        {isLoading && <LoadingScreen key="loader" />}
+      </AnimatePresence>
+
       <SEO type="business" />
       {!isAdminPath && <Navbar />}
       

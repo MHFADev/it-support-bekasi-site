@@ -4,15 +4,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, 
   ShoppingCart, 
-  BadgeCheck, 
   Share2,
   Check,
   Plus,
   Minus,
   Shield,
   Truck,
-  Info,
-  ChevronRight
+  MessageCircle,
+  ChevronRight,
+  Star,
+  Box
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { CONTACT_INFO } from '@/constants';
@@ -21,17 +22,9 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-
-interface Product {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  image_url: string;
-  category: string;
-  stock_status: string;
-  specifications: any[];
-}
+import { Product } from '@/types';
+import ProductCard from './ProductCard';
+import { Skeleton } from './ui/skeleton';
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,9 +32,9 @@ const ProductDetail: React.FC = () => {
   const { addToCart } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'detail' | 'specs'>('detail');
   const [quantity, setQuantity] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
     if (id) {
@@ -60,7 +53,6 @@ const ProductDetail: React.FC = () => {
         .single();
 
       if (error) throw error;
-      
       setProduct(data);
 
       const { data: related } = await supabase
@@ -84,6 +76,7 @@ const ProductDetail: React.FC = () => {
       style: 'currency',
       currency: 'IDR',
       minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(price);
   };
 
@@ -110,15 +103,17 @@ const ProductDetail: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background pt-32 pb-20">
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-32 pb-20">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-12 gap-12 animate-pulse">
-            <div className="lg:col-span-6 aspect-square bg-muted rounded-2xl"></div>
-            <div className="lg:col-span-6 space-y-6">
-              <div className="h-10 bg-muted rounded w-1/4"></div>
-              <div className="h-12 bg-muted rounded"></div>
-              <div className="h-6 bg-muted rounded w-1/2"></div>
-              <div className="h-32 bg-muted rounded"></div>
+          <div className="grid lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-7">
+              <Skeleton className="aspect-[4/3] rounded-3xl" />
+            </div>
+            <div className="lg:col-span-5 space-y-6">
+              <Skeleton className="h-8 w-1/3" />
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-6 w-1/2" />
+              <Skeleton className="h-32 w-full" />
             </div>
           </div>
         </div>
@@ -128,14 +123,11 @@ const ProductDetail: React.FC = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center pt-24">
+      <div className="min-h-screen flex items-center justify-center pt-24">
         <div className="text-center">
-          <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
-            <Info className="w-12 h-12 text-muted-foreground" />
-          </div>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Produk Tidak Ditemukan</h2>
-          <Button asChild className="rounded-full px-8">
-            <Link to="/shop">Jelajahi Produk Lain</Link>
+          <h2 className="text-2xl font-bold mb-4">Produk Tidak Ditemukan</h2>
+          <Button asChild>
+            <Link to="/shop">Kembali ke Shop</Link>
           </Button>
         </div>
       </div>
@@ -143,182 +135,194 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-20">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-28 pb-20">
       <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8 py-4">
+        {/* Breadcrumbs */}
+        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8 overflow-x-auto whitespace-nowrap pb-2">
           <Link to="/" className="hover:text-primary transition-colors">Home</Link>
           <ChevronRight className="w-4 h-4" />
-          <Link to="/shop" className="hover:text-primary transition-colors">Katalog</Link>
+          <Link to="/shop" className="hover:text-primary transition-colors">Shop</Link>
           <ChevronRight className="w-4 h-4" />
-          <span className="text-foreground font-medium truncate">{product.title}</span>
+          <span className="text-foreground font-medium">{product.title}</span>
         </nav>
 
-        <div className="grid lg:grid-cols-2 gap-12 xl:gap-20">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative"
-          >
-            <div className="relative aspect-square flex items-center justify-center">
-              {/* Complex Organic Background */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-primary/5 to-transparent rounded-[60%_40%_30%_70%/60%_30%_70%_40%] animate-[blob_10s_infinite] opacity-50"></div>
-              <div className="absolute inset-4 bg-gradient-to-bl from-blue-400/10 via-transparent to-primary/10 rounded-[40%_60%_70%_30%/40%_70%_30%_60%] animate-[blob_15s_infinite_reverse] opacity-50"></div>
-              
-              <div className="relative w-full h-full flex items-center justify-center p-8 group" style={{ perspective: "2000px" }}>
-                <motion.div
-                  className="relative w-full h-full flex items-center justify-center"
-                  whileHover={{ 
-                    rotateY: -10,
-                    rotateX: 5,
-                    scale: 1.05
-                  }}
-                  transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                >
-                  <motion.img
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.2 }}
-                    src={product.image_url}
-                    alt={product.title}
-                    className="w-full h-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.25)] z-10"
-                  />
-                  {/* Glass Shine Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 [transform:translateX(-100%)] group-hover:[transform:translateX(100%)] pointer-events-none"></div>
-                </motion.div>
-              </div>
-              
-              <div className="absolute top-4 right-4 z-20">
-                <Button 
-                  variant="secondary" 
-                  size="icon" 
-                  className="rounded-2xl shadow-2xl bg-white/20 backdrop-blur-2xl border border-white/50 hover:bg-white hover:scale-110 transition-all duration-300 w-14 h-14"
-                  onClick={() => {
-                    if (navigator.share) {
-                      navigator.share({ title: product.title, url: window.location.href });
-                    }
-                  }}
-                >
-                  <Share2 className="w-7 h-7 text-slate-800" />
-                </Button>
-              </div>
+        <div className="grid lg:grid-cols-12 gap-12 xl:gap-20">
+          {/* Left Column: Images (Sticky) */}
+          <div className="lg:col-span-7">
+            <div className="sticky top-32 space-y-6">
+               <motion.div 
+                 initial={{ opacity: 0, scale: 0.95 }}
+                 animate={{ opacity: 1, scale: 1 }}
+                 className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white dark:bg-slate-900 border border-border shadow-2xl flex items-center justify-center p-8 group"
+               >
+                 {/* Background Effects */}
+                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--primary-50),transparent)] opacity-10" />
+                 
+                 <img
+                   src={product.image_url}
+                   alt={product.title}
+                   className="w-full h-full object-contain z-10 drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                 />
+                 
+                 <div className="absolute top-6 right-6 z-20">
+                   <Button 
+                     variant="secondary" 
+                     size="icon" 
+                     className="rounded-full shadow-lg hover:scale-110 transition-transform"
+                     onClick={() => {
+                        if (navigator.share) {
+                          navigator.share({ title: product.title, url: window.location.href });
+                        }
+                     }}
+                   >
+                     <Share2 className="w-5 h-5" />
+                   </Button>
+                 </div>
+               </motion.div>
             </div>
-            
-            {/* Minimalist Decor */}
-            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex gap-2">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className={`h-1 rounded-full bg-primary/20 ${i === 1 ? 'w-8 bg-primary/40' : 'w-2'}`}></div>
-              ))}
-            </div>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex flex-col justify-center space-y-8"
-          >
-            <div className="space-y-4">
-              <Badge variant="outline" className="px-4 py-1 rounded-full border-primary/20 bg-primary/5 text-primary text-xs font-bold uppercase tracking-widest">
-                {product.category}
-              </Badge>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white leading-tight">
-                {product.title}
-              </h1>
-              <div className="text-4xl font-black text-primary">
-                {formatPrice(product.price)}
-              </div>
-            </div>
-
-            <div className="flex gap-4 border-b border-border">
-              {(['detail', 'specs'] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={cn(
-                    "pb-4 text-sm font-bold capitalize transition-all relative",
-                    activeTab === tab 
-                      ? "text-primary" 
-                      : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-                  )}
-                >
-                  {tab === 'detail' ? 'Deskripsi' : 'Spesifikasi'}
-                  {activeTab === tab && (
-                    <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
-                  )}
-                </button>
-              ))}
-            </div>
-
-            <div className="min-h-[150px] text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
-              {activeTab === 'detail' ? (
-                <p className="whitespace-pre-wrap">{product.description}</p>
-              ) : (
-                <div className="grid grid-cols-1 gap-4">
-                  {product.specifications?.length ? (
-                    product.specifications.map((spec: any, i: number) => (
-                      <div key={i} className="flex py-3 border-b border-border last:border-0">
-                        <span className="w-1/3 text-slate-500 font-medium">{spec.label}</span>
-                        <span className="w-2/3 font-bold text-slate-900 dark:text-white">{spec.value}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="italic text-slate-400">Spesifikasi belum tersedia</p>
+          {/* Right Column: Details (Scrollable) */}
+          <div className="lg:col-span-5">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="space-y-8"
+            >
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-primary/20 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full">
+                    {product.category}
+                  </Badge>
+                  {product.stock_status === 'in_stock' && (
+                    <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50 dark:bg-green-900/20 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full flex items-center gap-1">
+                      <Check className="w-3 h-3" /> Ready Stock
+                    </Badge>
                   )}
                 </div>
-              )}
-            </div>
 
-            <div className="pt-8 border-t border-border space-y-6">
-              <div className="flex items-center gap-6">
-                <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded-2xl p-1 shrink-0">
-                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-12 h-12 flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 rounded-xl transition-all shadow-sm">
-                    <Minus className="w-5 h-5" />
-                  </button>
-                  <span className="w-12 text-center font-black text-xl">{quantity}</span>
-                  <button onClick={() => setQuantity(quantity + 1)} className="w-12 h-12 flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 rounded-xl transition-all shadow-sm">
-                    <Plus className="w-5 h-5" />
-                  </button>
-                </div>
-                <div className="flex-1 space-y-1">
-                  <p className="text-sm text-slate-500 font-bold uppercase tracking-widest">Total Harga</p>
-                  <p className="text-3xl font-black text-slate-900 dark:text-white">{formatPrice(product.price * quantity)}</p>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white leading-[1.1]">
+                  {product.title}
+                </h1>
+
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-black text-primary">
+                    {formatPrice(product.price)}
+                  </span>
+                  {/* <span className="text-lg text-muted-foreground line-through">Rp 15.000.000</span> */}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <Button onClick={handleAddToCart} size="lg" className="h-16 rounded-2xl font-black text-lg bg-slate-900 hover:bg-slate-800 dark:bg-primary dark:hover:bg-primary/90 text-white shadow-xl">
+              {/* Action Buttons - Top for Mobile */}
+              <div className="grid grid-cols-2 gap-4 lg:hidden">
+                <Button onClick={handleAddToCart} size="lg" className="rounded-xl font-bold bg-slate-900 text-white dark:bg-white dark:text-slate-900">
                   + Keranjang
                 </Button>
-                <Button onClick={handleWhatsAppOrder} size="lg" variant="outline" className="h-16 rounded-2xl font-black text-lg border-2 border-primary text-primary hover:bg-primary/5">
-                  Beli Sekarang
+                <Button onClick={handleWhatsAppOrder} size="lg" className="rounded-xl font-bold bg-green-600 hover:bg-green-700 text-white">
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  WhatsApp
                 </Button>
               </div>
-            </div>
-          </motion.div>
+
+              <div className="prose prose-slate dark:prose-invert max-w-none">
+                 <p className="text-lg leading-relaxed text-muted-foreground">
+                   {product.description}
+                 </p>
+              </div>
+
+              {/* Specifications */}
+              {product.specifications && product.specifications.length > 0 && (
+                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-border overflow-hidden">
+                  <div className="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-b border-border">
+                    <h3 className="font-bold text-lg flex items-center gap-2">
+                      <Box className="w-5 h-5 text-primary" />
+                      Spesifikasi Teknis
+                    </h3>
+                  </div>
+                  <div className="divide-y divide-border">
+                    {product.specifications.map((spec: any, idx: number) => (
+                      <div key={idx} className="grid grid-cols-3 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                        <span className="text-sm font-medium text-muted-foreground col-span-1">{spec.label}</span>
+                        <span className="text-sm font-semibold text-foreground col-span-2">{spec.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Trust Badges */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex items-center gap-3 p-4 rounded-xl bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800">
+                  <Shield className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                  <div>
+                    <h4 className="font-bold text-sm text-blue-900 dark:text-blue-100">Garansi Resmi</h4>
+                    <p className="text-xs text-blue-700 dark:text-blue-300">Jaminan produk original</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 rounded-xl bg-green-50 dark:bg-green-900/10 border border-green-100 dark:border-green-800">
+                  <Truck className="w-8 h-8 text-green-600 dark:text-green-400" />
+                  <div>
+                    <h4 className="font-bold text-sm text-green-900 dark:text-green-100">Pengiriman Aman</h4>
+                    <p className="text-xs text-green-700 dark:text-green-300">Packing extra bubble</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sticky Action Bar for Desktop */}
+              <div className="hidden lg:block pt-8 border-t border-border">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center bg-white dark:bg-slate-800 border border-border rounded-xl p-1">
+                    <button 
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="w-10 h-10 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="w-12 text-center font-bold text-lg">{quantity}</span>
+                    <button 
+                      onClick={() => setQuantity(quantity + 1)}
+                      className="w-10 h-10 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Total: <span className="font-bold text-foreground text-lg ml-1">{formatPrice(product.price * quantity)}</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <Button 
+                    onClick={handleAddToCart} 
+                    size="lg" 
+                    className="h-14 text-lg rounded-xl bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 shadow-xl shadow-slate-900/10"
+                  >
+                    + Keranjang
+                  </Button>
+                  <Button 
+                    onClick={handleWhatsAppOrder} 
+                    size="lg" 
+                    className="h-14 text-lg rounded-xl bg-green-600 hover:bg-green-700 text-white shadow-xl shadow-green-600/20"
+                  >
+                    <MessageCircle className="w-5 h-5 mr-2" />
+                    Beli via WA
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
 
+        {/* Related Products */}
         {relatedProducts.length > 0 && (
-          <div className="mt-32 pt-20 border-t border-border">
-            <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-10">Produk Terkait</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-              {relatedProducts.map((related) => (
-                <Link key={related.id} to={`/product/${related.id}`}>
-                  <motion.div whileHover={{ y: -8 }} className="group">
-                    <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-primary/5 via-background to-accent/10 group-hover:shadow-xl group-hover:shadow-primary/10 transition-all p-5 sm:p-6 mb-4">
-                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,hsl(var(--primary)/0.14),transparent_55%)]" />
-                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,hsl(var(--ring)/0.10),transparent_55%)]" />
-                      <img
-                        src={related.image_url}
-                        alt={related.title}
-                        loading="lazy"
-                        className="relative w-full h-full object-contain drop-shadow-[0_18px_38px_rgba(0,0,0,0.18)] group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                    </div>
-                    <h3 className="font-bold text-slate-900 dark:text-white text-base line-clamp-1 group-hover:text-primary transition-colors">{related.title}</h3>
-                    <p className="text-primary font-black text-lg">{formatPrice(related.price)}</p>
-                  </motion.div>
-                </Link>
+          <div className="mt-32 border-t border-border pt-20">
+            <div className="flex items-center justify-between mb-10">
+              <h2 className="text-3xl font-black text-slate-900 dark:text-white">Produk Sejenis</h2>
+              <Link to="/shop" className="text-primary font-bold hover:underline">Lihat Semua</Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {relatedProducts.map((related, i) => (
+                <ProductCard key={related.id} product={related} index={i} />
               ))}
             </div>
           </div>

@@ -12,6 +12,8 @@
   "dependencies": {
     "@blinkdotnew/react": "^1.0.2",
     "@blinkdotnew/sdk": "^2.3.5",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/manrope": "^5.2.8",
     "@radix-ui/react-slot": "^1.2.4",
     "@supabase/supabase-js": "^2.90.1",
     "class-variance-authority": "^0.7.1",

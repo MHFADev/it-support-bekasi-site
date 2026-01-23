@@ -14,7 +14,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import FAQ from './components/FAQ';
 import WhyChooseUs from './components/WhyChooseUs';
-import Shop from './components/ShopPremium';
+import Shop from './components/Shop';
 import ProductDetail from './components/ProductDetail';
 import LoadingScreen from './components/LoadingScreen';
 import { SEO } from './components/SEO';

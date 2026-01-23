@@ -192,16 +192,18 @@ const ShopPremium: React.FC = () => {
                   <Link to={`/product/${product.id}`} className="absolute inset-0 z-10" />
                   
                   <div className={cn(
-                    "relative overflow-hidden rounded-2xl bg-accent/10",
+                    "relative overflow-hidden rounded-[2rem] bg-slate-100 dark:bg-slate-800/50 p-2",
                     viewMode === 'list' ? "w-48 h-48" : "aspect-square mb-5"
                   )}>
-                    <img
-                      src={product.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=800'}
-                      alt={product.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
+                    <div className="w-full h-full overflow-hidden rounded-[1.5rem] relative group-hover:shadow-inner transition-all duration-500">
+                      <img
+                        src={product.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=800'}
+                        alt={product.title}
+                        className="w-full h-full object-contain p-4 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-2"
+                      />
+                    </div>
                     <div className="absolute top-4 left-4">
-                      <div className="bg-background/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-border text-primary">
+                      <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase border border-border/50 text-primary shadow-sm">
                         {product.category}
                       </div>
                     </div>

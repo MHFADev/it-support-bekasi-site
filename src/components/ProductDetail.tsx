@@ -155,30 +155,42 @@ const ProductDetail: React.FC = () => {
 
         <div className="grid lg:grid-cols-2 gap-12 xl:gap-20">
           <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             className="space-y-6"
           >
-            <div className="relative aspect-square rounded-3xl overflow-hidden bg-white border border-border group shadow-sm">
-              <img
-                src={product.image_url}
-                alt={product.title}
-                className="w-full h-full object-contain p-8 group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute top-6 right-6">
+            <div className="relative aspect-square rounded-[3rem] overflow-hidden bg-gradient-to-br from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 border border-border group shadow-2xl p-4">
+              <div className="w-full h-full rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-950 relative">
+                <img
+                  src={product.image_url}
+                  alt={product.title}
+                  className="w-full h-full object-contain p-12 group-hover:scale-110 transition-transform duration-1000 ease-in-out"
+                />
+                <div className="absolute inset-0 bg-radial-gradient from-transparent to-black/5 pointer-events-none"></div>
+              </div>
+              
+              <div className="absolute top-8 right-8">
                 <Button 
                   variant="secondary" 
                   size="icon" 
-                  className="rounded-full shadow-md bg-white/80 backdrop-blur-sm hover:bg-white"
+                  className="rounded-2xl shadow-xl bg-white/90 backdrop-blur-md hover:bg-white hover:scale-110 transition-all duration-300 w-12 h-12"
                   onClick={() => {
                     if (navigator.share) {
                       navigator.share({ title: product.title, url: window.location.href });
                     }
                   }}
                 >
-                  <Share2 className="w-5 h-5" />
+                  <Share2 className="w-6 h-6" />
                 </Button>
               </div>
+            </div>
+            
+            {/* Decor Elements */}
+            <div className="grid grid-cols-4 gap-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="aspect-square rounded-2xl bg-slate-100 dark:bg-slate-800 animate-pulse border border-border"></div>
+              ))}
             </div>
           </motion.div>
 

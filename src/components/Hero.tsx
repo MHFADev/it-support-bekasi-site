@@ -69,34 +69,42 @@ const Hero: React.FC = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
             className="hidden lg:block relative"
           >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+            <div className="relative rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white/20 backdrop-blur-sm transform rotate-3 hover:rotate-0 transition-transform duration-700">
               <img 
                 src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1200" 
                 alt="Premium Laptop" 
-                className="w-full h-auto object-cover"
+                className="w-full h-auto object-cover scale-110 hover:scale-100 transition-transform duration-1000"
               />
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent"></div>
             </div>
             {/* Floating Card */}
             <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-border"
+              animate={{ 
+                y: [0, -15, 0],
+                rotate: [0, 5, 0]
+              }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -bottom-10 -left-10 bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-2xl border border-white/50 z-20"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-primary">
-                  <ShieldCheck className="w-6 h-6" />
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner">
+                  <ShieldCheck className="w-7 h-7" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-foreground">Kualitas Terjamin</p>
-                  <p className="text-[10px] text-muted-foreground">QC 100% Lulus</p>
+                  <p className="text-sm font-black text-slate-900">Kualitas Terjamin</p>
+                  <p className="text-xs text-slate-500">QC 100% Lulus</p>
                 </div>
               </div>
             </motion.div>
+            
+            {/* Decorative Element */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-yellow-400/20 blur-3xl rounded-full animate-pulse"></div>
+            <div className="absolute top-1/2 -left-20 w-40 h-40 bg-blue-400/20 blur-3xl rounded-full animate-pulse delay-700"></div>
           </motion.div>
         </div>
       </div>

@@ -198,12 +198,20 @@ const ShopPremium: React.FC = () => {
                     {/* Organic Background Shape */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/20 rounded-[30%_70%_70%_30%/30%_30%_70%_70%] animate-[blob_7s_infinite] transition-all duration-1000 group-hover:rounded-[50%]"></div>
                     
-                    <div className="relative w-full h-full flex items-center justify-center">
-                      <motion.img
-                        src={product.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=800'}
-                        alt={product.title}
-                        className="w-[85%] h-[85%] object-contain drop-shadow-2xl transition-all duration-700 group-hover:scale-110 group-hover:-rotate-6"
-                      />
+                    <div className="relative w-full h-full flex items-center justify-center p-4">
+                      <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-20"></div>
+                      <motion.div
+                        className="relative z-10 w-full h-full flex items-center justify-center"
+                        style={{ perspective: "1000px" }}
+                      >
+                        <motion.img
+                          src={product.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=800'}
+                          alt={product.title}
+                          className="w-[90%] h-[90%] object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.2)] transition-all duration-700 group-hover:scale-110 group-hover:[transform:rotateY(-15deg)_rotateX(10deg)]"
+                        />
+                        {/* Reflection overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 [transform:skewY(-10deg)] pointer-events-none"></div>
+                      </motion.div>
                     </div>
                     
                     <div className="absolute top-4 left-4 z-20">

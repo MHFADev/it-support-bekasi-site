@@ -165,15 +165,27 @@ const ProductDetail: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-primary/5 to-transparent rounded-[60%_40%_30%_70%/60%_30%_70%_40%] animate-[blob_10s_infinite] opacity-50"></div>
               <div className="absolute inset-4 bg-gradient-to-bl from-blue-400/10 via-transparent to-primary/10 rounded-[40%_60%_70%_30%/40%_70%_30%_60%] animate-[blob_15s_infinite_reverse] opacity-50"></div>
               
-              <div className="relative w-full h-full flex items-center justify-center p-8 group">
-                <motion.img
-                  initial={{ y: 20 }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 1, delay: 0.2 }}
-                  src={product.image_url}
-                  alt={product.title}
-                  className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] group-hover:scale-105 transition-transform duration-1000 ease-in-out z-10"
-                />
+              <div className="relative w-full h-full flex items-center justify-center p-8 group" style={{ perspective: "2000px" }}>
+                <motion.div
+                  className="relative w-full h-full flex items-center justify-center"
+                  whileHover={{ 
+                    rotateY: -10,
+                    rotateX: 5,
+                    scale: 1.05
+                  }}
+                  transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                >
+                  <motion.img
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 1, delay: 0.2 }}
+                    src={product.image_url}
+                    alt={product.title}
+                    className="w-full h-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.25)] z-10"
+                  />
+                  {/* Glass Shine Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 [transform:translateX(-100%)] group-hover:[transform:translateX(100%)] pointer-events-none"></div>
+                </motion.div>
               </div>
               
               <div className="absolute top-4 right-4 z-20">

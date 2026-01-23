@@ -296,31 +296,24 @@ const Shop: React.FC = () => {
                     </div>
 
                     {/* Content */}
-                    <div className="p-5">
-                      <div className="flex items-center gap-1 mb-2">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                        ))}
-                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">(4.8)</span>
-                      </div>
-
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         {product.title}
                       </h3>
 
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 line-clamp-2">
                         {product.description}
                       </p>
 
-                      <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-slate-700">
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-slate-700">
                         <div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">Mulai dari</div>
-                          <div className="text-xl font-bold text-blue-600 dark:text-blue-400">
+                          <div className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-500 font-black">Harga</div>
+                          <div className="text-2xl font-black text-blue-600 dark:text-blue-400">
                             {formatPrice(product.price)}
                           </div>
                         </div>
-                        <div className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-10 h-10 rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-500 transition-colors">
-                          <ShoppingCart className="w-4 h-4" />
+                        <div className="bg-blue-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
+                          <ShoppingCart className="w-5 h-5" />
                         </div>
                       </div>
                     </div>

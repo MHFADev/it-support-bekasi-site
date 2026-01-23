@@ -210,24 +210,17 @@ const ShopPremium: React.FC = () => {
                   </div>
 
                   <div className="flex-1 flex flex-col">
-                    <div className="flex items-center gap-1 mb-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
-                      ))}
-                      <span className="text-[10px] text-muted-foreground font-bold ml-1">5.0</span>
-                    </div>
-                    
-                    <h3 className="text-lg font-bold text-foreground mb-1 line-clamp-1 group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-bold text-foreground mb-2 line-clamp-1 group-hover:text-primary transition-colors">
                       {product.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+                    <p className="text-sm text-muted-foreground line-clamp-2 mb-6">
                       {product.description}
                     </p>
 
-                    <div className="mt-auto flex items-center justify-between">
+                    <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/50">
                       <div className="flex flex-col">
-                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Harga</span>
-                        <span className="text-xl font-extrabold text-primary">
+                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-black">Harga</span>
+                        <span className="text-2xl font-black text-primary">
                           Rp {new Intl.NumberFormat('id-ID').format(product.price)}
                         </span>
                       </div>
@@ -238,9 +231,9 @@ const ShopPremium: React.FC = () => {
                           handleAddToCart(product);
                         }}
                         disabled={product.stock_status === 'out_of_stock'}
-                        className="bg-primary text-primary-foreground p-3 rounded-2xl shadow-lg shadow-primary/20 hover:scale-110 active:scale-95 transition-all disabled:opacity-30 relative z-20"
+                        className="bg-primary text-primary-foreground p-4 rounded-2xl shadow-xl shadow-primary/20 hover:scale-110 active:scale-95 transition-all disabled:opacity-30 relative z-20 group-hover:bg-primary/90"
                       >
-                        <ShoppingCart className="w-5 h-5" />
+                        <ShoppingCart className="w-6 h-6" />
                       </button>
                     </div>
                   </div>

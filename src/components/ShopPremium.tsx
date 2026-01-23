@@ -64,13 +64,28 @@ const ShopPremium: React.FC = () => {
   return (
     <div className="min-h-screen pt-24 pb-20 bg-background">
       {/* Header Section */}
-      <section className="relative py-12 mb-8 overflow-hidden bg-primary">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-4xl mx-auto text-center space-y-4">
+      <section className="relative py-16 mb-8 overflow-hidden bg-gradient-to-br from-primary via-primary to-blue-700">
+        {/* Decorative Elements */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(0,0,0,0.1),transparent_50%)]" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-400/10 rounded-full blur-3xl" />
+        
+        <div className="container mx-auto px-4 md:px-6 relative">
+          <div className="max-w-4xl mx-auto text-center space-y-5">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20"
+            >
+              <ShoppingBag className="w-4 h-4 text-white" />
+              <span className="text-white/90 text-sm font-medium">Toko Hardware Terpercaya</span>
+            </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-3xl md:text-5xl font-black tracking-tight text-white"
+              transition={{ delay: 0.05 }}
+              className="text-4xl md:text-6xl font-extrabold tracking-tight text-white"
             >
               Hardware Pilihan <span className="text-white/80">Terbaik.</span>
             </motion.h1>
@@ -78,7 +93,7 @@ const ShopPremium: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-white/90 max-w-2xl mx-auto"
+              className="text-lg text-white/90 max-w-2xl mx-auto leading-relaxed"
             >
               Dapatkan laptop bekas berkualitas, PC custom, dan hardware original dengan jaminan garansi teknisi kami.
             </motion.p>

@@ -122,14 +122,22 @@ const Shop: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-10 relative"
         >
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Katalog Laptop
-          </h1>
-          <p className="text-base md:text-lg text-gray-600 dark:text-gray-300">
-            {filteredProducts.length} produk tersedia
-          </p>
+          <div className="absolute -top-10 -left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-5 right-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative">
+            <span className="inline-block px-4 py-1.5 bg-primary/10 dark:bg-primary/20 text-primary rounded-full text-sm font-semibold mb-4 tracking-wide">
+              🛒 Toko Online Terpercaya
+            </span>
+            <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
+              <span className="text-foreground">Katalog Laptop</span>{' '}
+              <span className="gradient-text">Terlengkap</span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl">
+              Temukan <span className="text-primary font-semibold">{filteredProducts.length}</span> produk laptop & hardware berkualitas dengan harga terbaik
+            </p>
+          </div>
         </motion.div>
 
         {/* Search and Filter Bar */}
@@ -263,59 +271,96 @@ const Shop: React.FC = () => {
             </button>
           </motion.div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
             {filteredProducts.map((product, index) => (
               <motion.div
                 key={product.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.05, ease: [0.25, 0.1, 0.25, 1] }}
               >
                 <Link to={`/product/${product.id}`}>
-                  <div className="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                    {/* Image */}
-                    <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-slate-800 dark:to-slate-900/50 p-6 flex items-center justify-center">
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_70%)]"></div>
-                      {product.image_url ? (
-                        <div className="relative w-full h-full">
-                          <img
-                            src={product.image_url}
-                            alt={product.title}
-                            className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] group-hover:scale-110 group-hover:-rotate-2 transition-all duration-700 ease-out z-10 relative"
-                          />
-                          <div className="absolute inset-x-0 bottom-0 h-4 bg-black/10 blur-xl rounded-[100%] scale-x-75 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                        </div>
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <Laptop className="w-16 h-16 text-gray-300 dark:text-gray-600" />
+                  <div className="group product-card-hover bg-card rounded-3xl overflow-hidden border border-border/50 shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-3">
+                    {/* Image Container - Modern Dynamic Design */}
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      {/* Animated Background Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/10 to-primary/5 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800" />
+                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,hsl(var(--primary)/0.15),transparent_50%)]" />
+                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,hsl(var(--ring)/0.1),transparent_50%)]" />
+                      
+                      {/* Decorative Elements */}
+                      <div className="absolute top-4 right-4 w-20 h-20 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
+                      <div className="absolute bottom-4 left-4 w-16 h-16 bg-blue-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700" />
+                      
+                      {/* Product Image */}
+                      <div className="relative w-full h-full flex items-center justify-center p-6">
+                        {product.image_url ? (
+                          <div className="relative w-full h-full flex items-center justify-center" style={{ perspective: '1000px' }}>
+                            <img
+                              src={product.image_url}
+                              alt={product.title}
+                              className="max-w-[90%] max-h-[90%] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.2)] transition-all duration-700 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_30px_50px_rgba(0,0,0,0.25)]"
+                              style={{ 
+                                transform: 'rotateY(0deg)',
+                                transition: 'transform 0.7s ease-out'
+                              }}
+                              onMouseEnter={(e) => e.currentTarget.style.transform = 'rotateY(-8deg) rotateX(5deg) scale(1.1)'}
+                              onMouseLeave={(e) => e.currentTarget.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)'}
+                            />
+                            {/* Dynamic Shadow */}
+                            <div className="absolute bottom-0 inset-x-0 h-6 bg-gradient-to-t from-black/10 to-transparent blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                          </div>
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <div className="p-6 rounded-2xl bg-muted/50">
+                              <Laptop className="w-16 h-16 text-muted-foreground" />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Status Badge */}
+                      {product.stock_status === 'in_stock' && (
+                        <div className="absolute top-4 left-4 badge-glass px-3 py-1.5 rounded-full z-20 flex items-center gap-1.5">
+                          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                          <span className="text-[10px] font-bold tracking-wider uppercase text-foreground">Ready Stock</span>
                         </div>
                       )}
                       
-                      {product.stock_status === 'in_stock' && (
-                        <div className="absolute top-4 left-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase border border-blue-100 dark:border-blue-900/30 shadow-sm z-20">
-                          Ready
-                        </div>
-                      )}
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <div className="p-5 lg:p-6">
+                      {/* Category Tag */}
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-bold tracking-wider uppercase rounded-md">
+                          {product.category}
+                        </span>
+                        <div className="flex items-center gap-0.5">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <h3 className="text-lg lg:text-xl font-bold text-foreground mb-2 line-clamp-1 group-hover:text-primary transition-colors duration-300">
                         {product.title}
                       </h3>
 
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 line-clamp-2">
+                      <p className="text-sm text-muted-foreground mb-5 line-clamp-2 leading-relaxed">
                         {product.description}
                       </p>
 
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-slate-700">
+                      <div className="flex items-center justify-between pt-4 border-t border-border/50">
                         <div>
-                          <div className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-500 font-black">Harga</div>
-                          <div className="text-2xl font-black text-blue-600 dark:text-blue-400">
+                          <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-0.5">Harga</div>
+                          <div className="text-xl lg:text-2xl font-extrabold text-primary">
                             {formatPrice(product.price)}
                           </div>
                         </div>
-                        <div className="bg-blue-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
+                        <div className="bg-primary text-primary-foreground w-11 h-11 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center shadow-lg shadow-primary/25 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                           <ShoppingCart className="w-5 h-5" />
                         </div>
                       </div>

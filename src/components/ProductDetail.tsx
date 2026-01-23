@@ -304,8 +304,16 @@ const ProductDetail: React.FC = () => {
               {relatedProducts.map((related) => (
                 <Link key={related.id} to={`/product/${related.id}`}>
                   <motion.div whileHover={{ y: -8 }} className="group">
-                    <div className="relative aspect-square overflow-hidden bg-white rounded-3xl border border-border group-hover:shadow-xl transition-all p-6 mb-4">
-                      <img src={related.image_url} alt={related.title} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" />
+                    <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-primary/5 via-background to-accent/10 group-hover:shadow-xl group-hover:shadow-primary/10 transition-all p-5 sm:p-6 mb-4">
+                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,hsl(var(--primary)/0.14),transparent_55%)]" />
+                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,hsl(var(--ring)/0.10),transparent_55%)]" />
+                      <img
+                        src={related.image_url}
+                        alt={related.title}
+                        loading="lazy"
+                        className="relative w-full h-full object-contain drop-shadow-[0_18px_38px_rgba(0,0,0,0.18)] group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                     </div>
                     <h3 className="font-bold text-slate-900 dark:text-white text-base line-clamp-1 group-hover:text-primary transition-colors">{related.title}</h3>
                     <p className="text-primary font-black text-lg">{formatPrice(related.price)}</p>

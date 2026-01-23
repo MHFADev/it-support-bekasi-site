@@ -206,15 +206,21 @@ const ShopPremium: React.FC = () => {
                 >
                   <Link to={`/product/${product.id}`} className="absolute inset-0 z-10" />
                   
-                  <div className={cn(
-                    "relative overflow-hidden p-8",
-                    viewMode === 'list' ? "w-64 h-64" : "aspect-square"
-                  )}>
-                    {/* Organic Background Shape */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-primary/30 rounded-[30%_70%_70%_30%/30%_30%_70%_70%] animate-[blob_10s_infinite] transition-all duration-1000 group-hover:rounded-[50%] opacity-50"></div>
-                    
-                    <div className="relative w-full h-full flex items-center justify-center p-4">
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.4),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-20"></div>
+                  <div
+                    className={cn(
+                      "relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-primary/5 via-background to-accent/10 p-6 sm:p-7 shadow-sm transition-all duration-500 group-hover:shadow-xl group-hover:shadow-primary/10",
+                      viewMode === 'list' ? "w-56 h-56 sm:w-64 sm:h-64" : "aspect-[4/3] sm:aspect-square"
+                    )}
+                  >
+                    {/* Organic Background Shape (now clipped by rounded container) */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-primary/8 to-accent/10 rounded-[30%_70%_70%_30%/30%_30%_70%_70%] animate-[blob_10s_infinite] transition-all duration-1000 group-hover:rounded-[50%] opacity-70"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,hsl(var(--primary)/0.18),transparent_55%)]" />
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,hsl(var(--ring)/0.12),transparent_55%)]" />
+
+                    <div className="relative w-full h-full flex items-center justify-center">
+                      {/* Soft shine */}
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--background)/0.25),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
                       <motion.div
                         className="relative z-10 w-full h-full flex items-center justify-center"
                         style={{ perspective: "1200px" }}
@@ -222,18 +228,22 @@ const ShopPremium: React.FC = () => {
                         <motion.img
                           src={product.image_url || 'https://images.unsplash.com/photo-1588872657578-7efd3f1514a4?q=80&w=800'}
                           alt={product.title}
-                          className="w-[95%] h-[95%] object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.25)] transition-all duration-700 group-hover:scale-110 group-hover:[transform:rotateY(-20deg)_rotateX(15deg)_translateZ(30px)]"
+                          loading="lazy"
+                          className="w-[92%] h-[92%] object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.22)] transition-all duration-700 group-hover:scale-110 group-hover:[transform:rotateY(-16deg)_rotateX(10deg)_translateZ(24px)]"
                         />
-                        {/* Shadow & Reflection */}
-                        <div className="absolute -bottom-6 w-3/4 h-6 bg-black/20 blur-3xl rounded-[100%] opacity-0 group-hover:opacity-100 transition-all duration-700 scale-x-75"></div>
+                        {/* Shadow */}
+                        <div className="absolute -bottom-6 w-4/5 h-7 bg-foreground/10 blur-3xl rounded-[100%] opacity-0 group-hover:opacity-100 transition-all duration-700 scale-x-75"></div>
                       </motion.div>
                     </div>
-                    
-                    <div className="absolute top-6 left-6 z-20">
-                      <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl px-5 py-2 rounded-2xl text-[10px] font-black tracking-[0.2em] uppercase border border-white/40 text-primary shadow-2xl shadow-primary/10">
+
+                    <div className="absolute top-5 left-5 z-20">
+                      <div className="bg-background/70 backdrop-blur-2xl px-4 py-2 rounded-2xl text-[10px] font-black tracking-[0.2em] uppercase border border-border/60 text-primary shadow-lg">
                         {product.category}
                       </div>
                     </div>
+
+                    {/* Edge vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   </div>
 
                   <div className="flex-1 flex flex-col">

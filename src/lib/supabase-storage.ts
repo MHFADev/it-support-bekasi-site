@@ -119,6 +119,9 @@ export const uploadImageToSupabase = async (
       throw new Error('Tipe file tidak didukung. Gunakan JPG, PNG, WebP, atau GIF');
     }
 
+    let fileToUpload: File;
+    let extension: string;
+
     // Try to convert to WebP for optimization, fallback to original if fails
     try {
       fileToUpload = await convertToWebP(file);

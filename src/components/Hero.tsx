@@ -38,9 +38,13 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 leading-tight"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-white mb-6 leading-[1.1]"
             >
-              {content.title}
+              {content.title.split(',').map((part, i) => (
+                <span key={i} className="block">
+                  {part.trim()}{i === 0 ? ',' : ''}
+                </span>
+              ))}
             </motion.h1>
 
             <motion.p

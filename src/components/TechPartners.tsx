@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
+// Using Simple Icons CDN - reliable, no rate limits, free for commercial use
 const PARTNERS = [
-  { name: 'Acer', logo: 'https://www.svgrepo.com/show/303300/acer-logo.svg' },
-  { name: 'Cisco', logo: 'https://www.svgrepo.com/show/303473/cisco-2-logo.svg' },
-  { name: 'Lenovo', logo: 'https://www.svgrepo.com/show/303251/lenovo-logo.svg' },
-  { name: 'Dell', logo: 'https://www.svgrepo.com/show/303106/dell-2-logo.svg' },
-  { name: 'HP', logo: 'https://www.svgrepo.com/show/303426/hewlett-packard-logo.svg' },
-  { name: 'ASUS', logo: 'https://www.svgrepo.com/show/303203/asus-rog-logo.svg' },
-  { name: 'Intel', logo: 'https://www.svgrepo.com/show/303281/intel-logo.svg' },
+  { name: 'Acer', logo: 'https://cdn.simpleicons.org/acer/83B81A' },
+  { name: 'Cisco', logo: 'https://cdn.simpleicons.org/cisco/1BA0D7' },
+  { name: 'Lenovo', logo: 'https://cdn.simpleicons.org/lenovo/E2231A' },
+  { name: 'Dell', logo: 'https://cdn.simpleicons.org/dell/007DB8' },
+  { name: 'HP', logo: 'https://cdn.simpleicons.org/hp/0096D6' },
+  { name: 'ASUS', logo: 'https://cdn.simpleicons.org/asus/000000' },
+  { name: 'Intel', logo: 'https://cdn.simpleicons.org/intel/0071C5' },
 ];
 
 // Logo component with error handling - continues showing other logos if one fails

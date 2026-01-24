@@ -62,40 +62,38 @@ const ShopPremium: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-20 bg-background">
+    <div className="min-h-screen pt-24 pb-20 bg-slate-50 dark:bg-slate-950">
       {/* Header Section */}
-      <section className="relative py-16 mb-8 overflow-hidden bg-gradient-to-br from-primary via-primary to-blue-700">
+      <section className="relative py-20 mb-12 overflow-hidden bg-blue-600">
         {/* Decorative Elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(0,0,0,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_50%)]" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-400/10 rounded-full blur-3xl" />
         
         <div className="container mx-auto px-4 md:px-6 relative">
-          <div className="max-w-4xl mx-auto text-center space-y-5">
+          <div className="max-w-4xl mx-auto text-center space-y-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white text-blue-600 rounded-full shadow-lg"
             >
-              <ShoppingBag className="w-4 h-4 text-white" />
-              <span className="text-white/90 text-sm font-medium">Toko Hardware Terpercaya</span>
+              <ShoppingBag className="w-4 h-4" />
+              <span className="text-sm font-black uppercase tracking-wider">Katalog Terpercaya</span>
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05 }}
-              className="text-4xl md:text-6xl font-extrabold tracking-tight text-white"
+              className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.1]"
             >
-              Hardware Pilihan <span className="text-white/80">Terbaik.</span>
+              Hardware <span className="text-white/80">Premium.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-lg text-white/90 max-w-2xl mx-auto leading-relaxed"
+              className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed font-medium"
             >
-              Dapatkan laptop bekas berkualitas, PC custom, dan hardware original dengan jaminan garansi teknisi kami.
+              Koleksi laptop bekas kualitas grade A, PC custom, dan hardware original dengan garansi teknisi Bekasi.
             </motion.p>
             
             {/* Main Search Bar */}
@@ -237,17 +235,17 @@ const ShopPremium: React.FC = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   </div>
 
-                  <div className="flex-1 flex flex-col">
-                    <h3 className="text-xl font-bold text-foreground mb-2 line-clamp-1 group-hover:text-primary transition-colors">
+                  <div className="flex-1 flex flex-col mt-4">
+                    <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2 line-clamp-1 group-hover:text-primary transition-colors">
                       {product.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2 mb-6">
+                    <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-6 font-medium">
                       {product.description}
                     </p>
 
-                    <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/50">
+                    <div className="mt-auto flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
                       <div className="flex flex-col">
-                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-black">Harga</span>
+                        <span className="text-[10px] uppercase tracking-widest text-slate-500 font-black">Harga Unit</span>
                         <span className="text-2xl font-black text-primary">
                           Rp {new Intl.NumberFormat('id-ID').format(product.price)}
                         </span>

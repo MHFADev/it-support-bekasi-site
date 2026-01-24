@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const PARTNERS = [
   { name: 'Acer', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/06a6a175-34f2-47ff-bb0d-6b94aa1c8fb7.png' },
   { name: 'Cisco', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/d71b6916-c1cd-494a-a15d-28c1f9fa7fd8.png' },
-  { name: 'Lenovo', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/download (4).png' },
+  { name: 'Lenovo', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/download (4).png (4).png' },
   { name: 'ThinkPad', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/dac05710-ded8-4a31-bb72-90c6d1e4c7cb.png' },
   { name: 'MikroTik', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/8e0a1c26-a73c-4bbb-a433-a088bcc16d3f.png' },
   { name: 'ASUS', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/ce78fb15-5715-4111-8e3e-6992465593a5.png' },
@@ -84,77 +84,6 @@ const TechPartners: React.FC = () => {
               </motion.div>
             ))}
           </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default TechPartners;            <div className="flex items-center space-x-12 py-8 animate-scroll">
-              {[...PARTNERS, ...PARTNERS].map((partner, index) => (
-                <div
-                  key={`${partner.name}-${index}`}
-                  className="flex-shrink-0 flex items-center justify-center"
-                >
-                  <div className="w-48 h-20 flex items-center justify-center bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
-                    <img
-                      src={partner.logo}
-                      alt={partner.name}
-                      className="max-h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Debug Info - bisa dihapus di production */}
-        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-          <div className="text-center text-sm text-gray-500">
-            <p className="mb-2">Debug Info: {PARTNERS.length} partners loaded</p>
-            <div className="flex flex-wrap justify-center gap-2">
-              {PARTNERS.map(partner => (
-                <a
-                  key={partner.name}
-                  href={partner.logo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
-                >
-                  {partner.name}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* CSS untuk animasi scroll */}
-      <style jsx>{`
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(calc(-50% - 3rem)); }
-        }
-        .animate-scroll {
-          animation: scroll 30s linear infinite;
-          display: flex;
-          width: max-content;
-        }
-        .animate-scroll:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
-    </section>
-  );
-};
-
-export default TechPartners;          {PARTNERS.map(partner => (
-            <span key={partner.name} className="px-2 py-1 bg-gray-100 rounded text-xs">
-              {partner.name}
-            </span>
-          ))}
         </div>
       </div>
     </section>

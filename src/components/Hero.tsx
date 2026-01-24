@@ -29,9 +29,9 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-primary/10 text-primary mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-blue-600 mb-6 shadow-lg border border-white/20"
             >
-              <span className="text-sm font-bold">{content.badge}</span>
+              <span className="text-sm font-black uppercase tracking-wider">{content.badge}</span>
             </motion.div>
 
             <motion.h1

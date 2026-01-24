@@ -38,10 +38,10 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-white mb-6 leading-[1.1]"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.05]"
             >
               {content.title.split(',').map((part, i) => (
-                <span key={i} className="block">
+                <span key={i} className="block last:text-white/90">
                   {part.trim()}{i === 0 ? ',' : ''}
                 </span>
               ))}

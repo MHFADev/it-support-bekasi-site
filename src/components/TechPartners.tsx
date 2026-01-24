@@ -1,15 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const PARTNERS = [
-  { name: 'Acer', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/00/Acer_2011.svg' },
-  { name: 'Cisco', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg' },
-  { name: 'Lenovo', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Lenovo_logo_2015.svg' },
-  { name: 'ThinkPad', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/03/ThinkPad_Logo.svg' },
-  { name: 'MikroTik', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/74/MikroTik_Logo.svg' },
-  { name: 'ASUS', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2e/ASUS_Logo.svg' },
-  { name: 'TP-Link', logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f6/TP-Link_logo_%282018%29.svg' },
+  { name: 'Acer', logo: 'https://www.svgrepo.com/show/303300/acer-logo.svg' },
+  { name: 'Cisco', logo: 'https://www.svgrepo.com/show/303473/cisco-2-logo.svg' },
+  { name: 'Lenovo', logo: 'https://www.svgrepo.com/show/303251/lenovo-logo.svg' },
+  { name: 'Dell', logo: 'https://www.svgrepo.com/show/303106/dell-2-logo.svg' },
+  { name: 'HP', logo: 'https://www.svgrepo.com/show/303426/hewlett-packard-logo.svg' },
+  { name: 'ASUS', logo: 'https://www.svgrepo.com/show/303203/asus-rog-logo.svg' },
+  { name: 'Intel', logo: 'https://www.svgrepo.com/show/303281/intel-logo.svg' },
 ];
+
+// Logo component with error handling - continues showing other logos if one fails
+const PartnerLogo: React.FC<{ partner: { name: string; logo: string }; index: number }> = ({ partner, index }) => {
+  const [hasError, setHasError] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // If error, hide this item but don't affect others
+  if (hasError) {
+    return null;
+  }
+
+  return (
+    <motion.div
+      key={`single-row-${partner.name}-${index}`}
+      whileHover={{ 
+        scale: 1.2, 
+        rotate: [0, -5, 5, -5, 0],
+        filter: "grayscale(0%) opacity(100%)",
+      }}
+      transition={{
+        rotate: { duration: 0.5, repeat: Infinity },
+        scale: { duration: 0.2 }
+      }}
+      className="flex items-center justify-center grayscale opacity-30 transition-all duration-300 cursor-pointer p-4 rounded-2xl hover:bg-primary/5 border border-transparent hover:border-primary/10"
+    >
+      <img
+        src={partner.logo}
+        alt={partner.name}
+        className={`h-12 md:h-16 w-auto object-contain dark:brightness-200 transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        loading="lazy"
+        crossOrigin="anonymous"
+        referrerPolicy="no-referrer"
+        onLoad={() => setIsLoaded(true)}
+        onError={() => setHasError(true)}
+      />
+    </motion.div>
+  );
+};
 
 const TechPartners: React.FC = () => {
   const scrollItems = [...PARTNERS, ...PARTNERS, ...PARTNERS, ...PARTNERS];
@@ -62,26 +100,7 @@ const TechPartners: React.FC = () => {
             className="flex gap-24 items-center whitespace-nowrap px-12"
           >
             {scrollItems.map((partner, index) => (
-              <motion.div
-                key={`single-row-${partner.name}-${index}`}
-                whileHover={{ 
-                  scale: 1.2, 
-                  rotate: [0, -5, 5, -5, 0],
-                  filter: "grayscale(0%) opacity(100%)",
-                }}
-                transition={{
-                  rotate: { duration: 0.5, repeat: Infinity },
-                  scale: { duration: 0.2 }
-                }}
-                className="flex items-center justify-center grayscale opacity-30 transition-all duration-300 cursor-pointer p-4 rounded-2xl hover:bg-primary/5 border border-transparent hover:border-primary/10"
-              >
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="h-12 md:h-16 w-auto object-contain dark:brightness-200"
-                  loading="lazy"
-                />
-              </motion.div>
+              <PartnerLogo key={`logo-${partner.name}-${index}`} partner={partner} index={index} />
             ))}
           </motion.div>
         </div>

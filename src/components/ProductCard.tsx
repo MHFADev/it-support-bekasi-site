@@ -36,16 +36,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) => {
             {/* Category Badge */}
             <div className="absolute top-3 left-3 z-10">
               <Badge variant="secondary" className="font-semibold bg-white/90 dark:bg-slate-900/90 backdrop-blur shadow-sm">
-                {product.category}
+                {String(product.category)}
               </Badge>
             </div>
 
             {/* Product Image */}
-            <div className="w-full h-full flex items-center justify-center p-6">
+            <div className="w-full h-full">
               <img
                 src={product.image_url}
                 alt={product.title}
-                className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"
               />
             </div>

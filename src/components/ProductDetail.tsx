@@ -135,15 +135,15 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-28 pb-20">
+    <div className="min-h-screen bg-white pt-28 pb-20">
       <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
         {/* Breadcrumbs */}
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8 overflow-x-auto whitespace-nowrap pb-2">
+        <nav className="flex items-center gap-2 text-sm text-slate-500 mb-8 overflow-x-auto whitespace-nowrap pb-2">
           <Link to="/" className="hover:text-primary transition-colors">Home</Link>
           <ChevronRight className="w-4 h-4" />
           <Link to="/shop" className="hover:text-primary transition-colors">Shop</Link>
           <ChevronRight className="w-4 h-4" />
-          <span className="text-foreground font-medium">{product.title}</span>
+          <span className="text-slate-900 font-bold">{product.title}</span>
         </nav>
 
         <div className="grid lg:grid-cols-12 gap-12 xl:gap-20">
@@ -153,7 +153,7 @@ const ProductDetail: React.FC = () => {
                <motion.div 
                  initial={{ opacity: 0, scale: 0.95 }}
                  animate={{ opacity: 1, scale: 1 }}
-                 className="relative aspect-square sm:aspect-[4/3] rounded-3xl overflow-hidden bg-muted border border-border shadow-2xl group"
+                 className="relative aspect-square sm:aspect-[4/3] rounded-3xl overflow-hidden bg-slate-50 border border-slate-100 shadow-2xl group"
                >
                  <img
                    src={product.image_url}
@@ -165,14 +165,14 @@ const ProductDetail: React.FC = () => {
                    <Button 
                      variant="secondary" 
                      size="icon" 
-                     className="rounded-full shadow-lg hover:scale-110 transition-transform"
+                     className="rounded-full shadow-lg bg-white/90 backdrop-blur hover:scale-110 transition-transform"
                      onClick={() => {
                         if (navigator.share) {
                           navigator.share({ title: product.title, url: window.location.href });
                         }
                      }}
                    >
-                     <Share2 className="w-5 h-5" />
+                     <Share2 className="w-5 h-5 text-slate-900" />
                    </Button>
                  </div>
                </motion.div>
@@ -188,17 +188,17 @@ const ProductDetail: React.FC = () => {
             >
               <div className="space-y-4">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <Badge variant="outline" className="bg-primary/10 text-primary hover:bg-primary/20 border-primary/20 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full">
+                  <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 px-3 py-1 text-xs font-black uppercase tracking-wider rounded-full">
                     {String(product.category)}
                   </Badge>
                   {product.stock_status === 'in_stock' && (
-                    <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50 dark:bg-green-900/20 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full flex items-center gap-1">
+                    <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50 px-3 py-1 text-xs font-black uppercase tracking-wider rounded-full flex items-center gap-1">
                       <Check className="w-3 h-3" /> Ready Stock
                     </Badge>
                   )}
                 </div>
 
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white leading-[1.1]">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-[1.1]">
                   {product.title}
                 </h1>
 
@@ -206,13 +206,12 @@ const ProductDetail: React.FC = () => {
                   <span className="text-4xl font-black text-primary">
                     {formatPrice(product.price)}
                   </span>
-                  {/* <span className="text-lg text-muted-foreground line-through">Rp 15.000.000</span> */}
                 </div>
               </div>
 
               {/* Action Buttons - Top for Mobile */}
               <div className="grid grid-cols-2 gap-4 lg:hidden">
-                <Button onClick={handleAddToCart} size="lg" className="rounded-xl font-bold bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+                <Button onClick={handleAddToCart} size="lg" className="rounded-xl font-bold bg-slate-900 text-white">
                   + Keranjang
                 </Button>
                 <Button onClick={handleWhatsAppOrder} size="lg" className="rounded-xl font-bold bg-green-600 hover:bg-green-700 text-white">
@@ -221,26 +220,26 @@ const ProductDetail: React.FC = () => {
                 </Button>
               </div>
 
-              <div className="prose prose-slate dark:prose-invert max-w-none">
-                 <p className="text-lg leading-relaxed text-muted-foreground">
+              <div className="prose prose-slate max-w-none">
+                 <p className="text-lg leading-relaxed text-slate-600 font-medium">
                    {product.description}
                  </p>
               </div>
 
               {/* Specifications */}
               {product.specifications && product.specifications.length > 0 && (
-                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-border overflow-hidden">
-                  <div className="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-b border-border">
-                    <h3 className="font-bold text-lg flex items-center gap-2">
+                <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                  <div className="bg-slate-50 px-6 py-4 border-b border-slate-100">
+                    <h3 className="font-black text-lg text-slate-900 flex items-center gap-2">
                       <Box className="w-5 h-5 text-primary" />
                       Spesifikasi Teknis
                     </h3>
                   </div>
-                  <div className="divide-y divide-border">
+                  <div className="divide-y divide-slate-100">
                     {product.specifications.map((spec: any, idx: number) => (
-                      <div key={idx} className="grid grid-cols-3 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                        <span className="text-sm font-medium text-muted-foreground col-span-1">{spec.label}</span>
-                        <span className="text-sm font-semibold text-foreground col-span-2">{spec.value}</span>
+                      <div key={idx} className="grid grid-cols-3 px-6 py-4 hover:bg-slate-50 transition-colors">
+                        <span className="text-sm font-bold text-slate-500 col-span-1">{spec.label}</span>
+                        <span className="text-sm font-black text-slate-900 col-span-2">{spec.value}</span>
                       </div>
                     ))}
                   </div>
@@ -249,42 +248,42 @@ const ProductDetail: React.FC = () => {
 
               {/* Trust Badges */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-3 p-4 rounded-xl bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800">
-                  <Shield className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                <div className="flex items-center gap-3 p-4 rounded-2xl bg-blue-50 border border-blue-100">
+                  <Shield className="w-8 h-8 text-blue-600" />
                   <div>
-                    <h4 className="font-bold text-sm text-blue-900 dark:text-blue-100">Garansi Resmi</h4>
-                    <p className="text-xs text-blue-700 dark:text-blue-300">Jaminan produk original</p>
+                    <h4 className="font-black text-sm text-blue-900">Garansi Resmi</h4>
+                    <p className="text-xs text-blue-700 font-medium">Jaminan produk original</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 rounded-xl bg-green-50 dark:bg-green-900/10 border border-green-100 dark:border-green-800">
-                  <Truck className="w-8 h-8 text-green-600 dark:text-green-400" />
+                <div className="flex items-center gap-3 p-4 rounded-2xl bg-green-50 border border-green-100">
+                  <Truck className="w-8 h-8 text-green-600" />
                   <div>
-                    <h4 className="font-bold text-sm text-green-900 dark:text-green-100">Pengiriman Aman</h4>
-                    <p className="text-xs text-green-700 dark:text-green-300">Packing extra bubble</p>
+                    <h4 className="font-black text-sm text-green-900">Pengiriman Aman</h4>
+                    <p className="text-xs text-green-700 font-medium">Packing extra bubble</p>
                   </div>
                 </div>
               </div>
 
               {/* Sticky Action Bar for Desktop */}
-              <div className="hidden lg:block pt-8 border-t border-border">
+              <div className="hidden lg:block pt-8 border-t border-slate-100">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="flex items-center bg-white dark:bg-slate-800 border border-border rounded-xl p-1">
+                  <div className="flex items-center bg-slate-50 border border-slate-100 rounded-xl p-1">
                     <button 
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="w-10 h-10 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                      className="w-10 h-10 flex items-center justify-center hover:bg-white hover:shadow-sm rounded-lg transition-all"
                     >
-                      <Minus className="w-4 h-4" />
+                      <Minus className="w-4 h-4 text-slate-600" />
                     </button>
-                    <span className="w-12 text-center font-bold text-lg">{quantity}</span>
+                    <span className="w-12 text-center font-black text-lg text-slate-900">{quantity}</span>
                     <button 
                       onClick={() => setQuantity(quantity + 1)}
-                      className="w-10 h-10 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                      className="w-10 h-10 flex items-center justify-center hover:bg-white hover:shadow-sm rounded-lg transition-all"
                     >
-                      <Plus className="w-4 h-4" />
+                      <Plus className="w-4 h-4 text-slate-600" />
                     </button>
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    Total: <span className="font-bold text-foreground text-lg ml-1">{formatPrice(product.price * quantity)}</span>
+                  <div className="text-sm text-slate-500 font-bold">
+                    Total: <span className="font-black text-slate-900 text-2xl ml-1">{formatPrice(product.price * quantity)}</span>
                   </div>
                 </div>
 
@@ -292,14 +291,14 @@ const ProductDetail: React.FC = () => {
                   <Button 
                     onClick={handleAddToCart} 
                     size="lg" 
-                    className="h-14 text-lg rounded-xl bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 shadow-xl shadow-slate-900/10"
+                    className="h-14 text-lg rounded-xl font-black bg-slate-900 text-white hover:bg-slate-800 shadow-xl shadow-slate-900/10"
                   >
                     + Keranjang
                   </Button>
                   <Button 
                     onClick={handleWhatsAppOrder} 
                     size="lg" 
-                    className="h-14 text-lg rounded-xl bg-green-600 hover:bg-green-700 text-white shadow-xl shadow-green-600/20"
+                    className="h-14 text-lg rounded-xl font-black bg-green-600 hover:bg-green-700 text-white shadow-xl shadow-green-600/20"
                   >
                     <MessageCircle className="w-5 h-5 mr-2" />
                     Beli via WA
@@ -312,10 +311,10 @@ const ProductDetail: React.FC = () => {
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (
-          <div className="mt-32 border-t border-border pt-20">
+          <div className="mt-32 border-t border-slate-100 pt-20">
             <div className="flex items-center justify-between mb-10">
-              <h2 className="text-3xl font-black text-slate-900 dark:text-white">Produk Sejenis</h2>
-              <Link to="/shop" className="text-primary font-bold hover:underline">Lihat Semua</Link>
+              <h2 className="text-3xl font-black text-slate-900">Produk Sejenis</h2>
+              <Link to="/shop" className="text-primary font-black hover:underline">Lihat Semua</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {relatedProducts.map((related, i) => (

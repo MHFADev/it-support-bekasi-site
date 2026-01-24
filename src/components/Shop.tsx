@@ -225,13 +225,13 @@ const Shop: React.FC = () => {
           {/* Main Content */}
           <div className="flex-1 space-y-8">
             {/* Mobile Filter & Sort Bar */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-border">
+            <div className="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-border">
               {/* Search */}
               <div className="relative w-full sm:max-w-xs">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input 
+                <input 
                   placeholder="Cari produk..." 
-                  className="pl-10 bg-slate-50 dark:bg-slate-800 border-none focus-visible:ring-1"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border-none rounded-xl focus:ring-1 focus:ring-primary outline-none text-sm"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />

@@ -153,15 +153,12 @@ const ProductDetail: React.FC = () => {
                <motion.div 
                  initial={{ opacity: 0, scale: 0.95 }}
                  animate={{ opacity: 1, scale: 1 }}
-                 className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white dark:bg-slate-900 border border-border shadow-2xl flex items-center justify-center p-8 group"
+                 className="relative aspect-square sm:aspect-[4/3] rounded-3xl overflow-hidden bg-muted border border-border shadow-2xl group"
                >
-                 {/* Background Effects */}
-                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--primary-50),transparent)] opacity-10" />
-                 
                  <img
                    src={product.image_url}
                    alt={product.title}
-                   className="w-full h-full object-contain z-10 drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                   className="w-full h-full object-cover z-10 transition-transform duration-700 group-hover:scale-105"
                  />
                  
                  <div className="absolute top-6 right-6 z-20">
@@ -191,8 +188,8 @@ const ProductDetail: React.FC = () => {
             >
               <div className="space-y-4">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-primary/20 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full">
-                    {product.category}
+                  <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20 border-primary/20 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full">
+                    {String(product.category)}
                   </Badge>
                   {product.stock_status === 'in_stock' && (
                     <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50 dark:bg-green-900/20 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full flex items-center gap-1">

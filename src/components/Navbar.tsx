@@ -54,30 +54,17 @@ const Navbar: React.FC = () => {
         )}>
           <div className="flex items-center gap-3 sm:gap-6">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0 pl-2 sm:pl-3">
-              <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-primary via-blue-600 to-indigo-700 flex items-center justify-center shadow-lg shadow-primary/30 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl group-hover:shadow-primary/40">
-                <svg 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  className="w-5 h-5 sm:w-6 sm:h-6 text-white"
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                >
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                  <line x1="8" y1="21" x2="16" y2="21"/>
-                  <line x1="12" y1="17" x2="12" y2="21"/>
-                  <circle cx="12" cy="10" r="3" fill="currentColor" stroke="none" opacity="0.3"/>
-                  <path d="M9 7l3 3 3-3" strokeWidth="1.5"/>
-                </svg>
+            <Link to="/" className="flex items-center gap-2 group flex-shrink-0 pl-2">
+              <div className="relative">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/Logo.png"
+                  alt="IT Support Bekasi Logo"
+                  className="w-8 h-8 sm:w-9 sm:h-9 object-contain relative transition-transform group-hover:scale-110"
+                />
               </div>
-              <div className="hidden sm:flex flex-col leading-none">
-                <span className="text-sm sm:text-base font-black tracking-tight bg-gradient-to-r from-primary to-blue-700 bg-clip-text text-transparent">
+              <div className="flex flex-col leading-tight hidden xs:flex">
+                <span className="text-base font-black tracking-tighter text-primary">
                   IT SUPPORT
-                </span>
-                <span className="text-[9px] sm:text-[10px] font-bold text-muted-foreground tracking-widest uppercase">
-                  BEKASI
                 </span>
               </div>
             </Link>

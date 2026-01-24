@@ -2,13 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const PARTNERS = [
-  { name: 'Acer', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a7/Acer_Logo.svg' },
-  { name: 'Cisco', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg' },
-  { name: 'Lenovo', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Lenovo_logo_2015.svg' },
-  { name: 'ThinkPad', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a2/ThinkPad_logo.svg' },
-  { name: 'MikroTik', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/MikroTik_Logo.svg' },
-  { name: 'ASUS', logo: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Asus_logo.svg' },
-  { name: 'TP-Link', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/cc/TP-Link_logo.svg' },
+  { name: 'Acer', logo: 'https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/06a6a175-34f2-47ff-bb0d-6b94aa1c8fb7.png' },
+  { name: 'Cisco', logo: 'https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/d71b6916-c1cd-494a-a15d-28c1f9fa7fd8.png' },
+  { name: 'Lenovo', logo: 'https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/download (4).png' },
+  { name: 'ThinkPad', logo: 'https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/dac05710-ded8-4a31-bb72-90c6d1e4c7cb.png' },
+  { name: 'MikroTik', logo: 'https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/8e0a1c26-a73c-4bbb-a433-a088bcc16d3f.png' },
+  { name: 'ASUS', logo: 'https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/ce78fb15-5715-4111-8e3e-6992465593a5.png' },
+  { name: 'TP-Link', logo: 'https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/8cd98100-effe-4f88-bac6-c630f9176713.png' },
 ];
 
 const TechPartners: React.FC = () => {

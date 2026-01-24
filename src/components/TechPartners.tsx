@@ -3,13 +3,13 @@ import { motion } from 'framer-motion';
 
 // Using Simple Icons CDN - reliable, no rate limits, free for commercial use
 const PARTNERS = [
-  { name: 'Acer', logo: 'https://cdn.simpleicons.org/acer/83B81A' },
-  { name: 'Cisco', logo: 'https://cdn.simpleicons.org/cisco/1BA0D7' },
-  { name: 'Lenovo', logo: 'https://cdn.simpleicons.org/lenovo/E2231A' },
-  { name: 'Dell', logo: 'https://cdn.simpleicons.org/dell/007DB8' },
-  { name: 'HP', logo: 'https://cdn.simpleicons.org/hp/0096D6' },
-  { name: 'ASUS', logo: 'https://cdn.simpleicons.org/asus/000000' },
-  { name: 'Intel', logo: 'https://cdn.simpleicons.org/intel/0071C5' },
+  { name: 'Acer', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/06a6a175-34f2-47ff-bb0d-6b94aa1c8fb7.png' },
+  { name: 'Cisco', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/d71b6916-c1cd-494a-a15d-28c1f9fa7fd8.png' },
+  { name: 'Lenovo', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/download (4).png' },
+  { name: 'ThinkPad', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/dac05710-ded8-4a31-bb72-90c6d1e4c7cb.png' },
+  { name: 'MikroTik', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/8e0a1c26-a73c-4bbb-a433-a088bcc16d3f.png' },
+  { name: 'ASUS', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/ce78fb15-5715-4111-8e3e-6992465593a5.png' },
+  { name: 'TP-Link', logo: 'https://raw.githubusercontent.com/mhfadev/asset/main/logo/8cd98100-effe-4f88-bac6-c630f9176713.png' },
 ];
 
 // Logo component with error handling - continues showing other logos if one fails

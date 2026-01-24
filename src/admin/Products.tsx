@@ -161,6 +161,56 @@ const AdminProducts: React.FC = () => {
     setSpecifications(newSpecs);
   };
 
+  const convertToWebP = (file: File): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            reject(new Error('Failed to get canvas context'));
+            return;
+          }
+
+          // Maintain aspect ratio while limiting max dimension
+          const maxDim = 1200;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = (height / width) * maxDim;
+              width = maxDim;
+            } else {
+              width = (width / height) * maxDim;
+              height = maxDim;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob((blob) => {
+            if (blob) {
+              const fileName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
+              const webpFile = new File([blob], fileName, { type: 'image/webp' });
+              resolve(webpFile);
+            } else {
+              reject(new Error('Canvas toBlob failed'));
+            }
+          }, 'image/webp', 0.8); // 0.8 quality for good balance
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = event.target?.result as string;
+      };
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -170,12 +220,14 @@ const AdminProducts: React.FC = () => {
       let finalImagePath = formData.image_path;
 
       if (imageFile) {
-        toast.loading('Mengunggah gambar...', { id: 'upload' });
+        toast.loading('Mengompres dan mengunggah gambar...', { id: 'upload' });
         try {
-          const uploadResult = await uploadImageToSupabase(imageFile);
+          // Mandatory WebP Conversion
+          const webpFile = await convertToWebP(imageFile);
+          const uploadResult = await uploadImageToSupabase(webpFile);
           finalImageUrl = uploadResult.url;
           finalImagePath = uploadResult.path;
-          toast.success('Gambar berhasil diunggah', { id: 'upload' });
+          toast.success('Gambar (WebP) berhasil diunggah', { id: 'upload' });
         } catch (uploadError: any) {
           toast.error(`Upload gagal: ${uploadError.message}`, { id: 'upload' });
           throw uploadError;

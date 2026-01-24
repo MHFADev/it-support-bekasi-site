@@ -188,7 +188,7 @@ const ProductDetail: React.FC = () => {
             >
               <div className="space-y-4">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20 border-primary/20 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full">
+                  <Badge variant="outline" className="bg-primary/10 text-primary hover:bg-primary/20 border-primary/20 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full">
                     {String(product.category)}
                   </Badge>
                   {product.stock_status === 'in_stock' && (

@@ -35,7 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) => {
           <div className="relative aspect-[4/3] bg-slate-50 dark:bg-slate-950 overflow-hidden border-b border-border">
             {/* Category Badge */}
             <div className="absolute top-3 left-3 z-10">
-              <Badge variant="secondary" className="font-semibold bg-white/90 dark:bg-slate-900/90 backdrop-blur shadow-sm">
+              <Badge variant="outline" className="font-semibold bg-white/90 dark:bg-slate-900/90 backdrop-blur shadow-sm">
                 {String(product.category)}
               </Badge>
             </div>

@@ -183,12 +183,12 @@ const Shop: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen bg-white">
       {/* Header Section */}
-      <div className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-slate-50 dark:bg-slate-950">
+      <div className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden bg-white">
+        <div className="absolute inset-0">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary/20 opacity-20 blur-[100px]"></div>
+          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary/10 opacity-20 blur-[100px]"></div>
         </div>
         
         <div className="container mx-auto px-4 text-center relative z-10">
@@ -197,19 +197,19 @@ const Shop: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-3xl mx-auto space-y-6"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-bold text-sm tracking-wide uppercase">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-black text-sm tracking-wide uppercase shadow-sm border border-primary/20">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
               Katalog Resmi
             </span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 dark:text-white">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.1]">
               Temukan Laptop <br/>
-              <span className="gradient-text">Impian Anda</span>
+              <span className="text-primary">Impian Anda</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              Koleksi laptop terbaik dengan garansi resmi dan layanan purna jual terpercaya.
+            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
+              Koleksi laptop premium dengan garansi resmi dan layanan purna jual terpercaya di Bekasi.
             </p>
           </motion.div>
         </div>

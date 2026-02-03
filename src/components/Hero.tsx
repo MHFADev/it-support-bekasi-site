@@ -7,9 +7,34 @@ import { useApp } from '../context/AppContext';
 import { cn } from '../lib/utils';
 import { Button } from './ui/button';
 
+function getHeroTitleLines(title: string): [string, string] {
+  // Prefer splitting by sentences for clean 2-line desktop titles.
+  const sentences = title
+    .split('.')
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  if (sentences.length >= 2) {
+    const first = `${sentences[0]}.`;
+    const second = `${sentences.slice(1).join(' ').trim()}.`;
+    return [first, second.replace(/\.\.+$/, '.')];
+  }
+
+  // Fallback: split by comma.
+  const parts = title.split(',').map((p) => p.trim()).filter(Boolean);
+  if (parts.length >= 2) return [`${parts[0]},`, parts.slice(1).join(', ')];
+
+  // Final fallback: split roughly in half.
+  const words = title.split(' ').filter(Boolean);
+  const mid = Math.max(1, Math.floor(words.length / 2));
+  return [words.slice(0, mid).join(' '), words.slice(mid).join(' ') || ''];
+}
+
 const Hero: React.FC = () => {
   const { language } = useApp();
   const content = CONTENT[language].hero;
+
+  const titleLines = getHeroTitleLines(content.title);
 
   return (
     <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden pt-28 bg-[#0F172A]">
@@ -22,8 +47,15 @@ const Hero: React.FC = () => {
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]"></div>
       </div>
       
-      {/* Bottom transition gradient to background */}
-      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[#0F172A] via-[#0F172A]/80 to-transparent z-10"></div>
+      {/* Bottom transition gradient to content below (blue → white) */}
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-x-0 bottom-0 z-10",
+          "h-56 bg-gradient-to-b",
+          "from-blue-900/55 via-primary/20 to-background"
+        )}
+        aria-hidden="true"
+      />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 pt-10 sm:pt-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
@@ -42,13 +74,19 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-8 leading-[1.1]"
+              className={cn(
+                "mb-7 font-bold tracking-tight",
+                "leading-[1.08] lg:leading-[1.02]",
+                "text-4xl sm:text-5xl md:text-6xl lg:text-[4rem]",
+                "text-white",
+                "max-w-[20ch] lg:max-w-none",
+                "[text-wrap:balance]",
+                // Desktop: paksa tepat 2 baris (tiap baris tidak wrap lagi)
+                "lg:[&>span]:whitespace-nowrap"
+              )}
             >
-              {content.title.split(',').map((part, i) => (
-                <span key={i} className="block">
-                  {part.trim()}{i === 0 ? ',' : ''}
-                </span>
-              ))}
+              <span className="block">{titleLines[0]}</span>
+              {titleLines[1] ? <span className="block">{titleLines[1]}</span> : null}
             </motion.h1>
 
             <motion.p

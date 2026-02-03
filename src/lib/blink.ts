@@ -9,8 +9,10 @@ function getProjectId(): string {
   return 'demo-project';
 }
 
+// NOTE: Database tables are dynamically created in Blink; we keep the client loosely typed
+// to avoid TS errors in admin/dashboard code paths.
 export const blink = createClient({
   projectId: getProjectId(),
   publishableKey: import.meta.env.VITE_BLINK_PUBLISHABLE_KEY,
   auth: { mode: 'managed' },
-});
+}) as any;

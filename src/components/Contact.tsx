@@ -41,7 +41,7 @@ const Contact: React.FC = () => {
   };
 
   const contactItems = [
-    { icon: <Phone />, label: content.items[0], value: `+${CONTACT_INFO.whatsapp}`, action: () => window.open(`https://wa.me/${CONTACT_INFO.whatsapp}`) },
+    { icon: <Phone />, label: content.items[0], value: `+${CONTACT_INFO.whatsapp}`, action: () => window.open(CONTACT_INFO.whatsappUrl || `https://wa.me/${CONTACT_INFO.whatsapp}`) },
     { icon: <Mail />, label: content.items[1], value: CONTACT_INFO.email, action: () => window.location.href = `mailto:${CONTACT_INFO.email}` },
     { icon: <MapPin />, label: content.items[2], value: CONTACT_INFO.address, action: () => window.open(CONTACT_INFO.mapsUrl) },
     { icon: <Clock />, label: content.items[3], value: "09:00 - 21:00 WIB", action: null }
@@ -50,7 +50,7 @@ const Contact: React.FC = () => {
   return (
     <section id="contact" className="py-24 relative">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-16">
           {/* Info Side */}
           <div className="flex flex-col">
             <motion.div
@@ -158,6 +158,26 @@ const Contact: React.FC = () => {
             </div>
           </motion.div>
         </div>
+
+        {/* Google Maps */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="w-full h-[400px] rounded-[2.5rem] overflow-hidden border border-border shadow-xl mt-8"
+        >
+          <iframe 
+            src="https://maps.google.com/maps?q=IT%20Support%20Bekasi%2C%20Jl.%20Raya%20Pd.%20Benda%20No.28%2C%20RT.005%2FRW.002%2C%20Jatirasa%2C%20Kec.%20Jatiasih%2C%20Kota%20Bks%2C%20Jawa%20Barat%2017424&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            width="100%" 
+            height="100%" 
+            style={{ border: 0 }} 
+            allowFullScreen 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Lokasi IT Support Bekasi"
+          />
+        </motion.div>
       </div>
     </section>
   );

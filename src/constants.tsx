@@ -242,13 +242,14 @@ export const SITE_INFO = {
   name: "IT Support Bekasi",
   tagline: "Laptop Bekas Berkualitas & Jasa IT Profesional",
   description: "Toko laptop bekas terpercaya di Bekasi dengan garansi dan layanan IT support profesional",
-  email: "info@itsupportbekasi.com",
+  email: "nurdin_nh@itsupportbekasi.com",
 };
 
 export const CONTACT_INFO = {
-  phone: '+62 812 3456 7890',
-  whatsapp: '6281234567890',
-  email: 'info@itsupportbekasi.com',
-  address: 'Jl. Ahmad Yani No. 123, Bekasi Selatan, Kota Bekasi, Jawa Barat 17141',
-  mapsUrl: 'https://www.google.com/maps/search/Jl.+Ahmad+Yani+Bekasi+Selatan',
+  phone: '+62 858-8899-2827',
+  whatsapp: '6285888992827',
+  whatsappUrl: 'https://api.whatsapp.com/send/?phone=%2B6285888992827&text=Halo%2C+saya+tertarik+untuk+memesan+layanan+servis+yang+Anda+sediakan.+Apakah+bisa+diinformasikan+lebih+lanjut+mengenai+jenis+layanan%2C+harga%2C+dan+ketersediaan+waktu+untuk+pemesanan%3F+Terima+kasih%21+&type=phone_number&app_absent=0',
+  email: 'nurdin_nh@itsupportbekasi.com',
+  address: 'IT Support Bekasi, Jl. Raya Pd. Benda No.28, RT.005/RW.002, Jatirasa, Kec. Jatiasih, Kota Bks, Jawa Barat 17424',
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=IT+Support+Bekasi,+Jl.+Raya+Pd.+Benda+No.28,+Jatiasih,+Bekasi',
 };

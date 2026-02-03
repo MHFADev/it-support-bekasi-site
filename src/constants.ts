@@ -5,14 +5,15 @@ export const SITE_INFO = {
   name: "IT SUPPORT BEKASI",
   tagline: "Laptop Bekas Berkualitas & Premium IT Solutions",
   description: "Toko laptop bekas terpercaya di Bekasi dengan garansi resmi dan koleksi unit premium.",
-  email: "info@laptopbekasbekasi.com",
+  email: "nurdin_nh@itsupportbekasi.com",
 };
 
 export const CONTACT_INFO = {
-  whatsapp: "6281234567890",
-  email: "info@laptopbekasbekasi.com",
-  address: "Bekasi, Jawa Barat, Indonesia",
-  mapsUrl: "https://maps.google.com/?q=Bekasi,+Jawa+Barat,+Indonesia",
+  whatsapp: "6285888992827",
+  whatsappUrl: 'https://api.whatsapp.com/send/?phone=%2B6285888992827&text=Halo%2C+saya+tertarik+untuk+memesan+layanan+servis+yang+Anda+sediakan.+Apakah+bisa+diinformasikan+lebih+lanjut+mengenai+jenis+layanan%2C+harga%2C+dan+ketersediaan+waktu+untuk+pemesanan%3F+Terima+kasih%21+&type=phone_number&app_absent=0',
+  email: "nurdin_nh@itsupportbekasi.com",
+  address: "IT Support Bekasi, Jl. Raya Pd. Benda No.28, RT.005/RW.002, Jatirasa, Kec. Jatiasih, Kota Bks, Jawa Barat 17424",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=IT+Support+Bekasi,+Jl.+Raya+Pd.+Benda+No.28,+Jatiasih,+Bekasi",
 };
 
 export const CATEGORIES = [

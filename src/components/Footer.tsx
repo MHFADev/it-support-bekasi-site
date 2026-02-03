@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
                 { icon: <Facebook className="w-5 h-5" />, href: "#" },
                 { icon: <Instagram className="w-5 h-5" />, href: "#" },
                 { icon: <Twitter className="w-5 h-5" />, href: "#" },
-                { icon: <MessageSquare className="w-5 h-5" />, href: `https://wa.me/${CONTACT_INFO.whatsapp}` }
+                { icon: <MessageSquare className="w-5 h-5" />, href: CONTACT_INFO.whatsappUrl || `https://wa.me/${CONTACT_INFO.whatsapp}` }
               ].map((social, i) => (
                 <a
                   key={i}

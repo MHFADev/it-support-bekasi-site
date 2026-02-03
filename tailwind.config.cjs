@@ -3,6 +3,10 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    // Exclude the full shadcn/ui library from scanning to keep build fast.
+    // Keep only the UI files that are actually used in the app.
+    "!./src/components/ui/**/*",
+    "./src/components/ui/sonner.tsx",
   ],
   theme: {
         extend: {

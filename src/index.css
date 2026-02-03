@@ -33,43 +33,48 @@
 
   --radius: 0.5rem;
   
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-sans: "Inter Tight", "Inter", system-ui, sans-serif;
   --font-heading: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
 }
 
 :root {
-  /* Tech Pro Palette - Clean, Trustworthy, Sharp */
-  --background: 210 20% 98%; /* Very light grey-blue */
-  --foreground: 222 47% 11%; /* Deep navy */
+  /* Tech Pro Palette - High contrast, sharp, refined */
+  --background: 210 20% 98.5%; 
+  --foreground: 224 71% 4%;
   
   --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
+  --card-foreground: 224 71% 4%;
   
   --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
+  --popover-foreground: 224 71% 4%;
   
-  /* Primary: Professional Blue (Intercom/Stripe vibes) */
-  --primary: 221 83% 53%;
+  /* Primary: Deep Tech Blue */
+  --primary: 221.2 83.2% 53.3%;
   --primary-foreground: 210 40% 98%;
   
-  /* Secondary: Slate for subtle contrast */
+  /* Secondary: Neutral Grey-Blue */
   --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222 47% 11%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
   
   --muted: 210 40% 96.1%;
-  --muted-foreground: 215 16% 47%;
+  --muted-foreground: 215.4 16.3% 46.9%;
   
   --accent: 210 40% 96.1%;
-  --accent-foreground: 222 47% 11%;
+  --accent-foreground: 222.2 47.4% 11.2%;
   
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 214 32% 91%;
-  --input: 214 32% 91%;
-  --ring: 221 83% 53%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
   
-  --radius: 0.5rem;
+  --radius: 0.75rem;
 }
 
 .dark {

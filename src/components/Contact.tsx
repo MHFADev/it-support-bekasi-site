@@ -167,13 +167,14 @@ const Contact: React.FC = () => {
           viewport={{ once: true }}
           className="w-full h-[400px] rounded-[2.5rem] overflow-hidden border border-border shadow-xl mt-8"
         >
-          <iframe 
-            src="https://maps.google.com/maps?q=IT%20Support%20Bekasi%2C%20Jl.%20Raya%20Pd.%20Benda%20No.28%2C%20RT.005%2FRW.002%2C%20Jatirasa%2C%20Kec.%20Jatiasih%2C%20Kota%20Bks%2C%20Jawa%20Barat%2017424&t=&z=15&ie=UTF8&iwloc=&output=embed"
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }} 
-            allowFullScreen 
-            loading="lazy" 
+          <iframe
+            className="block w-full h-full"
+            src="https://www.google.com/maps?hl=id&z=15&output=embed&q=IT%20Support%20Bekasi%2C%20Jl.%20Raya%20Pd.%20Benda%20No.28%2C%20Jatirasa%2C%20Kec.%20Jatiasih%2C%20Kota%20Bekasi%2C%20Jawa%20Barat%2017424"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="eager"
             referrerPolicy="no-referrer-when-downgrade"
             title="Lokasi IT Support Bekasi"
           />

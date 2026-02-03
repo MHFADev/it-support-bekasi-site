@@ -87,7 +87,7 @@ export const CONTENT: Record<'id' | 'en', {
   id: {
     hero: {
       badge: "Katalog Laptop Terlengkap",
-      title: "Gadget Premium, Harga Bekasi. Gaya Tanpa Tapi.",
+      title: "Pilihan Laptop Bekas untuk Kebutuhan Profesional.",
       desc: "Upgrade gaya dan performa dengan koleksi laptop premium bekas berkualitas. Garansi resmi, kondisi mulus, harga paling masuk akal se-Bekasi.",
       ctaPrimary: "Lihat Katalog",
       ctaSecondary: "Hubungi Admin",

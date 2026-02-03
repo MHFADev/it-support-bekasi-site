@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
           <div className="col-span-1 lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
               <img 
-                src="https://itsupportbekasi.vercel.app/Logo/Logo.png" 
+                src="https://cdn.jsdelivr.net/gh/mhfadev/asset@main/logo/Logo.png" 
                 alt="IT Support Bekasi" 
                 className="h-10 w-auto object-contain dark:brightness-110"
               />

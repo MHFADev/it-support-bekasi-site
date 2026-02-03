@@ -7,19 +7,24 @@ export function useAnalytics() {
 
   useEffect(() => {
     const trackView = async () => {
+      const referrer = document.referrer;
+      const urlParams = new URLSearchParams(window.location.search);
+      const utm_source = urlParams.get('utm_source') || (referrer.includes('google') ? 'google' : 'direct');
+      
+      // Log to Blink's built-in analytics (fire-and-forget, don't await)
+      // This is non-critical and may fail due to network issues
       try {
-        const referrer = document.referrer;
-        const urlParams = new URLSearchParams(window.location.search);
-        const utm_source = urlParams.get('utm_source') || (referrer.includes('google') ? 'google' : 'direct');
-        
-        // Log to Blink's built-in analytics
         blink.analytics.log('page_view', {
           path: location.pathname,
           referrer,
           utm_source
         });
+      } catch {
+        // Silently ignore analytics errors - they're non-critical
+      }
 
-        // Also save to our custom table for the dashboard graphs via Edge Function (to bypass RLS)
+      // Also save to our custom table for the dashboard graphs via Edge Function (to bypass RLS)
+      try {
         await blink.functions.invoke('track-view', {
           body: JSON.stringify({
             id: crypto.randomUUID(),
@@ -29,8 +34,8 @@ export function useAnalytics() {
             device: window.innerWidth < 768 ? 'mobile' : 'desktop'
           })
         });
-      } catch (error) {
-        console.error('Analytics error:', error);
+      } catch {
+        // Silently ignore edge function errors - they're non-critical for page load
       }
     };
 

@@ -180,8 +180,8 @@ const Contact: React.FC = () => {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-foreground">Workshop Kami</h4>
-                  <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">Bekasi Selatan</p>
+                  <h4 className="font-bold text-foreground text-base">IT Support Bekasi</h4>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Workshop Kami</p>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-2">

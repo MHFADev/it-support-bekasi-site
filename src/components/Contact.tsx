@@ -165,19 +165,61 @@ const Contact: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
-          className="w-full h-[400px] rounded-[2.5rem] overflow-hidden border border-border shadow-xl mt-8"
+          className="w-full h-[500px] rounded-[3rem] overflow-hidden border border-border shadow-2xl mt-12 relative group"
         >
+          {/* Professional Overlay Card */}
+          <div className="absolute top-6 left-6 z-10 hidden md:block">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.8 }}
+              className="bg-card/95 backdrop-blur-md border border-border p-6 rounded-2xl shadow-xl max-w-xs"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-foreground">Workshop Kami</h4>
+                  <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">Bekasi Selatan</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-2">
+                {CONTACT_INFO.address}
+              </p>
+              <button 
+                onClick={() => window.open(CONTACT_INFO.mapsUrl)}
+                className="w-full py-3 bg-primary text-primary-foreground rounded-xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors"
+              >
+                <span>Petunjuk Arah</span>
+                <Send className="w-3.5 h-3.5" />
+              </button>
+            </motion.div>
+          </div>
+
+          {/* Map Iframe with more precise query for Pin */}
           <iframe
-            className="block w-full h-full"
-            src="https://www.google.com/maps?hl=id&z=15&output=embed&q=IT%20Support%20Bekasi%2C%20Jl.%20Raya%20Pd.%20Benda%20No.28%2C%20Jatirasa%2C%20Kec.%20Jatiasih%2C%20Kota%20Bekasi%2C%20Jawa%20Barat%2017424"
+            className="block w-full h-full grayscale-[0.2] contrast-[1.1] brightness-[1.05]"
+            src={`https://www.google.com/maps?hl=id&q=${encodeURIComponent(CONTACT_INFO.address)}&t=&z=16&ie=UTF8&iwloc=B&output=embed`}
             width="100%"
             height="100%"
             style={{ border: 0 }}
             allowFullScreen
-            loading="eager"
+            loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="Lokasi IT Support Bekasi"
           />
+          
+          {/* Bottom Floating Button for Mobile */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 md:hidden">
+            <button 
+              onClick={() => window.open(CONTACT_INFO.mapsUrl)}
+              className="px-6 py-3 bg-primary text-primary-foreground rounded-full shadow-xl font-bold flex items-center gap-2 whitespace-nowrap"
+            >
+              <MapPin className="w-4 h-4" />
+              <span>Buka di Google Maps</span>
+            </button>
+          </div>
         </motion.div>
       </div>
     </section>

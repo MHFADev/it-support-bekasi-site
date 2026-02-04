@@ -200,7 +200,7 @@ const Contact: React.FC = () => {
           {/* Map Iframe with more precise query for Pin */}
           <iframe
             className="block w-full h-full grayscale-[0.2] contrast-[1.1] brightness-[1.05]"
-            src={`https://www.google.com/maps?hl=id&q=${encodeURIComponent(CONTACT_INFO.address)}&t=&z=16&ie=UTF8&iwloc=B&output=embed`}
+            src="https://maps.google.com/maps?width=600&height=400&hl=id&q=Jl. Raya Pd. Benda No.28, RT.005/RW.002, Jatirasa, Kec. Jatiasih, Kota Bks, Jawa Barat 17424&t=&z=16&ie=UTF8&iwloc=B&output=embed"
             width="100%"
             height="100%"
             style={{ border: 0 }}

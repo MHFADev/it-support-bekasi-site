@@ -44,7 +44,7 @@ const PartnerLogo: React.FC<{ partner: { name: string; logo: string }; index: nu
           alt={`${partner.name} logo`}
           className={`h-12 md:h-16 w-auto object-contain transition-all duration-300 dark:brightness-200 ${
             isLoaded ? 'opacity-100' : 'opacity-90'
-          } grayscale-[0.2] hover:grayscale-0`}
+          }`}
           loading="lazy"
           referrerPolicy="no-referrer"
           onLoad={() => setIsLoaded(true)}

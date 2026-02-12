@@ -240,8 +240,8 @@ export const CATEGORIES = [
 
 export const SITE_INFO = {
   name: "IT Support Bekasi",
-  tagline: "Laptop Bekas Berkualitas & Jasa IT Profesional",
-  description: "Toko laptop bekas terpercaya di Bekasi dengan garansi dan layanan IT support profesional",
+  tagline: "Laptop Second Berkualitas & Jasa IT Profesional",
+  description: "Toko laptop second terpercaya di Bekasi dengan garansi dan layanan IT support profesional",
   email: "nurdin_nh@itsupportbekasi.com",
 };
 

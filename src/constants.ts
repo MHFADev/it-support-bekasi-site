@@ -3,8 +3,8 @@ import { Laptop } from 'lucide-react';
 
 export const SITE_INFO = {
   name: "IT SUPPORT BEKASI",
-  tagline: "Laptop Bekas Berkualitas & Premium IT Solutions",
-  description: "Toko laptop bekas terpercaya di Bekasi dengan garansi resmi dan koleksi unit premium.",
+  tagline: "Laptop Second Berkualitas & Premium IT Solutions",
+  description: "Toko laptop second terpercaya di Bekasi dengan garansi resmi dan koleksi unit premium.",
   email: "nurdin_nh@itsupportbekasi.com",
 };
 
@@ -88,8 +88,8 @@ export const CONTENT: Record<'id' | 'en', {
   id: {
     hero: {
       badge: "Katalog Laptop Terlengkap",
-      title: "Pilihan Laptop Bekas untuk Kebutuhan Profesional.",
-      desc: "Upgrade gaya dan performa dengan koleksi laptop premium bekas berkualitas. Garansi resmi, kondisi mulus, harga paling masuk akal se-Bekasi.",
+      title: "Pilihan Laptop Second untuk Kebutuhan Profesional.",
+      desc: "Upgrade gaya dan performa dengan koleksi laptop premium second berkualitas. Garansi resmi, kondisi mulus, harga paling masuk akal se-Bekasi.",
       ctaPrimary: "Lihat Katalog",
       ctaSecondary: "Hubungi Admin",
       indicators: [
@@ -111,26 +111,26 @@ export const CONTENT: Record<'id' | 'en', {
     services: {
       label: "Koleksi Kami",
       title: "Pilih Laptop Impian Anda",
-      desc: "Koleksi unit terbaik yang sudah melalui proses pengecekan ketat (Quality Control).",
+      desc: "Koleksi unit second terbaik yang sudah melalui proses pengecekan ketat (Quality Control).",
       items: [
         {
           id: "laptop-business",
           icon: React.createElement(Laptop, { className: "w-7 h-7" }),
-          title: "Laptop Bisnis",
+          title: "Laptop Bisnis Second",
           description: "ThinkPad, Dell Latitude, HP EliteBook. Tangguh dan reliabel untuk kerja.",
           image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=400"
         },
         {
           id: "laptop-gaming",
           icon: React.createElement(Laptop, { className: "w-7 h-7 text-primary" }),
-          title: "Laptop Gaming",
+          title: "Laptop Gaming 2nd",
           description: "ROG, Legion, Predator. Performa tinggi untuk gaming dan editing.",
           image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400"
         },
         {
           id: "macbook",
           icon: React.createElement(Laptop, { className: "w-7 h-7 text-purple-500" }),
-          title: "Apple Macbook",
+          title: "Apple Macbook Second",
           description: "Macbook Air & Pro. Desain elegan dengan performa mumpuni.",
           image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=400"
         },
@@ -207,7 +207,7 @@ export const CONTENT: Record<'id' | 'en', {
     hero: {
       badge: "Largest Laptop Catalog",
       title: "Premium Laptops. Best Bekasi Prices.",
-      desc: "Find quality used laptop collections with official warranty. Selected units for professionals, students, and gamers.",
+      desc: "Find quality second laptop collections with official warranty. Selected units for professionals, students, and gamers.",
       ctaPrimary: "View Catalog",
       ctaSecondary: "Contact Admin",
       indicators: [

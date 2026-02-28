@@ -21,7 +21,7 @@ const AdminLogin: React.FC = () => {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/admin" replace />;
+    return <Navigate to="/portal-bekasi-management-88" replace />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {

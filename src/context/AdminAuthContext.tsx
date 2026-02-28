@@ -168,13 +168,8 @@ function generateSessionToken(): string {
   return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-// Simple password verification (matches admin123 for demo)
-// In production, implement bcrypt comparison via edge function
+// Simple password verification
 async function verifyPassword(password: string, hash: string): Promise<boolean> {
-  // For demo: accept 'admin123' or simple hash comparison
-  if (password === 'admin123' && hash.includes('$2a$')) {
-    return true;
-  }
   // Simple hash for custom passwords
   const simpleHash = await hashPassword(password);
   return simpleHash === hash;
@@ -182,7 +177,8 @@ async function verifyPassword(password: string, hash: string): Promise<boolean> 
 
 async function hashPassword(password: string): Promise<string> {
   const encoder = new TextEncoder();
-  const data = encoder.encode(password + 'itsupport_salt');
+  // Using a custom salt - in production, this should be unique per user
+  const data = encoder.encode(password + 'bekasi_support_secure_2024');
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');

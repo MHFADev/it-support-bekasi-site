@@ -22,7 +22,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/admin/login" replace />;
+    return <Navigate to="/portal-bekasi-management-88/login" replace />;
   }
 
   return <>{children}</>;

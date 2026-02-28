@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { useAdminAuth } from '../context/AdminAuthContext';
 import { 
   Save, 
   Globe, 
@@ -10,20 +11,76 @@ import {
   Image as ImageIcon,
   Loader2,
   Database,
-  RefreshCw
+  RefreshCw,
+  Lock,
+  User as UserIcon
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { blink } from '../lib/blink';
 
 const AdminSettings: React.FC = () => {
+  const { admin } = useAdminAuth();
   const [settings, setSettings] = useState<any>({});
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isSeeding, setIsSeeding] = useState(false);
+  
+  // New Admin Credentials State
+  const [newUsername, setNewUsername] = useState(admin?.username || '');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isUpdatingAuth, setIsUpdatingAuth] = useState(false);
 
   useEffect(() => {
     fetchSettings();
-  }, []);
+    if (admin) {
+      setNewUsername(admin.username);
+    }
+  }, [admin]);
+
+  const handleUpdateCredentials = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newUsername.trim()) {
+      toast.error('Username tidak boleh kosong');
+      return;
+    }
+    if (newPassword && newPassword !== confirmPassword) {
+      toast.error('Konfirmasi password tidak cocok');
+      return;
+    }
+
+    setIsUpdatingAuth(true);
+    try {
+      const updates: any = { 
+        username: newUsername.toLowerCase().trim(),
+        updated_at: new Date().toISOString()
+      };
+
+      if (newPassword) {
+        // Calculate hash using the same salt as in AdminAuthContext
+        const encoder = new TextEncoder();
+        const data = encoder.encode(newPassword + 'bekasi_support_secure_2024');
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        updates.password_hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      const { error } = await supabase
+        .from('admin_users')
+        .update(updates)
+        .eq('id', admin?.id);
+
+      if (error) throw error;
+      toast.success('Kredensial admin berhasil diperbarui');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (error: any) {
+      console.error('Update auth error:', error);
+      toast.error('Gagal memperbarui kredensial');
+    } finally {
+      setIsUpdatingAuth(false);
+    }
+  };
 
   const handleSeedData = async () => {
     setIsSeeding(true);
@@ -209,6 +266,65 @@ const AdminSettings: React.FC = () => {
               />
             </div>
           </div>
+        </div>
+
+        {/* Security Settings */}
+        <div className="bg-white dark:bg-dark-surface p-6 rounded-2xl border border-gray-100 dark:border-dark-border shadow-sm space-y-4">
+          <div className="flex items-center space-x-2 text-primary font-bold mb-4">
+            <Lock size={20} />
+            <h3>Keamanan & Kredensial</h3>
+          </div>
+          <form onSubmit={handleUpdateCredentials} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold flex items-center gap-2">
+                  <UserIcon size={14} /> Username Admin
+                </label>
+                <input 
+                  type="text" 
+                  value={newUsername}
+                  onChange={(e) => setNewUsername(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-200 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-primary outline-none"
+                  placeholder="Username baru"
+                />
+              </div>
+              <div className="hidden md:block"></div>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold flex items-center gap-2">
+                  <Lock size={14} /> Password Baru
+                </label>
+                <input 
+                  type="password" 
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-200 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-primary outline-none"
+                  placeholder="Kosongkan jika tidak ingin mengubah"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold flex items-center gap-2">
+                  <Lock size={14} /> Konfirmasi Password
+                </label>
+                <input 
+                  type="password" 
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-200 dark:border-dark-border rounded-xl focus:ring-2 focus:ring-primary outline-none"
+                  placeholder="Masukkan kembali password baru"
+                />
+              </div>
+            </div>
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={isUpdatingAuth}
+                className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-xl flex items-center space-x-2 transition-all shadow-lg shadow-primary/25 disabled:opacity-50"
+              >
+                {isUpdatingAuth ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
+                <span>Perbarui Kredensial</span>
+              </button>
+            </div>
+          </form>
         </div>
 
         {/* Database & Tools */}

@@ -24,20 +24,20 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const handleLogout = async () => {
     await logout();
     toast.success('Berhasil keluar');
-    navigate('/admin/login');
+    navigate('/portal-bekasi-management-88/login');
   };
 
   const isActiveRoute = (path: string) => {
-    if (path === '/admin') {
-      return location.pathname === '/admin';
+    if (path === '/portal-bekasi-management-88') {
+      return location.pathname === '/portal-bekasi-management-88';
     }
     return location.pathname.startsWith(path);
   };
 
   const navItems = [
-    { path: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
-    { path: '/admin/products', icon: Package, label: 'Produk' },
-    { path: '/admin/settings', icon: Settings, label: 'Pengaturan Web' },
+    { path: '/portal-bekasi-management-88', icon: LayoutDashboard, label: 'Dashboard' },
+    { path: '/portal-bekasi-management-88/products', icon: Package, label: 'Produk' },
+    { path: '/portal-bekasi-management-88/settings', icon: Settings, label: 'Pengaturan Web' },
   ];
 
   return (

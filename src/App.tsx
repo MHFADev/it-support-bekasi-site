@@ -44,7 +44,7 @@ const AppContent = () => {
   const [isLoading, setIsLoading] = useState(true);
   useAnalytics();
   const location = useLocation();
-  const isAdminPath = location.pathname.startsWith('/admin');
+  const isAdminPath = location.pathname.startsWith('/portal-bekasi-management-88');
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -71,22 +71,22 @@ const AppContent = () => {
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={
+          <Route path="/portal-bekasi-management-88/login" element={<AdminLogin />} />
+          <Route path="/portal-bekasi-management-88" element={
             <ProtectedRoute>
               <AdminLayout>
                 <Dashboard />
               </AdminLayout>
             </ProtectedRoute>
           } />
-          <Route path="/admin/products" element={
+          <Route path="/portal-bekasi-management-88/products" element={
             <ProtectedRoute>
               <AdminLayout>
                 <Products />
               </AdminLayout>
             </ProtectedRoute>
           } />
-          <Route path="/admin/settings" element={
+          <Route path="/portal-bekasi-management-88/settings" element={
             <ProtectedRoute>
               <AdminLayout>
                 <Settings />
